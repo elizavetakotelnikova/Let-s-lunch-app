@@ -1,0 +1,1 @@
+postgresql://localhost/postgres?user=admin&password=admin

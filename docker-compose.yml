@@ -1,8 +1,7 @@
 version: "3.9"
 services:
-
   postgres:
-    container_name: messenger_db
+    container_name: foodate_db
     image: postgres:14.8-alpine3.18
     environment:
       POSTGRES_DB: "foodate"
@@ -24,7 +23,7 @@ services:
       - postgres
 
   pgadmin:
-    container_name: pgadmin
+    container_name: pgadmin_foodate
     image: dpage/pgadmin4:7.2
     environment:
       PGADMIN_DEFAULT_EMAIL: "default@gmail.com"
