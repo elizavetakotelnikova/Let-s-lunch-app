@@ -3,3 +3,9 @@ version: '3'
 tasks:
   up:
     goose postgres ./foo.db up
+
+  down:
+    goose postgres ./foo.db down
+
+  status:
+    goose postgres ./foo.db status
