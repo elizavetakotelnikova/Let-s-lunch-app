@@ -7,5 +7,7 @@ import (
 )
 
 func CreateServer(ctx context.Context, c lookup.Container) *http.Server {
-	panic("not implemented")
+	return &http.Server{
+		Handler: c.API().FindMeetingHandler(ctx),
+	}
 }
