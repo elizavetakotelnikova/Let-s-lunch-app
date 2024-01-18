@@ -8,6 +8,6 @@ import (
 
 func CreateServer(ctx context.Context, c lookup.Container) *http.Server {
 	return &http.Server{
-		Handler: c.API().FindMeetingHandler(ctx),
+		Handler: c.Router(ctx),
 	}
 }

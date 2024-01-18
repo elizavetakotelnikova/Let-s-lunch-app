@@ -6,13 +6,15 @@ package lookup
 
 import (
 	"cmd/app/config"
+	"context"
+	"database/sql"
+	"github.com/go-chi/chi/v5"
+	"log"
+	"net/http"
+
 	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
-	"context"
-	"database/sql"
-	"log"
-	"net/http"
 )
 
 type Container interface {
@@ -23,7 +25,7 @@ type Container interface {
 	Logger(ctx context.Context) *log.Logger
 	DB(ctx context.Context) *sql.DB
 	Server(ctx context.Context) *http.Server
-	Router(ctx context.Context) *http.ServeMux
+	Router(ctx context.Context) *chi.Mux
 
 	API() APIContainer
 	UseCases() UseCaseContainer

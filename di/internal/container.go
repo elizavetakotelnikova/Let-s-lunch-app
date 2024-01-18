@@ -6,15 +6,17 @@ package internal
 
 import (
 	"cmd/app/config"
+	"context"
+	"database/sql"
+	"github.com/go-chi/chi/v5"
+	"log"
+	"net/http"
+
 	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
 	"cmd/di/internal/factories"
 	"cmd/di/internal/lookup"
-	"context"
-	"database/sql"
-	"log"
-	"net/http"
 )
 
 type Container struct {
@@ -24,7 +26,7 @@ type Container struct {
 	logger *log.Logger
 	db     *sql.DB
 	server *http.Server
-	router *http.ServeMux
+	router *chi.Mux
 
 	api          *APIContainer
 	useCases     *UseCaseContainer
@@ -95,7 +97,7 @@ func (c *Container) Server(ctx context.Context) *http.Server {
 	return c.server
 }
 
-func (c *Container) Router(ctx context.Context) *http.ServeMux {
+func (c *Container) Router(ctx context.Context) *chi.Mux {
 	if c.router == nil && c.err == nil {
 		c.router = factories.CreateRouter(ctx, c)
 	}

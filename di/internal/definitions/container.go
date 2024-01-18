@@ -4,6 +4,7 @@ import (
 	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
+	"github.com/go-chi/chi/v5"
 
 	"cmd/app/config"
 	"database/sql"
@@ -18,8 +19,8 @@ type Container struct {
 	Logger *log.Logger
 	DB     *sql.DB `di:"close"`
 
-	Server *http.Server   `di:"public,close" factory-file:"server"`
-	Router *http.ServeMux `factory-file:"api"`
+	Server *http.Server `di:"public,close" factory-file:"server"`
+	Router *chi.Mux     `factory-file:"api"`
 
 	API          APIContainer
 	UseCases     UseCaseContainer
