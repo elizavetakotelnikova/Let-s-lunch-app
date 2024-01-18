@@ -23,6 +23,7 @@ type Container interface {
 	Logger(ctx context.Context) *log.Logger
 	DB(ctx context.Context) *sql.DB
 	Server(ctx context.Context) *http.Server
+	Router(ctx context.Context) *http.ServeMux
 
 	API() APIContainer
 	UseCases() UseCaseContainer

@@ -18,7 +18,8 @@ type Container struct {
 	Logger *log.Logger
 	DB     *sql.DB `di:"close"`
 
-	Server *http.Server `di:"public,close" factory-file:"server"`
+	Server *http.Server   `di:"public,close" factory-file:"server"`
+	Router *http.ServeMux `factory-file:"api"`
 
 	API          APIContainer
 	UseCases     UseCaseContainer

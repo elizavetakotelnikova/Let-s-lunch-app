@@ -24,6 +24,7 @@ type Container struct {
 	logger *log.Logger
 	db     *sql.DB
 	server *http.Server
+	router *http.ServeMux
 
 	api          *APIContainer
 	useCases     *UseCaseContainer
@@ -92,6 +93,13 @@ func (c *Container) Server(ctx context.Context) *http.Server {
 		c.server = factories.CreateServer(ctx, c)
 	}
 	return c.server
+}
+
+func (c *Container) Router(ctx context.Context) *http.ServeMux {
+	if c.router == nil && c.err == nil {
+		c.router = factories.CreateRouter(ctx, c)
+	}
+	return c.router
 }
 
 func (c *Container) API() lookup.APIContainer {
