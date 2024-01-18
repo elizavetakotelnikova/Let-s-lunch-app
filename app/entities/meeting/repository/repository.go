@@ -12,7 +12,6 @@ type MeetingRepository struct {
 }
 
 func (m MeetingRepository) FindByID(ctx context.Context, id uuid.UUID) (*meeting_domain.Meeting, error) {
-	//TODO implement me
 	panic("implement me")
 }
 
