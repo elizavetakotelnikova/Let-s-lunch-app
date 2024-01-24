@@ -1,5 +1,4 @@
 package meeting
-
 import (
 	"github.com/google/uuid"
 )
@@ -24,5 +23,3 @@ func NewMeeting() *Meeting {
 	}
 	return &Meeting{ID: id}
 }
-
-//у нас id генерируется при создании объекта, я правильно понимаю? не при его помещени в таблицу, все верно?

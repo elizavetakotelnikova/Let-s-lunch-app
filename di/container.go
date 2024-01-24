@@ -53,7 +53,6 @@ func (c *Container) Server(ctx context.Context) (*http.Server, error) {
 
 	return s, err
 }
-
 func SetMeetingRepository(s meeting_domain.MeetingsRepository) Injector {
 	return func(c *Container) error {
 		c.c.Repositories().(*internal.RepositoryContainer).SetMeetingRepository(s)
