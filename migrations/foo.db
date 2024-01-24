@@ -1,1 +1,1 @@
-postgresql://localhost/postgres?user=admin&password=admin
+"host=localhost user=admin password=admin dbname=foodate port=5432"

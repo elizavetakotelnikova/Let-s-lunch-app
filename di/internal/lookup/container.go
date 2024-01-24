@@ -5,10 +5,41 @@
 package lookup
 
 import (
+	"cmd/app/config"
 	"context"
+	"database/sql"
+	"github.com/go-chi/chi/v5"
+	"log"
+	"net/http"
+
+	meeting_domain "cmd/app/entities/meeting"
+	meeting_api "cmd/app/entities/meeting/api"
+	meeting_usecase "cmd/app/entities/meeting/usecases"
 )
 
 type Container interface {
 	// SetError sets the first error into container. The error is used in the public container to return an initialization error.
 	SetError(err error)
+
+	Config(ctx context.Context) config.Params
+	Logger(ctx context.Context) *log.Logger
+	DB(ctx context.Context) *sql.DB
+	Server(ctx context.Context) *http.Server
+	Router(ctx context.Context) *chi.Mux
+
+	API() APIContainer
+	UseCases() UseCaseContainer
+	Repositories() RepositoryContainer
+}
+
+type APIContainer interface {
+	FindMeetingHandler(ctx context.Context) *meeting_api.FindMeeting
+}
+
+type UseCaseContainer interface {
+	FindMeeting(ctx context.Context) *meeting_usecase.FindMeeting
+}
+
+type RepositoryContainer interface {
+	MeetingRepository(ctx context.Context) meeting_domain.MeetingRepository
 }
