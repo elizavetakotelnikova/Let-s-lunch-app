@@ -2,7 +2,7 @@
 -- +goose StatementBegin
 SELECT 'up SQL query';
 CREATE TABLE  users (
-                           id int PRIMARY KEY NOT NULL,
+                           id UUID PRIMARY KEY NOT NULL,
                            username VARCHAR(255) NOT NULL,
                            display_name VARCHAR(255) NOT NULL,
                            rating int

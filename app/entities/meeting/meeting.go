@@ -1,4 +1,5 @@
 package meeting
+
 import (
 	"github.com/google/uuid"
 )
@@ -23,3 +24,10 @@ func NewMeeting() *Meeting {
 	}
 	return &Meeting{ID: id}
 }
+
+/*func NewMeeting(ID uuid.UUID, placeID uuid.UUID, usersID uuid.UUID,
+	startTime time.Time, endTime time.Time, usersQuantity int, state MeetingState) *Meeting {
+	return &Meeting{ID: ID, GatheringPlaceId: placeID, InitiatorsId: usersID,
+		StartTime: startTime, EndTime: endTime, UsersQuantity: usersQuantity,
+		State: state}
+}*/

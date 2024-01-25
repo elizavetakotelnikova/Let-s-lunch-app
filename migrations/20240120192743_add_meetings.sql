@@ -9,20 +9,20 @@ create type meeting_state as enum
         );
 
 CREATE TABLE  meetings (
-                  id int PRIMARY KEY NOT NULL,
-                  gathering_place_id int REFERENCES gathering_places(id),
-                  initiators_id  int REFERENCES users(id),
+                  id UUID PRIMARY KEY NOT NULL,
+                  gathering_place_id UUID REFERENCES gathering_places(id),
+                  initiators_id  UUID REFERENCES users(id),
                   time_start     timestamp,
                   time_end       timestamp,
                   max_participants  int,
                   state        meeting_state
 );
 CREATE TABLE meetings_history (
-                                  user_id int REFERENCES users(id),
-                                  meeting_id int REFERENCES meetings(id)
+                                  user_id UUID REFERENCES users(id),
+                                  meeting_id UUID REFERENCES meetings(id)
 );
 ALTER TABLE users
-ADD current_meeting_id int REFERENCES meetings(id) DEFAULT 0;
+ADD current_meeting_id UUID REFERENCES meetings(id);
 --тут вопрос про registration_end, в доке он стоит со знаком "?"
 -- +goose StatementEnd
 

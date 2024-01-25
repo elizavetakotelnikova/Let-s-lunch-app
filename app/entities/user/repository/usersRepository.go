@@ -21,6 +21,9 @@ type UsersDatabaseRepository struct {
 	db *sql.DB
 }
 
+func NewUsersDatabaseRepository(providedConnection *sql.DB) *UsersDatabaseRepository {
+	return &UsersDatabaseRepository{db: providedConnection}
+}
 func (repository *UsersDatabaseRepository) FindUsersByCriteria(ctx context.Context, criteria query.FindCriteria) ([]user.User, error) {
 	var users []user.User
 	rows, err := query.FindUserByCriteria(ctx, criteria, repository.db)

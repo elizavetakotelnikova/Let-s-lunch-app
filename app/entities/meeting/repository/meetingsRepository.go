@@ -19,6 +19,10 @@ type MeetingsDatabaseRepository struct {
 	db *sql.DB
 }
 
+func NewMeetingsDatabaseRepository(providedConnection *sql.DB) *MeetingsDatabaseRepository {
+	return &MeetingsDatabaseRepository{db: providedConnection}
+}
+
 func (repository *MeetingsDatabaseRepository) FindByCriteria(ctx context.Context, criteria query.FindCriteria) ([]meeting.Meeting, error) {
 	var meetings []meeting.Meeting
 	rows, err := query.FindByCriteria(ctx, criteria, repository.db)

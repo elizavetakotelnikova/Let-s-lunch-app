@@ -12,7 +12,7 @@ create type cuisine_type as enum
         );
 
 CREATE TABLE  gathering_places (
-                           id int PRIMARY KEY NOT NULL,
+                           id UUID PRIMARY KEY NOT NULL,
                            country VARCHAR(255) NOT NULL,
                            city VARCHAR(255) NOT NULL,
                            street_name VARCHAR(255) NOT NULL,

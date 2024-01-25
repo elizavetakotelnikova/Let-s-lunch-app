@@ -8,7 +8,7 @@ import (
 )
 
 func Create(ctx context.Context, user *user.User, db *sql.DB) error {
-	const queryToUsers = `INSERT INTO users(id, username, display_name, current_meeting_id, rating) +
+	const queryToUsers = `INSERT INTO users(id, username, display_name, current_meeting_id, rating)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`
 	_, err := db.Exec(queryToUsers, user.ID, user.Username, user.DisplayName, user.CurrentMeetingId, user.Rating)
 	if err != nil {

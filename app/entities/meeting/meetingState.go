@@ -1,9 +1,9 @@
 package meeting
 
-type MeetingState int
+type MeetingState string
 
 const (
-	Active MeetingState = iota
-	Cancelled
-	Archived
+	Active    = "active"
+	Cancelled = "cancelled"
+	Archived  = "archived"
 )

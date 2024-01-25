@@ -20,6 +20,9 @@ type PlacesDatabaseRepository struct {
 	db *sql.DB
 }
 
+func NewPlacesDatabaseRepository(providedConnection *sql.DB) *PlacesDatabaseRepository {
+	return &PlacesDatabaseRepository{db: providedConnection}
+}
 func (repository *PlacesDatabaseRepository) FindByCriteria(ctx context.Context, criteria query.FindCriteria) ([]gatheringPlace.GatheringPlace, error) {
 	var places []gatheringPlace.GatheringPlace
 	rows, err := query.FindByCriteria(ctx, criteria, repository.db)
