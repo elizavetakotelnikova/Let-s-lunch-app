@@ -6,17 +6,16 @@ package internal
 
 import (
 	"cmd/app/config"
-	"context"
-	"database/sql"
-	"github.com/go-chi/chi/v5"
-	"log"
-	"net/http"
-
 	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
 	"cmd/di/internal/factories"
 	"cmd/di/internal/lookup"
+	"context"
+	"database/sql"
+	chi "github.com/go-chi/chi/v5"
+	"log"
+	"net/http"
 )
 
 type Container struct {

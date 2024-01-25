@@ -8,13 +8,14 @@ import (
 )
 
 type MeetingRepository struct {
-	connection *sql.Conn
+	connection *sql.DB
 }
 
 func (m MeetingRepository) FindByID(ctx context.Context, id uuid.UUID) (*meeting_domain.Meeting, error) {
 	panic("implement me")
+	m.connection.ExecContext()
 }
 
-func NewMeetingRepository(_ context.Context, connection *sql.Conn) *MeetingRepository {
+func NewMeetingRepository(_ context.Context, connection *sql.DB) *MeetingRepository {
 	return &MeetingRepository{connection: connection}
 }
