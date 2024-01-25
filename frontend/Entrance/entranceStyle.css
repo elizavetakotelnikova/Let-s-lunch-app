@@ -1,0 +1,84 @@
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 10vh;
+}
+
+.logo img {
+    height: 230%;
+    width: 130%;
+    display: block;
+    background: white;
+    border-radius: 10px;
+    margin-top: -120%;
+    margin-left: -185%;
+    background: linear-gradient(
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0)
+    )
+}
+
+.app {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.3)
+    ),
+    url("https://vsememy.ru/kartinki/wp-content/uploads/2023/04/1675733420_papik-pro-p-risunok-kafe-vnutri-1.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.app form {
+    background: white;
+    padding: 00px 60px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h1 {
+    color: #542200;
+    text-align: center;
+
+}
+
+h2 {
+    color: #542200;
+    text-align: center;
+}
+
+.register-button {
+    width : 100%;
+    height: 50px;
+    padding: 10px;
+    border: none;
+    background-color: bisque;
+    color: #542200;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 15px;
+    margin-bottom: 50px;
+}
+
+.login-button {
+    margin: 0 auto;
+    text-align: center;
+    display: block;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    color: #542200;
+    background-color: #ffffff;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
