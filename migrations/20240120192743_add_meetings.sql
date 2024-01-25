@@ -1,12 +1,10 @@
 -- +goose Up
 -- +goose StatementBegin
 SELECT 'up SQL query';
-create type meeting_state as enum
-    (
-        'active',
-        'cancelled',
-        'archived'
-        );
+CREATE TABLE meeting_state (
+    id int PRIMARY KEY NOT NULL,
+    state_description VARCHAR(20) NOT NULL
+);
 
 CREATE TABLE  meetings (
                   id UUID PRIMARY KEY NOT NULL,
@@ -15,7 +13,7 @@ CREATE TABLE  meetings (
                   time_start     timestamp,
                   time_end       timestamp,
                   max_participants  int,
-                  state        meeting_state
+                  state        int REFERENCES meeting_state(id)
 );
 CREATE TABLE meetings_history (
                                   user_id UUID REFERENCES users(id),
@@ -29,9 +27,9 @@ ADD current_meeting_id UUID REFERENCES meetings(id);
 -- +goose Down
 -- +goose StatementBegin
 SELECT 'down SQL query';
-DROP TABLE meetings;
-DROP TYPE meeting_state;
-DROP TABLE meetings_history;
 ALTER TABLE users
 DROP COLUMN current_meeting_id;
+DROP TABLE meetings_history;
+DROP TABLE meetings;
+DROP TABLE meeting_state;
 -- +goose StatementEnd

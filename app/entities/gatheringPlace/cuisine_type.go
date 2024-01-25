@@ -1,10 +1,10 @@
 package gatheringPlace
 
-type CuisineType string
+type CuisineType int
 
 const (
-	FastFood = "fast_food"
-	Russian  = "russian"
-	Eastern  = "eastern"
-	Other    = "other"
+	FastFood = iota
+	Russian
+	Eastern
+	Other
 )

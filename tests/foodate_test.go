@@ -18,7 +18,6 @@ const (
 	dbname   = "foodate"
 )
 
-// just something (I was trying to check enum)
 func TestMeetingsRepositoryPassedCorrectShouldReturnSaved(t *testing.T) {
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
