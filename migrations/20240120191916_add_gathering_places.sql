@@ -23,6 +23,6 @@ CREATE TABLE  gathering_places (
 -- +goose Down
 -- +goose StatementBegin
 SELECT 'down SQL query';
--- +goose StatementEnd
 DROP TABLE gathering_places;
 DROP TABLE cuisine_type;
+-- +goose StatementEnd
