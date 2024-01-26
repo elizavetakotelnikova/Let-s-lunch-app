@@ -17,6 +17,7 @@ type MeetingsRepository interface {
 	Update(ctx context.Context, meeting *meeting.Meeting) (*meeting.Meeting, error)
 	Delete(ctx context.Context, meeting *meeting.Meeting) error
 }
+
 type MeetingsDatabaseRepository struct {
 	db *sql.DB
 }
