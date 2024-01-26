@@ -14,9 +14,6 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 	psql := sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
 
 	sqlStatement := psql.Select("*").From("gathering_places").RunWith(db)
-	if criteria.ID.Valid != false {
-		sqlStatement = findByPlace(sqlStatement, criteria.ID.UUID)
-	}
 	if criteria.Address != nil {
 		sqlStatement = findByAddress(sqlStatement, criteria.Address)
 	}
