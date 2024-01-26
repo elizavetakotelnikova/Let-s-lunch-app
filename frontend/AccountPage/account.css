@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;600;700&display=swap');
+
+.account {
+    height: 100vh;
+    background: linear-gradient(
+            rgba(255, 255, 255, 0.6),
+            rgba(255, 255, 255, 0.3)
+    ),
+    url("https://vsememy.ru/kartinki/wp-content/uploads/2023/04/1675733420_papik-pro-p-risunok-kafe-vnutri-1.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+.account * {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-transform: none; /* Изменено на none, так как capitalize было применено к всему тексту */
+    outline: none;
+    border: none;
+    text-decoration: none;
+    transition: all 0.2s linear;
+}
+
+.account header::selection {
+    background: orange;
+    color: #fff;
+}
+
+.account header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #2a1100;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 9%;
+}
+
+.account header .logo {
+    font-size: 2.5rem;
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.account header .logo h1 {
+    color: orange;
+}
+
+
+.account header .search-bar-container #label {
+    color: #fff;
+    cursor: pointer;
+}
+
+.account header .navbar a{
+    color: #fff;
+    font-size: 2rem;
+    margin:0.8rem;
+}
+
+.account header .navbar a:hover {
+    color:orange;
+}
+
+.account .book .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap:1.5rem;
+    align-items: center;
+}
+
+.account .book {
+    text-align: center;
+    padding:2.5rem 0;
+}
+
+.account .book .row form {
+    margin-top: 20rem;
+    margin-right: 20rem;
+    margin-left: 20rem;
+    flex: 1 1 40rem;
+    padding: 2rem;
+    box-shadow: 0 1rem 2rem #542200;
+    border-color: #2a1100;
+    border-radius: .5rem;
+    background: white;
+}
+
+.account .book .row form .inputBox {
+    text-align: left;
+    padding:.5rem 0;
+    border-color: #542200;
+}
+
+.account .book .row form .inputBox input {
+    width: 100%;
+    padding: 1rem;
+    border:.1rem solid #542200;
+    font-size: 1.7rem;
+    color: #333;
+    text-transform: none;
+}
