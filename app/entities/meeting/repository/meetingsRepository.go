@@ -11,9 +11,9 @@ import (
 //go:generate mockery --name=MeetingsRepository
 type MeetingsRepository interface {
 	FindByCriteria(ctx context.Context, criteria query.FindCriteria) ([]meeting.Meeting, error)
-	Create(ctx context.Context, meeting meeting.Meeting) (*meeting.Meeting, error)
-	Update(ctx context.Context, meeting meeting.Meeting) (*meeting.Meeting, error)
-	Delete(ctx context.Context, meeting meeting.Meeting) error
+	Create(ctx context.Context, meeting *meeting.Meeting) (*meeting.Meeting, error)
+	Update(ctx context.Context, meeting *meeting.Meeting) (*meeting.Meeting, error)
+	Delete(ctx context.Context, meeting *meeting.Meeting) error
 }
 type MeetingsDatabaseRepository struct {
 	db *sql.DB

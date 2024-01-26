@@ -6,7 +6,7 @@ package di
 
 import (
 	"cmd/app/config"
-	meeting_domain "cmd/app/entities/meeting/repository"
+	meeting_repository "cmd/app/entities/meeting/repository"
 	"cmd/di/internal"
 	"context"
 	"net/http"
@@ -53,7 +53,8 @@ func (c *Container) Server(ctx context.Context) (*http.Server, error) {
 
 	return s, err
 }
-func SetMeetingRepository(s meeting_domain.MeetingsRepository) Injector {
+
+func SetMeetingRepository(s meeting_repository.MeetingsDatabaseRepository) Injector {
 	return func(c *Container) error {
 		c.c.Repositories().(*internal.RepositoryContainer).SetMeetingRepository(s)
 

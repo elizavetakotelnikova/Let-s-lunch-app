@@ -6,8 +6,8 @@ package internal
 
 import (
 	"cmd/app/config"
-	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
+	meeting_repository "cmd/app/entities/meeting/repository"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
 	"cmd/di/internal/factories"
 	"cmd/di/internal/lookup"
@@ -68,7 +68,7 @@ type UseCaseContainer struct {
 type RepositoryContainer struct {
 	*Container
 
-	meetingRepository meeting_domain.MeetingRepository
+	meetingRepository meeting_repository.MeetingsDatabaseRepository
 }
 
 func (c *Container) Config(ctx context.Context) config.Params {
@@ -129,7 +129,7 @@ func (c *Container) Repositories() lookup.RepositoryContainer {
 	return c.repositories
 }
 
-func (c *RepositoryContainer) MeetingRepository(ctx context.Context) meeting_domain.MeetingRepository {
+func (c *RepositoryContainer) MeetingRepository(ctx context.Context) meeting_repository.MeetingsDatabaseRepository {
 	if c.meetingRepository == nil && c.err == nil {
 		c.meetingRepository = factories.CreateRepositoriesMeetingRepository(ctx, c)
 	}
@@ -140,7 +140,7 @@ func (c *Container) SetConfig(s config.Params) {
 	c.config = s
 }
 
-func (c *RepositoryContainer) SetMeetingRepository(s meeting_domain.MeetingRepository) {
+func (c *RepositoryContainer) SetMeetingRepository(s meeting_repository.MeetingsDatabaseRepository) {
 	c.meetingRepository = s
 }
 

@@ -6,8 +6,8 @@ package lookup
 
 import (
 	"cmd/app/config"
-	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
+	meeting_repository "cmd/app/entities/meeting/repository"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
 	"context"
 	"database/sql"
@@ -40,5 +40,5 @@ type UseCaseContainer interface {
 }
 
 type RepositoryContainer interface {
-	MeetingRepository(ctx context.Context) meeting_domain.MeetingRepository
+	MeetingRepository(ctx context.Context) meeting_repository.MeetingsDatabaseRepository
 }
