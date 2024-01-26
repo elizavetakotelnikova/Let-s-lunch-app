@@ -4,7 +4,7 @@ import (
 	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
-	"github.com/go-chi/chi/v5"
+	chi "github.com/go-chi/chi/v5"
 
 	"cmd/app/config"
 	"database/sql"

@@ -6,15 +6,14 @@ package lookup
 
 import (
 	"cmd/app/config"
-	"context"
-	"database/sql"
-	"github.com/go-chi/chi/v5"
-	"log"
-	"net/http"
-
 	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
+	"context"
+	"database/sql"
+	chi "github.com/go-chi/chi/v5"
+	"log"
+	"net/http"
 )
 
 type Container interface {

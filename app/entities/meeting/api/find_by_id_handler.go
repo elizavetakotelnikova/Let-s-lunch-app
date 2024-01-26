@@ -21,5 +21,6 @@ func NewFindMeeting(useCase *usecase.FindMeeting) *FindMeeting {
 
 func (h *FindMeeting) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println("in meeting handler")
+
 	return
 }
