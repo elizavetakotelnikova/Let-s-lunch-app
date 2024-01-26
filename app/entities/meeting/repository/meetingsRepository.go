@@ -5,6 +5,7 @@ import (
 	"cmd/app/entities/meeting/query"
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/google/uuid"
 )
@@ -27,8 +28,16 @@ func NewMeetingsDatabaseRepository(providedConnection *sql.DB) *MeetingsDatabase
 }
 
 func (repository *MeetingsDatabaseRepository) FindByID(ctx context.Context, id uuid.UUID) (*meeting.Meeting, error) {
-	//TODO implement me
-	panic("implement me")
+	var currentMeeting meeting.Meeting
+	row := query.FindByID(ctx, id, repository.db)
+	if err := row.Scan(&currentMeeting.ID, &currentMeeting.GatheringPlaceId, &currentMeeting.InitiatorsId, &currentMeeting.StartTime, &currentMeeting.EndTime,
+		&currentMeeting.UsersQuantity, &currentMeeting.State); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, fmt.Errorf("no such meeting")
+		}
+		return nil, fmt.Errorf("problem in database quering %v", err)
+	}
+	return &currentMeeting, nil
 }
 
 func (repository *MeetingsDatabaseRepository) FindByCriteria(ctx context.Context, criteria query.FindCriteria) ([]meeting.Meeting, error) {
@@ -40,7 +49,7 @@ func (repository *MeetingsDatabaseRepository) FindByCriteria(ctx context.Context
 	var currentMeeting meeting.Meeting
 	for rows.Next() {
 		if err = rows.Scan(&currentMeeting.ID, &currentMeeting.GatheringPlaceId, &currentMeeting.InitiatorsId,
-			&currentMeeting.StartTime, &currentMeeting.EndTime); err != nil {
+			&currentMeeting.StartTime, &currentMeeting.EndTime, &currentMeeting.UsersQuantity, &currentMeeting.State); err != nil {
 			return nil, fmt.Errorf("cannot query the database %w", err)
 		}
 		meetings = append(meetings, currentMeeting)

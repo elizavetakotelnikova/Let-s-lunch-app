@@ -12,9 +12,6 @@ func FindUserByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) 
 	psql := sq.StatementBuilder.PlaceholderFormat(sq.Dollar)
 
 	sqlStatement := psql.Select("*").From("users").RunWith(db)
-	if criteria.ID.Valid != false {
-		sqlStatement = findUserById(sqlStatement, criteria.ID.UUID)
-	}
 	if criteria.Username != nil {
 		sqlStatement = findUserByUsername(sqlStatement, criteria.Username)
 	}
@@ -22,17 +19,13 @@ func FindUserByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) 
 		sqlStatement = findUserByDisplayname(sqlStatement, criteria.DisplayName)
 	}
 	if criteria.CurrentMeetingId.Valid != false {
-		sqlStatement = findUserByCurrentMeetingId(sqlStatement, criteria.ID.UUID)
+		sqlStatement = findUserByCurrentMeetingId(sqlStatement, criteria.CurrentMeetingId.UUID)
 	}
 	var rows, err = sqlStatement.Query()
 	if err != nil {
 		return nil, fmt.Errorf("problem with quering to database %w", err)
 	}
 	return rows, nil
-}
-
-func findUserById(sql sq.SelectBuilder, id uuid.UUID) sq.SelectBuilder {
-	return sql.Where(sq.Eq{"id": id})
 }
 func findUserByCurrentMeetingId(sql sq.SelectBuilder, id uuid.UUID) sq.SelectBuilder {
 	return sql.Where(sq.Eq{"current_meeting_id": id})

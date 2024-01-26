@@ -7,7 +7,6 @@ import (
 )
 
 type FindCriteria struct {
-	ID          uuid.NullUUID
 	Address     *models.Address
 	InitiatorID uuid.NullUUID
 	CuisineType *gatheringPlace.CuisineType

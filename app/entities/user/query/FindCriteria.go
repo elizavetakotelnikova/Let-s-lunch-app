@@ -5,7 +5,6 @@ import (
 )
 
 type FindCriteria struct {
-	ID               uuid.NullUUID
 	Username         *string
 	DisplayName      *string
 	CurrentMeetingId uuid.NullUUID
