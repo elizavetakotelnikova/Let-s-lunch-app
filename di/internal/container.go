@@ -68,7 +68,7 @@ type UseCaseContainer struct {
 type RepositoryContainer struct {
 	*Container
 
-	meetingRepository meeting_repository.MeetingsDatabaseRepository
+	meetingRepository meeting_repository.MeetingsRepository
 }
 
 func (c *Container) Config(ctx context.Context) config.Params {
@@ -129,7 +129,7 @@ func (c *Container) Repositories() lookup.RepositoryContainer {
 	return c.repositories
 }
 
-func (c *RepositoryContainer) MeetingRepository(ctx context.Context) meeting_repository.MeetingsDatabaseRepository {
+func (c *RepositoryContainer) MeetingRepository(ctx context.Context) meeting_repository.MeetingsRepository {
 	if c.meetingRepository == nil && c.err == nil {
 		c.meetingRepository = factories.CreateRepositoriesMeetingRepository(ctx, c)
 	}
@@ -140,7 +140,7 @@ func (c *Container) SetConfig(s config.Params) {
 	c.config = s
 }
 
-func (c *RepositoryContainer) SetMeetingRepository(s meeting_repository.MeetingsDatabaseRepository) {
+func (c *RepositoryContainer) SetMeetingRepository(s meeting_repository.MeetingsRepository) {
 	c.meetingRepository = s
 }
 

@@ -40,5 +40,5 @@ type UseCaseContainer interface {
 }
 
 type RepositoryContainer interface {
-	MeetingRepository(ctx context.Context) meeting_repository.MeetingsDatabaseRepository
+	MeetingRepository(ctx context.Context) meeting_repository.MeetingsRepository
 }

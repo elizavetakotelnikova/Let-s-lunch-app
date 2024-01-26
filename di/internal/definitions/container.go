@@ -36,5 +36,5 @@ type UseCaseContainer struct {
 }
 
 type RepositoryContainer struct {
-	meetingRepository meeting_repository.MeetingsDatabaseRepository `di:"set"`
+	meetingRepository meeting_repository.MeetingsRepository `di:"set"`
 }
