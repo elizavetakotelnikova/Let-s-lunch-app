@@ -6,11 +6,13 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/google/uuid"
 )
 
 //go:generate mockery --name=MeetingsRepository
 type MeetingsRepository interface {
 	FindByCriteria(ctx context.Context, criteria query.FindCriteria) ([]meeting.Meeting, error)
+	FindByID(ctx context.Context, id uuid.UUID) (*meeting.Meeting, error)
 	Create(ctx context.Context, meeting *meeting.Meeting) (*meeting.Meeting, error)
 	Update(ctx context.Context, meeting *meeting.Meeting) (*meeting.Meeting, error)
 	Delete(ctx context.Context, meeting *meeting.Meeting) error
@@ -21,6 +23,11 @@ type MeetingsDatabaseRepository struct {
 
 func NewMeetingsDatabaseRepository(providedConnection *sql.DB) *MeetingsDatabaseRepository {
 	return &MeetingsDatabaseRepository{db: providedConnection}
+}
+
+func (repository *MeetingsDatabaseRepository) FindByID(ctx context.Context, id uuid.UUID) (*meeting.Meeting, error) {
+	//TODO implement me
+	panic("implement me")
 }
 
 func (repository *MeetingsDatabaseRepository) FindByCriteria(ctx context.Context, criteria query.FindCriteria) ([]meeting.Meeting, error) {
