@@ -17,6 +17,12 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 	if criteria.Address != nil {
 		sqlStatement = findByAddress(sqlStatement, criteria.Address)
 	}
+	if criteria.InitiatorID.Valid != false {
+		sqlStatement = findByInitiatorID(sqlStatement, criteria.InitiatorID.UUID)
+	}
+	if criteria.Rating != 0 {
+		sqlStatement = findByRating(sqlStatement, criteria.Rating)
+	}
 	if criteria.CuisineType != nil {
 		sqlStatement = findByCuisineType(sqlStatement, criteria.CuisineType)
 	}
@@ -27,8 +33,11 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 	return rows, nil
 }
 
-func findByPlace(sql sq.SelectBuilder, id uuid.UUID) sq.SelectBuilder {
-	return sql.Where(sq.Eq{"id": id})
+func findByInitiatorID(sql sq.SelectBuilder, id uuid.UUID) sq.SelectBuilder {
+	return sql.Where(sq.Eq{"initiators_id": id})
+}
+func findByRating(sql sq.SelectBuilder, rating int) sq.SelectBuilder {
+	return sql.Where(sq.Eq{"rating": rating})
 }
 func findByAddress(sql sq.SelectBuilder, address *models.Address) sq.SelectBuilder {
 	return sql.Where(sq.Eq{"country": address.Country, "city": address.City,

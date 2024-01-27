@@ -15,7 +15,7 @@ func Create(ctx context.Context, place *gatheringPlace.GatheringPlace, db *sql.D
 		place.Address.HouseNumber, place.Address.BuildingNumber, place.AveragePrice, place.CuisineType, place.Rating,
 		place.PhoneNumber)
 	if err != nil {
-		return fmt.Errorf("Database query execution error: %w", err)
+		return fmt.Errorf("database query execution error: %w", err)
 	}
 	return nil
 }

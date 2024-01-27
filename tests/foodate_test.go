@@ -32,6 +32,6 @@ func TestMeetingsRepositoryPassedCorrectShouldReturnSaved(t *testing.T) {
 	var ctx = context.Background()
 	_, err = databasePlacesRepository.Create(ctx, currentPlace)
 	if err != nil {
-		t.Fatalf("Cannot save user %v", err)
+		t.Fatalf("%v", err)
 	}
 }
