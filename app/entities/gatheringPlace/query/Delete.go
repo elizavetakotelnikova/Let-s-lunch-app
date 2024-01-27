@@ -8,7 +8,7 @@ import (
 )
 
 func Delete(ctx context.Context, place *gatheringPlace.GatheringPlace, db *sql.DB) error {
-	const query = `DELETE FROM gathering_places WHERE id = $2`
+	const query = `DELETE FROM gathering_places WHERE id = $1`
 	_, err := db.Exec(query, place.ID)
 	if err != nil {
 		return fmt.Errorf("database query execution error: %w", err)
