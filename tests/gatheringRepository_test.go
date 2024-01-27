@@ -39,7 +39,7 @@ func TestCreatingGatheringPlace(t *testing.T) {
 	}
 	placeFromRepository, errFinding := databasePlacesRepository.FindByID(ctx, currentPlace.ID)
 	if errFinding != nil {
-		t.Fatalf("Error in finding place: %s", errFinding)
+		t.Fatalf("Error in finding place: %v", errFinding)
 	}
 	//testing
 	assert.Equal(t, currentPlace.ID, placeFromRepository.ID)
@@ -47,8 +47,8 @@ func TestCreatingGatheringPlace(t *testing.T) {
 	assert.Equal(t, currentPlace.AveragePrice, placeFromRepository.AveragePrice)
 	assert.Equal(t, currentPlace.CuisineType, placeFromRepository.CuisineType)
 	assert.Equal(t, currentPlace.PhoneNumber, placeFromRepository.PhoneNumber)
-	err = databasePlacesRepository.Delete(ctx, currentPlace)
-	if err != nil {
-		t.Fatalf("Error in deleting place: %s", errFinding)
+	errDeleting := databasePlacesRepository.Delete(ctx, currentPlace)
+	if errDeleting != nil {
+		t.Fatalf("Error in deleting place: %v", errDeleting)
 	}
 }
