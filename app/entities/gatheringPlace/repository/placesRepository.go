@@ -53,7 +53,7 @@ func (repository *PlacesDatabaseRepository) FindByCriteria(ctx context.Context, 
 func (repository *PlacesDatabaseRepository) Create(ctx context.Context, place *gatheringPlace.GatheringPlace) (*gatheringPlace.GatheringPlace, error) {
 	var err = query.Create(ctx, place, repository.db)
 	if err != nil {
-		return place, fmt.Errorf("meeting cannot be created: %v", err)
+		return place, fmt.Errorf("meeting cannot be created: %w", err)
 	}
 	return place, nil
 }
@@ -61,7 +61,7 @@ func (repository *PlacesDatabaseRepository) Create(ctx context.Context, place *g
 func (repository *PlacesDatabaseRepository) Update(ctx context.Context, place *gatheringPlace.GatheringPlace) (*gatheringPlace.GatheringPlace, error) {
 	var err = query.Update(ctx, place, repository.db)
 	if err != nil {
-		return place, fmt.Errorf("place cannot be updated: %v", err)
+		return place, fmt.Errorf("place cannot be updated: %w", err)
 	}
 	return place, nil
 }
