@@ -1,16 +1,33 @@
 package meeting
 
-import "github.com/google/uuid"
+import (
+	"github.com/google/uuid"
+)
+import (
+	"time"
+)
 
 type Meeting struct {
-	id uuid.UUID
+	ID               uuid.UUID
+	GatheringPlaceId uuid.UUID
+	InitiatorsId     uuid.UUID
+	StartTime        time.Time
+	EndTime          time.Time
+	UsersQuantity    int
+	State            MeetingState
 }
 
-func NewMeeting() (*Meeting, error) {
+func NewMeeting() *Meeting {
 	id, err := uuid.NewUUID()
 	if err != nil {
-		return nil, err
+		return nil
 	}
-
-	return &Meeting{id: id}, err
+	return &Meeting{ID: id}
 }
+
+/*func NewMeeting(ID uuid.UUID, placeID uuid.UUID, usersID uuid.UUID,
+	startTime time.Time, endTime time.Time, usersQuantity int, state MeetingState) *Meeting {
+	return &Meeting{ID: ID, GatheringPlaceId: placeID, InitiatorsId: usersID,
+		StartTime: startTime, EndTime: endTime, UsersQuantity: usersQuantity,
+		State: state}
+}*/

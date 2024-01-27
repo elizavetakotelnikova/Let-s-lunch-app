@@ -1,21 +1,23 @@
 package factories
 
 import (
-	"cmd/app/config"
 	"cmd/di/internal/lookup"
 	"context"
 	"database/sql"
+	_ "github.com/lib/pq"
 	"log"
 )
 
-func CreateConfig(ctx context.Context, c lookup.Container) config.Params {
-	panic("not implemented")
-}
-
 func CreateLogger(ctx context.Context, c lookup.Container) *log.Logger {
-	panic("not implemented")
+	return log.Default()
 }
 
 func CreateDB(ctx context.Context, c lookup.Container) *sql.DB {
-	panic("not implemented")
+	psqlInfo := c.Config(ctx).DatabaseURL
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
+	}
+
+	return db
 }

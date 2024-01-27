@@ -4,12 +4,23 @@ import (
 	"cmd/app/config"
 	"cmd/di"
 	"context"
+	"github.com/joho/godotenv"
 	"log"
+	"os"
 )
+
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("No .env file found: ", err)
+	}
+}
 
 func main() {
 	container, err := di.NewContainer(
-		config.Params{DatabaseURL: "postgresql://localhost/postgres?user=admin&password=admin"},
+		config.Params{
+			DatabaseURL:   os.Getenv("DATABASE_URL"),
+			ServerAddress: os.Getenv("SERVER_ADDRESS"),
+		},
 	)
 	if err != nil {
 		log.Fatal(err)

@@ -1,8 +1,8 @@
 package definitions
 
 import (
-	meeting_domain "cmd/app/entities/meeting"
 	meeting_api "cmd/app/entities/meeting/api"
+	meeting_repository "cmd/app/entities/meeting/repository"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
 	chi "github.com/go-chi/chi/v5"
 
@@ -36,5 +36,5 @@ type UseCaseContainer struct {
 }
 
 type RepositoryContainer struct {
-	meetingRepository meeting_domain.MeetingRepository `di:"set"`
+	meetingRepository meeting_repository.MeetingsRepository `di:"set"`
 }

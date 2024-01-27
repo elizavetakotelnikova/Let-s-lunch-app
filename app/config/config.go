@@ -1,5 +1,6 @@
 package config
 
 type Params struct {
-	DatabaseURL string
+	DatabaseURL   string
+	ServerAddress string
 }
