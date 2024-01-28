@@ -5,8 +5,8 @@ import Entrance from "./Entrance/Entrance";
 import Registration from "./Refistration/Registration";
 import MainPage from "./MainPage/MainPage"
 import Account from "./AccountPage/Account"
-import RedactPage from "./RedactPage/RedactPage"
 import {Routes, Route} from "react-router-dom";
+import Contacts from "./Contacts/Contact"
 
 function App() {
   return (
@@ -16,7 +16,7 @@ function App() {
           <Route path="/registration" element={<Registration/>}/>
           <Route path="/mainpage" element={<MainPage/>}/>
           <Route path="/mainpage/account" element={<Account/>}/>
-            <Route path="/mainpage/account/redact" element={<RedactPage/>}/>
+          <Route path="/mainpage/contact/" element={<Contacts/>}/>
         </Routes>
       </div>
   );

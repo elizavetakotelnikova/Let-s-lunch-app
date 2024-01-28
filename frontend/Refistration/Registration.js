@@ -11,7 +11,7 @@ function Registration() {
             <form>
                 <h1>Let's Lunch</h1>
                 <h2>Регистрация</h2>
-                {<div style={{color: '#2a1100', textAlign: 'left'} }>Номер телефона</div>}
+                {<div className="numberPhone" style={{color: '#2a1100', textAlign: 'left'} }>Номер телефона</div>}
                 <input onChange={e => phoneNumberHandler(e)} value={phoneNumber} onBlur={e => blurHandler(e)}  focused={focusedPhoneNumber.toString()} name='phone' type="text"
                        placeholder='Enter your phone number...' style={{ border: (focusedPhoneNumber && phoneNumberError) ? '1px solid red' : '1px solid #ccc' }}/>
                 {(phoneNumberDirty && phoneNumberError) && <div style={{color: 'red'}}>{phoneNumberError}</div>}

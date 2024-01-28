@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import './styleMain.css';
+import Modal from "../Modal/Modal";
+import Button from "../Button/Button";
+import Form from "../Modal/Form";
 
 function MainPage() {
     const [searchBarActive, setSearchBarActive] = useState(false);
+    const [modal, setModal] = useState(false);
 
     const handleSearchClick = () => {
         setSearchBarActive(!searchBarActive);
@@ -24,6 +28,8 @@ function MainPage() {
         };
     }, []); // Здесь нет зависимостей, так как searchBtn и searchBar получаются один раз при монтировании
 
+
+
     return (
         <div className="Main">
             <header>
@@ -34,7 +40,6 @@ function MainPage() {
                 <a href="#" className="logo"><h1>L</h1>et's Lunch</a>
                 <nav className="navbar">
                     <a href="/">Выход</a>
-                    <a href="/mainpage/chat/">Чат</a>
                     <a href="/mainpage/account/"> Аккаунт</a>
                     <a href="/mainpage/contact/"> Контакты</a>
                 </nav>
@@ -56,6 +61,11 @@ function MainPage() {
                     <div className="card_body">
                         <h3 className="card_title">Теремок</h3>
                         <p className="card_desc">Описание теремка пока нет, поэтому придумайте сами</p>
+                        <Button onClick={() => setModal(true)} className="event">Назначить встречу</Button>
+                        <Modal visible={modal} setVisible={setModal}>
+                            <Form />
+                        </Modal>
+
                     </div>
                 </div>
 
@@ -66,6 +76,11 @@ function MainPage() {
                     <div className="card_body">
                         <h3 className="card_title">Вольчика</h3>
                         <p className="card_desc">Описание вольчика пока нет, поэтому придумайте сами</p>
+                        <Button onClick={() => setModal(true)} className="event">Назначить встречу</Button>
+                        <Modal visible={modal} setVisible={setModal}>
+                            <Form />
+                        </Modal>
+
                     </div>
                 </div>
 
@@ -75,6 +90,10 @@ function MainPage() {
                     <div className="card_body">
                         <h3 className="card_title">Пельменная</h3>
                         <p className="card_desc">Описание пельменной пока нет, поэтому придумайте сами</p>
+                        <Button onClick={() => setModal(true)} className="event">Назначить встречу</Button>
+                        <Modal visible={modal} setVisible={setModal}>
+                            <Form />
+                        </Modal>
                     </div>
                 </div>
 
@@ -84,6 +103,10 @@ function MainPage() {
                     <div className="card_body">
                         <h3 className="card_title">Люди любят</h3>
                         <p className="card_desc">Описание люди любят пока нет, поэтому придумайте сами</p>
+                        <Button onClick={() => setModal(true)} className="event">Назначить встречу</Button>
+                        <Modal visible={modal} setVisible={setModal}>
+                            <Form />
+                        </Modal>
                     </div>
                 </div>
 
