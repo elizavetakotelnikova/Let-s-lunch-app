@@ -23,8 +23,8 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 	if criteria.Rating != 0 {
 		sqlStatement = findByRating(sqlStatement, criteria.Rating)
 	}
-	if criteria.CuisineType != nil {
-		sqlStatement = findByCuisineType(sqlStatement, criteria.CuisineType)
+	if criteria.CuisineType != 0 {
+		sqlStatement = findByCuisineType(sqlStatement, &criteria.CuisineType)
 	}
 	var rows, err = sqlStatement.Query()
 	if err != nil {

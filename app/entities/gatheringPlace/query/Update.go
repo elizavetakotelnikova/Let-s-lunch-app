@@ -8,7 +8,7 @@ import (
 )
 
 func Update(ctx context.Context, place *gatheringPlace.GatheringPlace, db *sql.DB) error {
-	const query = `UPDATE gatheringPlaces
+	const query = `UPDATE gathering_places
     SET id = $1, country = $2, city = $3, street_name = $4, house_number = $5, building_number = $6,
                              average_price = $7, cuisine_type = $8, rating = $9, phone_number = $10
     WHERE id = $1`

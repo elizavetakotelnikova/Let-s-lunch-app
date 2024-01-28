@@ -9,6 +9,6 @@ import (
 type FindCriteria struct {
 	Address     *models.Address
 	InitiatorID uuid.NullUUID
-	CuisineType *gatheringPlace.CuisineType
+	CuisineType gatheringPlace.CuisineType
 	Rating      int
 }
