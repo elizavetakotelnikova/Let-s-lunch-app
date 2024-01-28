@@ -7,6 +7,7 @@ import (
 	"cmd/app/models"
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
@@ -147,4 +148,27 @@ func TestUpdatingGatheringPlace(t *testing.T) {
 	if errDeleting != nil {
 		t.Fatalf("Error in deleting place: %v", errDeleting)
 	}
+}
+
+func TestDeletingGatheringPlace(t *testing.T) {
+	//set up
+	var databasePlacesRepository = repositoryPlaces.NewPlacesDatabaseRepository(db)
+	var firstPlace = gatheringPlace.NewGatheringPlace()
+	firstPlace.CuisineType = gatheringPlace.FastFood
+	var ctx = context.Background()
+	_, errCreating := databasePlacesRepository.Create(ctx, firstPlace)
+	if errCreating != nil {
+		t.Fatalf("Error in creating place: %v", errCreating)
+	}
+	//main part
+	errDeleting := databasePlacesRepository.Delete(ctx, firstPlace)
+	if errDeleting != nil {
+		t.Fatalf("Error in deleting place: %v", errDeleting)
+	}
+	_, errFinding := databasePlacesRepository.FindByID(ctx, firstPlace.ID)
+	//testing
+	//checking the right error - no rows with such ID remained
+	assert.Contains(t, errFinding.Error(), sql.ErrNoRows.Error())
+	assert.Equal(t, "no such gathering place: sql: no rows in result set", errFinding.Error())
+	assert.True(t, errors.Is(errFinding, sql.ErrNoRows))
 }

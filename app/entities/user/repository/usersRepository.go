@@ -5,6 +5,7 @@ import (
 	"cmd/app/entities/user/query"
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/google/uuid"
 )
@@ -44,7 +45,7 @@ func (repository *UsersDatabaseRepository) FindUsersByCriteria(ctx context.Conte
 		var meetingId uuid.UUID
 		for rows.Next() {
 			if err := rows.Scan(&meetingId); err != nil {
-				return nil, fmt.Errorf("FindById %d: %v", currentUser.ID, err)
+				return nil, fmt.Errorf("Cannot find user's history")
 			}
 			currentUser.MeetingHistory = append(currentUser.MeetingHistory, meetingId)
 		}
@@ -64,7 +65,10 @@ func (repository *UsersDatabaseRepository) FindUserByID(ctx context.Context, id 
 	var meetingId uuid.UUID
 	for rows.Next() {
 		if err := rows.Scan(&meetingId); err != nil {
-			return nil, fmt.Errorf("FindById %d: %v", currentUser.ID, err)
+			if errors.Is(err, sql.ErrNoRows) {
+				return nil, fmt.Errorf("no such user: %w", err)
+			}
+			return nil, fmt.Errorf("cannot query the database %w", err)
 		}
 		currentUser.MeetingHistory = append(currentUser.MeetingHistory, meetingId)
 	}
@@ -73,7 +77,7 @@ func (repository *UsersDatabaseRepository) FindUserByID(ctx context.Context, id 
 func (repository *UsersDatabaseRepository) Create(ctx context.Context, user *user.User) (*user.User, error) {
 	var err = query.Create(ctx, user, repository.db)
 	if err != nil {
-		return user, fmt.Errorf("meeting cannot be created: %v", err)
+		return user, fmt.Errorf("user cannot be created: %v", err)
 	}
 	return nil, nil
 }
@@ -81,7 +85,7 @@ func (repository *UsersDatabaseRepository) Create(ctx context.Context, user *use
 func (repository *UsersDatabaseRepository) Update(ctx context.Context, user *user.User) (*user.User, error) {
 	var err = query.Update(ctx, user, repository.db)
 	if err != nil {
-		return user, fmt.Errorf("meeting cannot be updated: %v", err)
+		return user, fmt.Errorf("user cannot be updated: %v", err)
 	}
 	return nil, nil
 }
@@ -90,7 +94,7 @@ func (repository *UsersDatabaseRepository) Delete(ctx context.Context, user *use
 	var err = query.Delete(ctx, user, repository.db)
 	if err != nil {
 
-		return fmt.Errorf("meeting cannot be deleted: %v", err)
+		return fmt.Errorf("user cannot be deleted: %v", err)
 	}
 	return nil
 }

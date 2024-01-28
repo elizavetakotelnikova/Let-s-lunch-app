@@ -5,6 +5,7 @@ import (
 	"cmd/app/entities/gatheringPlace/query"
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"github.com/google/uuid"
 )
@@ -30,7 +31,10 @@ func (repository *PlacesDatabaseRepository) FindByID(ctx context.Context, id uui
 	row := query.FindByID(ctx, id, repository.db)
 	if err := row.Scan(&currentPlace.ID, &currentPlace.Address.Country, &currentPlace.Address.City, &currentPlace.Address.StreetName, &currentPlace.Address.HouseNumber, &currentPlace.Address.BuildingNumber,
 		&currentPlace.AveragePrice, &currentPlace.CuisineType, &currentPlace.Rating, &currentPlace.PhoneNumber); err != nil {
-		return nil, fmt.Errorf("cannot query the database %w", err)
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, fmt.Errorf("no such gathering place: %w", err)
+		}
+		return nil, fmt.Errorf("cannot query the database: %w", err)
 	}
 	return &currentPlace, nil
 }
@@ -38,13 +42,16 @@ func (repository *PlacesDatabaseRepository) FindByCriteria(ctx context.Context, 
 	var places []gatheringPlace.GatheringPlace
 	rows, err := query.FindByCriteria(ctx, criteria, repository.db)
 	if err != nil {
-		return nil, fmt.Errorf("cannot query the database %w", err)
+		return nil, fmt.Errorf("cannot query the database: %w", err)
 	}
 	var currentPlace gatheringPlace.GatheringPlace
 	for rows.Next() {
 		if err = rows.Scan(&currentPlace.ID, &currentPlace.Address.Country, &currentPlace.Address.City, &currentPlace.Address.StreetName, &currentPlace.Address.HouseNumber, &currentPlace.Address.BuildingNumber,
 			&currentPlace.AveragePrice, &currentPlace.CuisineType, &currentPlace.Rating, &currentPlace.PhoneNumber); err != nil {
-			return nil, fmt.Errorf("cannot query the database %w", err)
+			if errors.Is(err, sql.ErrNoRows) {
+				return nil, fmt.Errorf("no such gathering place: %w", err)
+			}
+			return nil, fmt.Errorf("cannot query the database: %w", err)
 		}
 		places = append(places, currentPlace)
 	}
@@ -53,7 +60,7 @@ func (repository *PlacesDatabaseRepository) FindByCriteria(ctx context.Context, 
 func (repository *PlacesDatabaseRepository) Create(ctx context.Context, place *gatheringPlace.GatheringPlace) (*gatheringPlace.GatheringPlace, error) {
 	var err = query.Create(ctx, place, repository.db)
 	if err != nil {
-		return place, fmt.Errorf("meeting cannot be created: %w", err)
+		return place, fmt.Errorf("place cannot be created: %w", err)
 	}
 	return place, nil
 }

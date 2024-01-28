@@ -19,7 +19,7 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 	}
 	var rows, err = sqlStatement.Query()
 	if err != nil {
-		return nil, fmt.Errorf("problem with quering to database %w", err)
+		return nil, fmt.Errorf("database query execution error: %w", err)
 	}
 	return rows, nil
 }

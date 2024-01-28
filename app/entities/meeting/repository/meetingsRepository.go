@@ -33,9 +33,9 @@ func (repository *MeetingsDatabaseRepository) FindByID(ctx context.Context, id u
 	if err := row.Scan(&currentMeeting.ID, &currentMeeting.GatheringPlaceId, &currentMeeting.InitiatorsId, &currentMeeting.StartTime, &currentMeeting.EndTime,
 		&currentMeeting.UsersQuantity, &currentMeeting.State); err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			return nil, fmt.Errorf("no such meeting")
+			return nil, fmt.Errorf("no such meeting: %w", err)
 		}
-		return nil, fmt.Errorf("problem in database quering %v", err)
+		return nil, fmt.Errorf("cannot query the database: %w", err)
 	}
 	return &currentMeeting, nil
 }
