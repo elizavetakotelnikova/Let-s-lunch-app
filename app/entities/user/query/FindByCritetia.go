@@ -21,6 +21,12 @@ func FindUserByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) 
 	if criteria.CurrentMeetingId.Valid != false {
 		sqlStatement = findUserByCurrentMeetingId(sqlStatement, criteria.CurrentMeetingId.UUID)
 	}
+	if criteria.Age.Valid != false {
+		sqlStatement = findUserByAge(sqlStatement, int(criteria.Age.Int32))
+	}
+	if criteria.Gender.Valid != false {
+		sqlStatement = findUserByGender(sqlStatement, int(criteria.Gender.Int16))
+	}
 	var rows, err = sqlStatement.Query()
 	if err != nil {
 		return nil, fmt.Errorf("database query execution error: %w", err)
@@ -35,6 +41,13 @@ func findUserByUsername(sql sq.SelectBuilder, username string) sq.SelectBuilder 
 }
 func findUserByDisplayname(sql sq.SelectBuilder, displayname string) sq.SelectBuilder {
 	return sql.Where(sq.Eq{"display_name": displayname})
+}
+func findUserByAge(sql sq.SelectBuilder, age int) sq.SelectBuilder {
+	return sql.Where(sq.Eq{"age": age})
+	// вот здесь как раз можно дельту прикрутить для возраста
+}
+func findUserByGender(sql sq.SelectBuilder, gender int) sq.SelectBuilder {
+	return sql.Where(sq.Eq{"gender": gender})
 }
 
 func FindUserHistoryById(ctx context.Context, id uuid.UUID, db *sql.DB) (*sql.Rows, error) {

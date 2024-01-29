@@ -11,6 +11,8 @@ type User struct {
 	CurrentMeetingId uuid.NullUUID
 	MeetingHistory   []uuid.UUID
 	Rating           int
+	Age              int
+	Gender           Gender
 }
 
 func NewUser() *User {

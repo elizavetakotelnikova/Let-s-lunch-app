@@ -107,6 +107,8 @@ func TestUpdatingUser(t *testing.T) {
 	//main part
 	currentUser.DisplayName = "Katya15"
 	currentUser.Username = "Katya"
+	currentUser.Age = 18
+	currentUser.Gender = user.Female
 	_, errUpdating := databaseUsersRepository.Update(ctx, currentUser)
 	if errUpdating != nil {
 		t.Fatalf("Error in updating user: %v", errUpdating)
