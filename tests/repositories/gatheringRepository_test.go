@@ -66,11 +66,11 @@ func TestFindingByCriteriaGatheringPlace(t *testing.T) {
 	if errCreating != nil {
 		t.Fatalf("Error in creating place: %v", errCreating)
 	}
-	var findingCriteria = query.FindCriteria{CuisineType: gatheringPlace.FastFood}
+	var findingCriteria = query.FindCriteria{CuisineType: sql.NullInt16{Int16: gatheringPlace.FastFood, Valid: true}}
 
 	//main part
 	placesWithFastFood, errFinding := databasePlacesRepository.FindByCriteria(ctx, findingCriteria)
-	findingCriteria.CuisineType = gatheringPlace.Eastern
+	findingCriteria.CuisineType = sql.NullInt16{Int16: gatheringPlace.Eastern, Valid: true}
 	placesWithEastern, errFinding := databasePlacesRepository.FindByCriteria(ctx, findingCriteria)
 	if errFinding != nil {
 		t.Fatalf("Error in finding place: %v", errFinding)
@@ -83,7 +83,7 @@ func TestFindingByCriteriaGatheringPlace(t *testing.T) {
 	assert.False(t, slices.Contains(placesWithFastFood, *secondPlace))
 	// second - check, if a placesWithEastern contains right restaurants
 	assert.True(t, slices.Contains(placesWithEastern, *secondPlace))
-	assert.False(t, slices.Contains(placesWithFastFood, *secondPlace))
+	assert.False(t, slices.Contains(placesWithEastern, *firstPlace))
 	errDeleting := databasePlacesRepository.Delete(ctx, firstPlace)
 	errDeleting = databasePlacesRepository.Delete(ctx, secondPlace)
 	errDeleting = databasePlacesRepository.Delete(ctx, thirdPlace)

@@ -1,14 +1,14 @@
 package query
 
 import (
-	"cmd/app/entities/gatheringPlace"
 	"cmd/app/models"
+	"database/sql"
 	"github.com/google/uuid"
 )
 
 type FindCriteria struct {
 	Address     *models.Address
 	InitiatorID uuid.NullUUID
-	CuisineType gatheringPlace.CuisineType
+	CuisineType sql.NullInt16
 	Rating      int
 }

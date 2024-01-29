@@ -3,8 +3,7 @@ package gatheringPlace
 type CuisineType int
 
 const (
-	NotSpecified = iota
-	FastFood
+	FastFood = iota
 	Russian
 	Eastern
 	Other

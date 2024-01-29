@@ -1,7 +1,6 @@
 package query
 
 import (
-	"cmd/app/entities/gatheringPlace"
 	"cmd/app/models"
 	"context"
 	"database/sql"
@@ -23,8 +22,8 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 	if criteria.Rating != 0 {
 		sqlStatement = findByRating(sqlStatement, criteria.Rating)
 	}
-	if criteria.CuisineType != 0 {
-		sqlStatement = findByCuisineType(sqlStatement, &criteria.CuisineType)
+	if criteria.CuisineType.Valid != false {
+		sqlStatement = findByCuisineType(sqlStatement, int(criteria.CuisineType.Int16))
 	}
 	var rows, err = sqlStatement.Query()
 	if err != nil {
@@ -44,6 +43,6 @@ func findByAddress(sql sq.SelectBuilder, address *models.Address) sq.SelectBuild
 		"street_name": address.StreetName, "house_number": address.HouseNumber,
 		"building_number": address.BuildingNumber})
 }
-func findByCuisineType(sql sq.SelectBuilder, cuisineType *gatheringPlace.CuisineType) sq.SelectBuilder {
+func findByCuisineType(sql sq.SelectBuilder, cuisineType int) sq.SelectBuilder {
 	return sql.Where(sq.Eq{"cuisine_type": cuisineType})
 }
