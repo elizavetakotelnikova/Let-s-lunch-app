@@ -44,6 +44,10 @@ func (repository *MeetingsDatabaseRepository) FindByCriteria(ctx context.Context
 	var meetings []meeting.Meeting
 	rows, err := query.FindByCriteria(ctx, criteria, repository.db)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+
+			return nil, fmt.Errorf("no such meeting: %w", err)
+		}
 		return nil, fmt.Errorf("cannot query the database %w", err)
 	}
 	var currentMeeting meeting.Meeting
@@ -58,7 +62,7 @@ func (repository *MeetingsDatabaseRepository) FindByCriteria(ctx context.Context
 }
 
 func (repository *MeetingsDatabaseRepository) Create(ctx context.Context, meeting *meeting.Meeting) (*meeting.Meeting, error) {
-	var err = query.Create(ctx, meeting, repository.db)
+	err := query.Create(ctx, meeting, repository.db)
 	if err != nil {
 		return meeting, fmt.Errorf("meeting cannot be created: %v", err)
 	}

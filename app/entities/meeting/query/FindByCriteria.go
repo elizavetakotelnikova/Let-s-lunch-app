@@ -15,7 +15,7 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 		sqlStatement = findByPlace(sqlStatement, criteria.GatheringPlaceId.UUID)
 	}
 	if criteria.InitiatorID.Valid != false {
-		sqlStatement = findByInitiatorsId(sqlStatement, criteria.GatheringPlaceId.UUID)
+		sqlStatement = findByInitiatorsId(sqlStatement, criteria.InitiatorID.UUID)
 	}
 	var rows, err = sqlStatement.Query()
 	if err != nil {
