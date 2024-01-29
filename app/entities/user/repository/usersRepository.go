@@ -34,18 +34,18 @@ func (repository *UsersDatabaseRepository) FindUsersByCriteria(ctx context.Conte
 	}
 	var currentUser user.User
 	for rows.Next() {
-		if err = rows.Scan(&currentUser.ID, &currentUser.Username, &currentUser.DisplayName, &currentUser.CurrentMeetingId, &currentUser.Rating); err != nil {
+		if err = rows.Scan(&currentUser.ID, &currentUser.Username, &currentUser.DisplayName, &currentUser.Rating, &currentUser.CurrentMeetingId); err != nil {
 			return nil, fmt.Errorf("cannot query the database %w", err)
 		}
 		users = append(users, currentUser)
-		rows, err = query.FindUserHistoryById(ctx, currentUser.ID, repository.db)
+		historyRows, err := query.FindUserHistoryById(ctx, currentUser.ID, repository.db)
 		if err != nil {
 			return nil, fmt.Errorf("cannot query meeting history %w", err)
 		}
 		var meetingId uuid.UUID
-		for rows.Next() {
+		for historyRows.Next() {
 			if err := rows.Scan(&meetingId); err != nil {
-				return nil, fmt.Errorf("Cannot find user's history")
+				return nil, fmt.Errorf("Cannot find user's history: %w", err)
 			}
 			currentUser.MeetingHistory = append(currentUser.MeetingHistory, meetingId)
 		}
@@ -56,6 +56,9 @@ func (repository *UsersDatabaseRepository) FindUserByID(ctx context.Context, id 
 	var currentUser user.User
 	row := query.FindUserByID(ctx, id, repository.db)
 	if err := row.Scan(&currentUser.ID, &currentUser.Username, &currentUser.DisplayName, &currentUser.Rating, &currentUser.CurrentMeetingId); err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, fmt.Errorf("no such user: %w", err)
+		}
 		return nil, fmt.Errorf("cannot query the database %w", err)
 	}
 	rows, err := query.FindUserHistoryById(ctx, currentUser.ID, repository.db)

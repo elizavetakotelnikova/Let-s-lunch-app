@@ -38,7 +38,7 @@ func findUserByDisplayname(sql sq.SelectBuilder, displayname string) sq.SelectBu
 }
 
 func FindUserHistoryById(ctx context.Context, id uuid.UUID, db *sql.DB) (*sql.Rows, error) {
-	const query = "SELECT meeting_id FROM meetings_history WHERE id = $1"
+	const query = "SELECT meeting_id FROM meetings_history WHERE user_id = $1"
 	rows, err := db.Query(query, id)
 	if err != nil {
 		return nil, fmt.Errorf("database query execution error: %w", err)

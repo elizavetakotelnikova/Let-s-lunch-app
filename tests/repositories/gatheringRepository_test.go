@@ -1,4 +1,4 @@
-package tests
+package repositories
 
 import (
 	"cmd/app/entities/gatheringPlace"
@@ -8,39 +8,11 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"fmt"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 	"slices"
 	"testing"
 )
-
-var db *sql.DB
-
-func setUpConnection() {
-	const (
-		host     = "localhost"
-		port     = 5432
-		user     = "admin"
-		password = "admin"
-		dbname   = "foodate"
-	)
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
-	var err error
-	db, err = sql.Open("postgres", psqlInfo)
-	if err != nil {
-		panic(err)
-	}
-}
-
-func closeConnection() {
-	err := db.Close()
-	if err != nil {
-		panic(err)
-	}
-}
 
 func TestMain(m *testing.M) {
 	setUpConnection()

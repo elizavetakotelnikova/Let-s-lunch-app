@@ -8,7 +8,7 @@ import (
 )
 
 func Update(ctx context.Context, user *user.User, db *sql.DB) error {
-	const query = `UPDATE meetings 
+	const query = `UPDATE users 
     SET id = $1, username = $2, display_name = $3, rating = $4, current_meeting_id = $5 WHERE id = $1`
 	_, err := db.Exec(query, user.ID, user.Username, user.DisplayName, user.Rating, user.CurrentMeetingId)
 	if err != nil {
