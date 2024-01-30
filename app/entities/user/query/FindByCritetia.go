@@ -43,7 +43,7 @@ func findUserByDisplayname(sql sq.SelectBuilder, displayname string) sq.SelectBu
 	return sql.Where(sq.Eq{"display_name": displayname})
 }
 func findUserByAge(sql sq.SelectBuilder, age int) sq.SelectBuilder {
-	return sql.Where(sq.Eq{"age": age})
+	return sql.Where(sq.Eq{"AGE(CURRENT_DATA, birthday)": age})
 	// вот здесь как раз можно дельту прикрутить для возраста
 }
 func findUserByGender(sql sq.SelectBuilder, gender int) sq.SelectBuilder {
