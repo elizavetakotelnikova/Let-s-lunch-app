@@ -3,7 +3,7 @@ package query
 import (
 	"cmd/app/models"
 	"database/sql"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
 type FindCriteria struct {

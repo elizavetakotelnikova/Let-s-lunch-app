@@ -4,6 +4,8 @@ import (
 	"cmd/app/config"
 	"cmd/di"
 	"context"
+	"fmt"
+	"github.com/gofrs/uuid/v5"
 	"github.com/joho/godotenv"
 	"log"
 	"os"
@@ -25,6 +27,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	fmt.Println(uuid.Must(uuid.NewV4()))
 
 	server, err := container.Server(context.Background())
 	if err != nil {
