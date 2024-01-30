@@ -6,6 +6,7 @@ import (
 	"cmd/app/entities/user/repository"
 	"context"
 	"fmt"
+	"time"
 )
 
 type CreateUserUseCase struct {
@@ -15,7 +16,7 @@ type CreateUserUseCase struct {
 type CreateUserCommand struct {
 	Username    string
 	DisplayName string
-	Age         int
+	Birthday    time.Time
 	Gender      user.Gender
 }
 
@@ -30,7 +31,7 @@ func (useCase *CreateUserUseCase) Handle(
 	user := user.NewUser(
 		command.Username,
 		command.DisplayName,
-		command.Age,
+		command.Birthday,
 		command.Gender,
 	)
 

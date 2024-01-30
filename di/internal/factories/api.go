@@ -16,9 +16,7 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/meetings", func(r chi.Router) {
-			r.Route("/{meetingID}", func(r chi.Router) {
-				r.Get("/", c.API().FindMeetingHandler(ctx).ServeHTTP)
-			})
+			r.Get("/{meetingID}", c.API().FindMeetingHandler(ctx).ServeHTTP)
 		})
 
 		r.Route("/user", func(r chi.Router) {
@@ -27,16 +25,12 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 			})
 
 			r.Route("/find_by_id", func(r chi.Router) {
-				r.Route("/{userID}", func(r chi.Router) {
-					r.Get("/", c.API().FindUserHandler(ctx).ServeHTTP)
-				})
+				r.Get("/{userID}", c.API().FindUserHandler(ctx).ServeHTTP)
 			})
 		})
 
 		r.Route("/places", func(r chi.Router) {
-			r.Route("/{placeID}", func(r chi.Router) {
-				r.Get("/", c.API().FindGatheringPlaceHandler(ctx).ServeHTTP)
-			})
+			r.Get("/{placeID}", c.API().FindGatheringPlaceHandler(ctx).ServeHTTP)
 		})
 	})
 

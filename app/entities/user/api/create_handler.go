@@ -35,7 +35,7 @@ func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 	command := usecases.CreateUserCommand{}
 	command.Username = createUserDto.Username
 	command.DisplayName = createUserDto.DisplayName
-	command.Age = createUserDto.Age
+	command.Birthday = createUserDto.Birthday
 	command.Gender = createUserDto.Gender
 
 	user, err := handler.useCase.Handle(request.Context(), command)

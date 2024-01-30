@@ -5,8 +5,8 @@ import (
 	usecases "cmd/app/entities/gatheringPlace/usecases"
 	"cmd/pkg/errors"
 	"encoding/json"
+	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
-	"github.com/gorilla/mux"
 	"net/http"
 )
 
@@ -23,11 +23,7 @@ func NewFindGatheringCaseByIdHandler(useCase *usecases.FindGatheringPlaceByIdUse
 }
 
 func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
-	id, ok := mux.Vars(request)["id"]
-	if !ok {
-		writer.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	id := chi.URLParam(request, "placeID")
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
