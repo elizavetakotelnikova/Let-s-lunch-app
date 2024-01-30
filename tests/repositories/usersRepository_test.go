@@ -141,7 +141,7 @@ func TestUpdatingUser(t *testing.T) {
 	}
 }
 
-func TestDeletingGatheringUser(t *testing.T) {
+func TestDeletingUser(t *testing.T) {
 	//set up
 	var databaseUsersRepository = repository.NewUsersDatabaseRepository(db)
 	var currentUser = user.NewUser()
