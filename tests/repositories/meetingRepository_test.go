@@ -11,7 +11,7 @@ import (
 	"context"
 	"database/sql"
 	"errors"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 	_ "github.com/lib/pq"
 	"github.com/stretchr/testify/assert"
 	"reflect"

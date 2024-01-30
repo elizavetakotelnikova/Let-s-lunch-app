@@ -3,7 +3,7 @@ package api
 import (
 	usecase "cmd/app/entities/meeting/usecases"
 	"fmt"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 	"net/http"
 )
 

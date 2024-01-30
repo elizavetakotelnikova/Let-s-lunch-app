@@ -1,6 +1,5 @@
 -- +goose Up
 -- +goose StatementBegin
-SELECT 'up SQL query';
 CREATE TABLE meeting_state (
     id int PRIMARY KEY NOT NULL,
     state_description VARCHAR(20) NOT NULL
@@ -21,15 +20,13 @@ CREATE TABLE meetings_history (
 );
 ALTER TABLE users
 ADD current_meeting_id UUID REFERENCES meetings(id);
---тут вопрос про registration_end, в доке он стоит со знаком "?"
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-SELECT 'down SQL query';
-ALTER TABLE users
+ALTER TABLE IF EXISTS users
 DROP COLUMN current_meeting_id;
-DROP TABLE meetings_history;
-DROP TABLE meetings;
-DROP TABLE meeting_state;
+DROP TABLE IF EXISTS meetings_history;
+DROP TABLE IF EXISTS meetings;
+DROP TABLE IF EXISTS meeting_state;
 -- +goose StatementEnd

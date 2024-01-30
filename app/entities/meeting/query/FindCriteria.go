@@ -1,6 +1,6 @@
 package query
 
-import "github.com/google/uuid"
+import "github.com/gofrs/uuid/v5"
 
 type FindCriteria struct {
 	GatheringPlaceId uuid.NullUUID

@@ -1,6 +1,5 @@
 -- +goose Up
 -- +goose StatementBegin
-SELECT 'up SQL query';
 CREATE TABLE gender (
                               id int PRIMARY KEY NOT NULL,
                               description VARCHAR(10) NOT NULL
@@ -21,7 +20,6 @@ VALUES (0, 'Male'), (1, 'Female');
 
 -- +goose Down
 -- +goose StatementBegin
-SELECT 'down SQL query';
-DROP TABLE users;
-DROP TABLE gender;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS gender;
 -- +goose StatementEnd
