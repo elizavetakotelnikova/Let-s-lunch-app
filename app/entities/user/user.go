@@ -8,9 +8,11 @@ type User struct {
 	ID               uuid.UUID
 	Username         string
 	DisplayName      string
-	CurrentMeetingId uuid.UUID
+	CurrentMeetingId uuid.NullUUID
 	MeetingHistory   []uuid.UUID
 	Rating           int
+	Age              int
+	Gender           Gender
 }
 
 func NewUser() *User {

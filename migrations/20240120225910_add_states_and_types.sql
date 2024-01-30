@@ -11,5 +11,3 @@ VALUES (0, 'FastFood'), (1, 'Russian'), (2, 'Eastern'), (3, 'Other');
 -- +goose StatementBegin
 SELECT 'down SQL query';
 -- +goose StatementEnd
-DELETE FROM cuisine_type WHERE id >= 0 AND id <= 3;
-DELETE FROM meeting_state WHERE id >= 0 AND id <= 2;

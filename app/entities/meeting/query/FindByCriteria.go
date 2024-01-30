@@ -15,11 +15,11 @@ func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sq
 		sqlStatement = findByPlace(sqlStatement, criteria.GatheringPlaceId.UUID)
 	}
 	if criteria.InitiatorID.Valid != false {
-		sqlStatement = findByInitiatorsId(sqlStatement, criteria.GatheringPlaceId.UUID)
+		sqlStatement = findByInitiatorsId(sqlStatement, criteria.InitiatorID.UUID)
 	}
 	var rows, err = sqlStatement.Query()
 	if err != nil {
-		return nil, fmt.Errorf("problem with quering to database %w", err)
+		return nil, fmt.Errorf("database query execution error: %w", err)
 	}
 	return rows, nil
 }
