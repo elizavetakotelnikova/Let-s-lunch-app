@@ -12,7 +12,18 @@ import (
 	"github.com/stretchr/testify/assert"
 	"slices"
 	"testing"
+	"time"
 )
+
+func AreUsersEqual(first *user.User, second *user.User) bool {
+	if (first.ID != second.ID) || (first.CurrentMeetingId != second.CurrentMeetingId) ||
+		(!time.Time.Equal(first.Birthday, second.Birthday)) || (first.PhoneNumber != second.PhoneNumber) ||
+		(first.Gender != second.Gender) || (!slices.Equal(first.MeetingHistory, second.MeetingHistory)) ||
+		(first.Rating != second.Rating) || (first.Username != second.Username) || (first.DisplayName != second.DisplayName) {
+		return false
+	}
+	return true
+}
 
 func TestCreatingUser(t *testing.T) {
 	//set up
@@ -33,7 +44,8 @@ func TestCreatingUser(t *testing.T) {
 	}
 
 	//testing equality of found and created entities
-	assert.Equal(t, currentUser, userFromRepository)
+	//assert.Equal(t, currentUser, userFromRepository)
+	assert.True(t, AreUsersEqual(currentUser, userFromRepository))
 	errDeleting := databaseUsersRepository.Delete(ctx, currentUser)
 	if errDeleting != nil {
 		t.Fatalf("Error in deleting user: %v", errDeleting)
@@ -84,8 +96,8 @@ func TestFindingByCriteriaUser(t *testing.T) {
 	assert.True(t, slices.Contains(IDs, thirdUser.ID))
 	assert.False(t, slices.Contains(IDs, secondUser.ID))
 	//second - check equality of returned entity
-	assert.Equal(t, *firstUser, userFromRepostory)
-
+	//assert.Equal(t, *firstUser, userFromRepostory)
+	assert.True(t, AreUsersEqual(firstUser, &userFromRepostory))
 	errDeleting := databaseUsersRepository.Delete(ctx, firstUser)
 	errDeleting = databaseUsersRepository.Delete(ctx, secondUser)
 	errDeleting = databaseUsersRepository.Delete(ctx, thirdUser)
@@ -107,7 +119,8 @@ func TestUpdatingUser(t *testing.T) {
 	//main part
 	currentUser.DisplayName = "Katya15"
 	currentUser.Username = "Katya"
-	currentUser.Age = 18
+	date, _ := time.Parse(time.DateOnly, "2004-08-14")
+	currentUser.Birthday = date
 	currentUser.Gender = user.Female
 	_, errUpdating := databaseUsersRepository.Update(ctx, currentUser)
 	if errUpdating != nil {
@@ -120,7 +133,8 @@ func TestUpdatingUser(t *testing.T) {
 
 	//testing
 	//checking the equality of found and updated entity
-	assert.Equal(t, currentUser, userFromRepository)
+	//assert.Equal(t, currentUser, userFromRepository)
+	assert.True(t, AreUsersEqual(currentUser, userFromRepository))
 	errDeleting := databaseUsersRepository.Delete(ctx, currentUser)
 	if errDeleting != nil {
 		t.Fatalf("Error in deleting user: %v", errDeleting)

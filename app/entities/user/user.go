@@ -2,6 +2,7 @@ package user
 
 import (
 	"github.com/gofrs/uuid/v5"
+	"time"
 )
 
 type User struct {
@@ -11,8 +12,9 @@ type User struct {
 	CurrentMeetingId uuid.NullUUID
 	MeetingHistory   []uuid.UUID
 	Rating           int
-	Age              int
+	Birthday         time.Time
 	Gender           Gender
+	PhoneNumber      string
 }
 
 func NewUser() *User {
@@ -20,6 +22,7 @@ func NewUser() *User {
 	if err != nil {
 		return nil
 	}
-
-	return &User{ID: id}
+	date, err := time.Parse(time.DateOnly, "1-1-1")
+	date.Round(24 * time.Hour)
+	return &User{ID: id, Birthday: date}
 }
