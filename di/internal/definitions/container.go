@@ -1,9 +1,15 @@
 package definitions
 
 import (
+	gathering_place_api "cmd/app/entities/gatheringPlace/api"
+	gathering_place_repository "cmd/app/entities/gatheringPlace/repository"
+	gathering_place_usecase "cmd/app/entities/gatheringPlace/usecases"
 	meeting_api "cmd/app/entities/meeting/api"
 	meeting_repository "cmd/app/entities/meeting/repository"
 	meeting_usecase "cmd/app/entities/meeting/usecases"
+	user_api "cmd/app/entities/user/api"
+	user_repository "cmd/app/entities/user/repository"
+	user_usecase "cmd/app/entities/user/usecases"
 	chi "github.com/go-chi/chi/v5"
 
 	"cmd/app/config"
@@ -28,13 +34,19 @@ type Container struct {
 }
 
 type APIContainer struct {
-	FindMeetingHandler *meeting_api.FindMeeting
+	FindMeetingHandler        *meeting_api.FindMeetingByIdHandler
+	FindUserHandler           *user_api.FindUserByIdHandler
+	FindGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
 }
 
 type UseCaseContainer struct {
-	FindMeeting *meeting_usecase.FindMeeting
+	FindMeeting        *meeting_usecase.FindMeetingByIdUseCase
+	FindUser           *user_usecase.FindUserByIdUseCase
+	FindGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 }
 
 type RepositoryContainer struct {
-	meetingRepository meeting_repository.MeetingsRepository `di:"set"`
+	meetingRepository        meeting_repository.MeetingsRepository       `di:"set"`
+	userRepository           user_repository.UsersRepository             `di:"set"`
+	gatheringPlaceRepository gathering_place_repository.PlacesRepository `di:"set"`
 }

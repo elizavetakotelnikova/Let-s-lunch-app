@@ -11,23 +11,19 @@ import (
 	"github.com/gorilla/mux"
 )
 
-type FindMeetingRequest struct {
-	ID uuid.UUID `json:"id"`
-}
-
 type JsonFindMeetingByIdResponse struct {
-	Meeting *domain.Meeting
+	Meeting *domain.Meeting `json:"data"`
 }
 
-type FindMeeting struct {
-	useCase *usecase.FindMeeting
+type FindMeetingByIdHandler struct {
+	useCase *usecase.FindMeetingByIdUseCase
 }
 
-func NewFindMeeting(useCase *usecase.FindMeeting) *FindMeeting {
-	return &FindMeeting{useCase: useCase}
+func NewFindMeetingByIdHandler(useCase *usecase.FindMeetingByIdUseCase) *FindMeetingByIdHandler {
+	return &FindMeetingByIdHandler{useCase: useCase}
 }
 
-func (handler *FindMeeting) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+func (handler *FindMeetingByIdHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	id, ok := mux.Vars(request)["id"]
 	if !ok {
 		writer.WriteHeader(http.StatusBadRequest)
@@ -53,7 +49,7 @@ func (handler *FindMeeting) ServeHTTP(writer http.ResponseWriter, request *http.
 	}
 
 	response := JsonFindMeetingByIdResponse{
-		Meeting: meeting,
+		Meeting: meeting.Meeting,
 	}
 
 	marshaledResponse, err := json.Marshal(response)

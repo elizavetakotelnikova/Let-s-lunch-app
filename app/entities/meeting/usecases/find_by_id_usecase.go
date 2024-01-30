@@ -7,19 +7,25 @@ import (
 	"github.com/gofrs/uuid/v5"
 )
 
-type FindMeeting struct {
+type FindMeetingByIdResponse struct {
+	Meeting *domain.Meeting `json:"data"`
+}
+
+type FindMeetingByIdUseCase struct {
 	meetings repository.MeetingsRepository
 }
 
-func NewFindMeeting(meetings repository.MeetingsRepository) *FindMeeting {
-	return &FindMeeting{meetings: meetings}
+func NewFindMeetingByIdUseCase(meetings repository.MeetingsRepository) *FindMeetingByIdUseCase {
+	return &FindMeetingByIdUseCase{meetings: meetings}
 }
 
-func (f *FindMeeting) Handle(ctx context.Context, id uuid.UUID) (*domain.Meeting, error) {
-	entity, err := f.meetings.FindByID(ctx, id)
+func (useCase *FindMeetingByIdUseCase) Handle(ctx context.Context, id uuid.UUID) (*FindMeetingByIdResponse, error) {
+	meetings, err := useCase.meetings.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return entity, nil
+	return &FindMeetingByIdResponse{
+		Meeting: meetings,
+	}, nil
 }

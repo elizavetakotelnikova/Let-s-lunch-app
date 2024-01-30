@@ -4,22 +4,26 @@ import (
 	domain "cmd/app/entities/gatheringPlace"
 	repositoryPlaces "cmd/app/entities/gatheringPlace/repository"
 	"context"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
-type FindGatheringPlace struct {
-	gatheringPlaces repositoryPlaces.PlacesRepository
+type FindGatheringPlaceByIdResponse struct {
+	GatheringPlace *domain.GatheringPlace `json:"data"`
 }
 
-func NewFindGatheringPlace(gatheringPlaces repositoryPlaces.PlacesRepository) *FindGatheringPlace {
-	return &FindGatheringPlace{gatheringPlaces: gatheringPlaces}
+type FindGatheringPlaceByIdUseCase struct {
+	gathering_place repositoryPlaces.PlacesRepository
 }
 
-func (f *FindGatheringPlace) Handle(ctx context.Context, id uuid.UUID) (*domain.GatheringPlace, error) {
-	entity, err := f.gatheringPlaces.FindByID(ctx, id)
+func NewFindGatheringPlaceByIdUseCase(gathering_places repositoryPlaces.PlacesRepository) *FindGatheringPlaceByIdUseCase {
+	return &FindGatheringPlaceByIdUseCase{gathering_place: gathering_places}
+}
+
+func (useCase *FindGatheringPlaceByIdUseCase) Handle(ctx context.Context, id uuid.UUID) (*FindGatheringPlaceByIdResponse, error) {
+	gathering_places, err := useCase.gathering_place.FindByID(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return entity, nil
+	return &FindGatheringPlaceByIdResponse{GatheringPlace: gathering_places}, nil
 }
