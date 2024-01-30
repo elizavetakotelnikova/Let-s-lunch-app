@@ -22,7 +22,5 @@ func NewUser() *User {
 	if err != nil {
 		return nil
 	}
-	date, err := time.Parse(time.DateOnly, "1-1-1")
-	date.Round(24 * time.Hour)
-	return &User{ID: id, Birthday: date}
+	return &User{ID: id}
 }
