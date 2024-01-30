@@ -5,10 +5,9 @@ import (
 	usecase "cmd/app/entities/meeting/usecases"
 	"cmd/pkg/errors"
 	"encoding/json"
-	uuid2 "github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 	"net/http"
 
-	"github.com/gofrs/uuid"
 	"github.com/gorilla/mux"
 )
 
@@ -44,7 +43,7 @@ func (handler *FindMeeting) ServeHTTP(writer http.ResponseWriter, request *http.
 		return
 	}
 
-	meeting, err := handler.useCase.Handle(request.Context(), uuid2.UUID(uuidID))
+	meeting, err := handler.useCase.Handle(request.Context(), uuidID)
 	if err != nil {
 		customError := errors.NewError(err)
 		marshaledError, _ := json.Marshal(customError)
