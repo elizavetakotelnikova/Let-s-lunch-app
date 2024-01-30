@@ -1,10 +1,13 @@
 package dto
 
-import "cmd/app/entities/user"
+import (
+	"cmd/app/entities/user"
+	"time"
+)
 
 type CreateUserDto struct {
 	Username    string      `json:"username"`
 	DisplayName string      `json:"displayName"`
-	Age         int         `json:"age"`
+	Birthday    time.Time   `json:"birthday"`
 	Gender      user.Gender `json:"gender"`
 }
