@@ -9,7 +9,7 @@
 }
 
 .modalContent {
-    padding: 25px;
+    padding: 50px;
     background: white;
     border-radius: 16px;
     min-width: 250px;
@@ -20,3 +20,4 @@
     justify-content: center;
     align-items: center;
 }
+

@@ -17,7 +17,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    text-transform: none; /* Изменено на none, так как capitalize было применено к всему тексту */
+    text-transform: none;
     outline: none;
     border: none;
     text-decoration: none;
@@ -49,17 +49,16 @@
     text-transform: uppercase;
 }
 
-.account header .logo h1 {
-    color: orange;
-}
-
-
 .account header .search-bar-container #label {
     color: #fff;
     cursor: pointer;
 }
 
-.account header .navbar a{
+.account header .logo h1 {
+    color: orange;
+}
+
+.account header .navbar a {
     color: #fff;
     font-size: 2rem;
     margin:0.8rem;
@@ -127,8 +126,14 @@
     text-transform: none;
 }
 
+.account .book .row form .inputBox .date {
+    color: #2a1100;
+    border: 0.1rem solid #542200;
+}
+
 .account .book .row form h3 {
     font-size: 1.7rem;
+    margin-bottom: 1rem;
 }
 
 .account .book .row form .btn {

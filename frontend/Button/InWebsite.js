@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import "../components/formInput.css";
+import "../Registration/Registration.css"
 
 class InWebsite extends React.Component {
     onclick() {

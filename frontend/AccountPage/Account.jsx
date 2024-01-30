@@ -8,8 +8,8 @@ function Account() {
             <header>
                 <a href="#" className="logo"><h1>L</h1>et's Lunch</a>
                 <nav className="navbar">
-                    <a href="/mainpage/">На главную </a>
-                    <a href="/">Выход </a>
+                    <a href="/mainpage/">На главную</a>
+                    <a href="/">Выход</a>
                 </nav>
             </header>
 
@@ -20,6 +20,8 @@ function Account() {
                         <div className="inputBox">
                             <h3>Имя</h3>
                             <input type="text" placeholder="place name"/>
+                            <h3>Дата рождения</h3>
+                            <input  className="date" type="date" placeholder="birthday"/>
                         </div>
                         <div className="inputBox">
                             <h3>О себе</h3>

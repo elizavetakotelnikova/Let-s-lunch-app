@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import  "../components/formInput.css";
+import  "../Entrance/entranceStyle.css";
 
 class RegistrationButton extends React.Component {
     onclick () {

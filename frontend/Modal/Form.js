@@ -3,36 +3,29 @@ import Button from "../Button/Button";
 import Input from "../components/Input";
 
 const Form =  () => {
-    const [post, setPost] = useState({title: '', body: ''})
-    const [title, setTitle] = useState('')
-    const [posts, setPosts] = useState([])
+    const [name, setName] = useState('')
+    const [time, setTime] = useState([])
     const [modal, setModal] = useState(false);
+    const [place, setPlace] = useState('')
 
     const addNewPost = (e) => {
         e.preventDefault()
-        const newPost = {
-            ...post, id: Date.now()
-        }
-        setPost({title: '', body: ''})
-    }
-
-    const createPost = (newPost) => {
-        setPosts([...posts, newPost])
-        setModal(false)
+        /* sendPostCreateVisit(name, time, placeId) */
     }
 
     return (
         <form>
             <Input
-                value={post.title}
-                onChange={e => setPost({...post, title: e.target.value})}
+                value={name}
+                onChange={e => setName(e.target.value)}
                 type="text"
                 placeholder="Ваше имя"
                 />
             <Input
-                value={post.body}
-                onChange={e => setPost({...post, body: e.target.value})}
-                type="text"
+                value={time}
+                onChange={e => setTime(e.target.value)}
+                type="time"
+
                 placeholder="Время"
             />
             <Button onClick={addNewPost}>Создать встречу</Button>

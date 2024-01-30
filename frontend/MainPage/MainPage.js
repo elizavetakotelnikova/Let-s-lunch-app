@@ -41,10 +41,11 @@ function MainPage() {
                 <nav className="navbar">
                     <a href="/">Выход</a>
                     <a href="/mainpage/account/"> Аккаунт</a>
+                    <a href="/mainpage/visit/">Вcтречи</a>
                     <a href="/mainpage/contact/"> Контакты</a>
                 </nav>
                 <div className="icons">
-                    <i className="fas fa-search" id="search-btn" onClick={handleSearchClick}></i>
+                <i className="fas fa-search" id="search-btn" onClick={handleSearchClick}></i>
                     <i className="fas fa-user" id="login-btn"></i>
                 </div>
                 <form action="" className={`search-bar-container ${searchBarActive ? 'active' : ''}`}>

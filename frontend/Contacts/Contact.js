@@ -8,8 +8,8 @@ function Contact() {
             <header>
                 <a href="#" className="logo"><h1>L</h1>et's Lunch</a>
                 <nav className="navbar">
-                    <a href="/mainpage/">На главную </a>
-                    <a href="/">Выход </a>
+                    <a href="/mainpage/">На главную</a>
+                    <a href="/">Выход</a>
                 </nav>
             </header>
             <div className="info">
