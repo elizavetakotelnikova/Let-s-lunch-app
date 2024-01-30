@@ -6,6 +6,7 @@ require (
 	github.com/Masterminds/squirrel v1.5.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/go-chi/chi/v5 v5.0.11 // indirect
+	github.com/gofrs/uuid/v5 v5.0.0 // indirect
 	github.com/google/uuid v1.5.0 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect

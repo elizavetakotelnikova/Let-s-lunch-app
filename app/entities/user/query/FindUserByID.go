@@ -3,7 +3,7 @@ package query
 import (
 	"context"
 	"database/sql"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
 func FindUserByID(ctx context.Context, id uuid.UUID, db *sql.DB) *sql.Row {

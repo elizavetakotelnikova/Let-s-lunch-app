@@ -4,7 +4,7 @@ import (
 	domain "cmd/app/entities/meeting"
 	"cmd/app/entities/meeting/repository"
 	"context"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
 type FindMeeting struct {

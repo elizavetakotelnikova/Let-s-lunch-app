@@ -2,7 +2,7 @@ package gatheringPlace
 
 import (
 	"cmd/app/models"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
 type GatheringPlace struct {
@@ -15,7 +15,7 @@ type GatheringPlace struct {
 }
 
 func NewGatheringPlace() *GatheringPlace {
-	id, err := uuid.NewUUID()
+	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}

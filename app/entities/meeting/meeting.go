@@ -1,7 +1,7 @@
 package meeting
 
 import (
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 import (
 	"time"
@@ -18,7 +18,7 @@ type Meeting struct {
 }
 
 func NewMeeting() *Meeting {
-	id, err := uuid.NewUUID()
+	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}

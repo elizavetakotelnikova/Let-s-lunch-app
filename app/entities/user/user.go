@@ -1,7 +1,7 @@
 package user
 
 import (
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
 type User struct {
@@ -16,7 +16,7 @@ type User struct {
 }
 
 func NewUser() *User {
-	id, err := uuid.NewUUID()
+	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}

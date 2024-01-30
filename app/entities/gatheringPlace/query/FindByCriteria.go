@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 	sq "github.com/Masterminds/squirrel"
-	"github.com/google/uuid"
+	"github.com/gofrs/uuid/v5"
 )
 
 func FindByCriteria(ctx context.Context, criteria FindCriteria, db *sql.DB) (*sql.Rows, error) {
