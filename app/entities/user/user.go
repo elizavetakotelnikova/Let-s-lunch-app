@@ -15,11 +15,16 @@ type User struct {
 	Gender           Gender
 }
 
-func NewUser() *User {
+func NewUser(username string, displayname string, age int, gender Gender) *User {
 	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}
 
-	return &User{ID: id}
+	return &User{
+		ID:          id,
+		Username:    username,
+		DisplayName: displayname,
+		Age:         age,
+		Gender:      gender}
 }

@@ -37,12 +37,14 @@ type APIContainer struct {
 	FindMeetingHandler        *meeting_api.FindMeetingByIdHandler
 	FindUserHandler           *user_api.FindUserByIdHandler
 	FindGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
+	CreateUser                *user_api.CreateUserHandler
 }
 
 type UseCaseContainer struct {
 	FindMeeting        *meeting_usecase.FindMeetingByIdUseCase
 	FindUser           *user_usecase.FindUserByIdUseCase
 	FindGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	CreateUser         *user_usecase.CreateUserUseCase
 }
 
 type RepositoryContainer struct {

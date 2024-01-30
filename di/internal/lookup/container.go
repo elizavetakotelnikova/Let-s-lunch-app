@@ -41,12 +41,14 @@ type APIContainer interface {
 	FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler
 	FindUserHandler(ctx context.Context) *user_api.FindUserByIdHandler
 	FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler
+	CreateUser(ctx context.Context) *user_api.CreateUserHandler
 }
 
 type UseCaseContainer interface {
 	FindMeeting(ctx context.Context) *meeting_usecase.FindMeetingByIdUseCase
 	FindUser(ctx context.Context) *user_usecase.FindUserByIdUseCase
 	FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase
 }
 
 type RepositoryContainer interface {

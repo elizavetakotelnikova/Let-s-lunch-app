@@ -65,6 +65,7 @@ type APIContainer struct {
 	findMeetingHandler        *meeting_api.FindMeetingByIdHandler
 	findUserHandler           *user_api.FindUserByIdHandler
 	findGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
+	createUser                *user_api.CreateUserHandler
 }
 
 type UseCaseContainer struct {
@@ -73,6 +74,7 @@ type UseCaseContainer struct {
 	findMeeting        *meeting_usecase.FindMeetingByIdUseCase
 	findUser           *user_usecase.FindUserByIdUseCase
 	findGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	createUser         *user_usecase.CreateUserUseCase
 }
 
 type RepositoryContainer struct {
@@ -140,6 +142,13 @@ func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering
 	return c.findGatheringPlaceHandler
 }
 
+func (c *APIContainer) CreateUser(ctx context.Context) *user_api.CreateUserHandler {
+	if c.createUser == nil && c.err == nil {
+		c.createUser = factories.CreateAPICreateUser(ctx, c)
+	}
+	return c.createUser
+}
+
 func (c *Container) UseCases() lookup.UseCaseContainer {
 	return c.useCases
 }
@@ -163,6 +172,13 @@ func (c *UseCaseContainer) FindGatheringPlace(ctx context.Context) *gathering_pl
 		c.findGatheringPlace = factories.CreateUseCasesFindGatheringPlace(ctx, c)
 	}
 	return c.findGatheringPlace
+}
+
+func (c *UseCaseContainer) CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase {
+	if c.createUser == nil && c.err == nil {
+		c.createUser = factories.CreateUseCasesCreateUser(ctx, c)
+	}
+	return c.createUser
 }
 
 func (c *Container) Repositories() lookup.RepositoryContainer {
