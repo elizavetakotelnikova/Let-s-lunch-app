@@ -17,6 +17,7 @@ type CreateUserCommand struct {
 	Username    string
 	DisplayName string
 	Birthday    time.Time
+	PhoneNumber string
 	Gender      user.Gender
 }
 
@@ -32,6 +33,7 @@ func (useCase *CreateUserUseCase) Handle(
 		command.Username,
 		command.DisplayName,
 		command.Birthday,
+		command.PhoneNumber,
 		command.Gender,
 	)
 

@@ -31,3 +31,9 @@ func CreateUseCasesCreateUser(ctx context.Context, c lookup.Container) *user_use
 		c.Repositories().UserRepository(ctx),
 	)
 }
+
+func CreateUseCasesUpdateUser(ctx context.Context, c lookup.Container) *user_usecase.UpdateUserUseCase {
+	return user_usecase.NewUpdateUserUseCase(
+		c.Repositories().UserRepository(ctx),
+	)
+}

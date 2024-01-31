@@ -21,11 +21,15 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 
 		r.Route("/user", func(r chi.Router) {
 			r.Route("/create", func(r chi.Router) {
-				r.Post("/", c.API().CreateUser(ctx).ServeHTTP)
+				r.Post("/", c.API().CreateUserHandler(ctx).ServeHTTP)
 			})
 
 			r.Route("/find_by_id", func(r chi.Router) {
 				r.Get("/{userID}", c.API().FindUserHandler(ctx).ServeHTTP)
+			})
+
+			r.Route("/update", func(r chi.Router) {
+				r.Put("/{userID}", c.API().UpdateUserHandler(ctx).ServeHTTP)
 			})
 		})
 
@@ -55,8 +59,14 @@ func CreateAPIFindGatheringPlaceHandler(ctx context.Context, c lookup.Container)
 	)
 }
 
-func CreateAPICreateUser(ctx context.Context, c lookup.Container) *user_api.CreateUserHandler {
+func CreateAPICreateUserHandler(ctx context.Context, c lookup.Container) *user_api.CreateUserHandler {
 	return user_api.NewCreateUserHandler(
 		c.UseCases().CreateUser(ctx),
+	)
+}
+
+func CreateAPIUpdateUserHandler(ctx context.Context, c lookup.Container) *user_api.UpdateUserHandler {
+	return user_api.NewUpdateUserHandler(
+		c.UseCases().UpdateUser(ctx),
 	)
 }

@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type CreateUserDto struct {
+type UpdateUserDto struct {
 	Username    string      `json:"username"`
 	DisplayName string      `json:"displayName"`
 	Birthday    time.Time   `json:"birthday"`

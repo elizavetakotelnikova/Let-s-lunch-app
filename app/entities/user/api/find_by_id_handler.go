@@ -8,10 +8,18 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
 	"net/http"
+	"time"
 )
 
-type JsonFindUserByIdRespond struct {
-	User *domain.User `json:"data"`
+type JsonFindUserByIdResponse struct {
+	ID               uuid.UUID     `json:"id"`
+	Username         string        `json:"username"`
+	DisplayName      string        `json:"displayName"`
+	CurrentMeetingID uuid.NullUUID `json:"currentMeetingId"`
+	MeetingHistory   []uuid.UUID   `json:"meetingHistory"`
+	Rating           int           `json:"rating"`
+	Birthday         time.Time     `json:"birthday"`
+	Gender           domain.Gender `json:"gender"`
 }
 
 type FindUserByIdHandler struct {
@@ -45,7 +53,16 @@ func (handler *FindUserByIdHandler) ServeHTTP(writer http.ResponseWriter, reques
 		return
 	}
 
-	response := JsonFindUserByIdRespond{User: users.User}
+	response := JsonFindUserByIdResponse{
+		ID:               users.ID,
+		Username:         users.Username,
+		DisplayName:      users.DisplayName,
+		CurrentMeetingID: users.CurrentMeetingID,
+		MeetingHistory:   users.MeetingHistory,
+		Rating:           users.Rating,
+		Birthday:         users.Birthday,
+		Gender:           users.Gender,
+	}
 
 	marshaledResponse, err := json.Marshal(response)
 	if err != nil {

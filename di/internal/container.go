@@ -65,7 +65,8 @@ type APIContainer struct {
 	findMeetingHandler        *meeting_api.FindMeetingByIdHandler
 	findUserHandler           *user_api.FindUserByIdHandler
 	findGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
-	createUser                *user_api.CreateUserHandler
+	createUserHandler         *user_api.CreateUserHandler
+	updateUserHandler         *user_api.UpdateUserHandler
 }
 
 type UseCaseContainer struct {
@@ -75,6 +76,7 @@ type UseCaseContainer struct {
 	findUser           *user_usecase.FindUserByIdUseCase
 	findGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	createUser         *user_usecase.CreateUserUseCase
+	updateUser         *user_usecase.UpdateUserUseCase
 }
 
 type RepositoryContainer struct {
@@ -142,11 +144,18 @@ func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering
 	return c.findGatheringPlaceHandler
 }
 
-func (c *APIContainer) CreateUser(ctx context.Context) *user_api.CreateUserHandler {
-	if c.createUser == nil && c.err == nil {
-		c.createUser = factories.CreateAPICreateUser(ctx, c)
+func (c *APIContainer) CreateUserHandler(ctx context.Context) *user_api.CreateUserHandler {
+	if c.createUserHandler == nil && c.err == nil {
+		c.createUserHandler = factories.CreateAPICreateUserHandler(ctx, c)
 	}
-	return c.createUser
+	return c.createUserHandler
+}
+
+func (c *APIContainer) UpdateUserHandler(ctx context.Context) *user_api.UpdateUserHandler {
+	if c.updateUserHandler == nil && c.err == nil {
+		c.updateUserHandler = factories.CreateAPIUpdateUserHandler(ctx, c)
+	}
+	return c.updateUserHandler
 }
 
 func (c *Container) UseCases() lookup.UseCaseContainer {
@@ -179,6 +188,13 @@ func (c *UseCaseContainer) CreateUser(ctx context.Context) *user_usecase.CreateU
 		c.createUser = factories.CreateUseCasesCreateUser(ctx, c)
 	}
 	return c.createUser
+}
+
+func (c *UseCaseContainer) UpdateUser(ctx context.Context) *user_usecase.UpdateUserUseCase {
+	if c.updateUser == nil && c.err == nil {
+		c.updateUser = factories.CreateUseCasesUpdateUser(ctx, c)
+	}
+	return c.updateUser
 }
 
 func (c *Container) Repositories() lookup.RepositoryContainer {

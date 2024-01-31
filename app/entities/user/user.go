@@ -17,7 +17,7 @@ type User struct {
 	PhoneNumber      string
 }
 
-func NewUser(username string, displayname string, birthday time.Time, gender Gender) *User {
+func NewUser(username string, displayname string, birthday time.Time, phoneNumber string, gender Gender) *User {
 	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
@@ -28,5 +28,6 @@ func NewUser(username string, displayname string, birthday time.Time, gender Gen
 		Username:    username,
 		DisplayName: displayname,
 		Birthday:    birthday,
+		PhoneNumber: phoneNumber,
 		Gender:      gender}
 }
