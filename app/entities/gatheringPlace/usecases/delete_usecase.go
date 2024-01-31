@@ -1,16 +1,16 @@
 package usecases
 
 import (
-	repositoryPlaces "cmd/app/entities/gatheringPlace/repository"
+	gathrering_places_repository "cmd/app/entities/gatheringPlace/repository"
 	"context"
 	"github.com/gofrs/uuid/v5"
 )
 
 type DeleteGatheringPlaceUseCase struct {
-	gathering_place repositoryPlaces.PlacesRepository
+	gathering_place gathrering_places_repository.PlacesRepository
 }
 
-func NewDeleteUserUseCase(gathering_place repositoryPlaces.PlacesRepository) *DeleteGatheringPlaceUseCase {
+func NewDeleteUserUseCase(gathering_place gathrering_places_repository.PlacesRepository) *DeleteGatheringPlaceUseCase {
 	return &DeleteGatheringPlaceUseCase{gathering_place: gathering_place}
 }
 

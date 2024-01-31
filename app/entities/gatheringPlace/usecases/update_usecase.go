@@ -2,7 +2,7 @@ package usecases
 
 import (
 	"cmd/app/entities/gatheringPlace"
-	repositoryPlaces "cmd/app/entities/gatheringPlace/repository"
+	gathrering_places_repository "cmd/app/entities/gatheringPlace/repository"
 	"cmd/app/models"
 	"context"
 	"github.com/gofrs/uuid/v5"
@@ -13,7 +13,7 @@ type UpdateGatheringPlaceResponse struct {
 }
 
 type UpdateGatheringPlaceUseCase struct {
-	gathering_place repositoryPlaces.PlacesRepository
+	gathering_place gathrering_places_repository.PlacesRepository
 }
 
 type UpdateGatheringPlaceCommand struct {
@@ -24,7 +24,7 @@ type UpdateGatheringPlaceCommand struct {
 	PhoneNumber string
 }
 
-func NewUpdateGatheringPlaceUseCase(gathering_place repositoryPlaces.PlacesRepository) *UpdateGatheringPlaceUseCase {
+func NewUpdateGatheringPlaceUseCase(gathering_place gathrering_places_repository.PlacesRepository) *UpdateGatheringPlaceUseCase {
 	return &UpdateGatheringPlaceUseCase{gathering_place: gathering_place}
 }
 
