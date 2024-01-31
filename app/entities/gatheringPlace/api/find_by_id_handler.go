@@ -3,6 +3,7 @@ package api
 import (
 	domain "cmd/app/entities/gatheringPlace"
 	usecases "cmd/app/entities/gatheringPlace/usecases"
+	"cmd/app/models"
 	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
@@ -11,7 +12,12 @@ import (
 )
 
 type JsonFindGatheringPlaceByIdResponse struct {
-	GatheringPlace *domain.GatheringPlace `json:"data"`
+	ID          uuid.UUID          `json:"id"`
+	Address     models.Address     `json:"address"`
+	AvgPrice    int                `json:"averagePrice"`
+	CusineType  domain.CuisineType `json:"cusineType"`
+	Rating      int                `json:"rating"`
+	PhoneNumber string             `json:"phoneNumber"`
 }
 
 type FindGatheringPlaceByIdHandler struct {
@@ -46,7 +52,12 @@ func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWrit
 	}
 
 	response := JsonFindGatheringPlaceByIdResponse{
-		GatheringPlace: gathering_places.GatheringPlace,
+		ID:          gathering_places.ID,
+		Address:     gathering_places.Address,
+		AvgPrice:    gathering_places.AvgPrice,
+		CusineType:  gathering_places.CusineType,
+		Rating:      gathering_places.Rating,
+		PhoneNumber: gathering_places.PhoneNumber,
 	}
 
 	marshaledResponse, err := json.Marshal(response)
