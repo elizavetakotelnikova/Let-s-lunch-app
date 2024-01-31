@@ -2,7 +2,6 @@ package api
 
 import (
 	"cmd/app/entities/gatheringPlace/usecases"
-	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
@@ -22,18 +21,16 @@ func (handler *DeleteGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
-		writer.Write(marshledError)
+		writer.Write(marshaledError)
 		return
 	}
 
 	err = handler.useCase.Handle(request.Context(), uuidID)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

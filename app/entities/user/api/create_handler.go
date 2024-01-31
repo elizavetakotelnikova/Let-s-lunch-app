@@ -3,7 +3,6 @@ package api
 import (
 	"cmd/app/entities/user/dto"
 	"cmd/app/entities/user/usecases"
-	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/gofrs/uuid/v5"
 	"net/http"
@@ -24,8 +23,7 @@ func NewCreateUserHandler(useCase *usecases.CreateUserUseCase) *CreateUserHandle
 func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var createUserDto dto.CreateUserDto
 	if err := json.NewDecoder(request.Body).Decode(&createUserDto); err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -42,8 +40,7 @@ func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 	user, err := handler.useCase.Handle(request.Context(), command)
 
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

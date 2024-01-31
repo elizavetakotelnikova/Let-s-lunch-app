@@ -3,7 +3,6 @@ package api
 import (
 	"cmd/app/entities/gatheringPlace/dto"
 	"cmd/app/entities/gatheringPlace/usecases"
-	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/gofrs/uuid/v5"
 	"net/http"
@@ -24,8 +23,7 @@ func NewCreateGatheringPlaceHandler(useCase *usecases.CreateGatheringPlaceUseCas
 func (handler *CreateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var createGatheringPlaceDto dto.CreateGatheringPlaceDto
 	if err := json.NewDecoder(request.Body).Decode(&createGatheringPlaceDto); err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -42,8 +40,7 @@ func (handler *CreateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 	gathering_place, err := handler.useCase.Handle(request.Context(), command)
 
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

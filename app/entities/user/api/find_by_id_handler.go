@@ -3,7 +3,6 @@ package api
 import (
 	domain "cmd/app/entities/user"
 	usecases "cmd/app/entities/user/usecases"
-	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
@@ -35,18 +34,16 @@ func (handler *FindUserByIdHandler) ServeHTTP(writer http.ResponseWriter, reques
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
-		writer.Write(marshledError)
+		writer.Write(marshaledError)
 		return
 	}
 
 	users, err := handler.useCase.Handle(request.Context(), uuidID)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)
@@ -66,8 +63,7 @@ func (handler *FindUserByIdHandler) ServeHTTP(writer http.ResponseWriter, reques
 
 	marshaledResponse, err := json.Marshal(response)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

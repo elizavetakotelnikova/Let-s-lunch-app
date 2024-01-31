@@ -4,7 +4,6 @@ import (
 	domain "cmd/app/entities/gatheringPlace"
 	usecases "cmd/app/entities/gatheringPlace/usecases"
 	"cmd/app/models"
-	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
@@ -33,8 +32,7 @@ func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWrit
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -43,8 +41,7 @@ func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWrit
 
 	gathering_places, err := handler.useCase.Handle(request.Context(), uuidID)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)
@@ -62,8 +59,7 @@ func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWrit
 
 	marshaledResponse, err := json.Marshal(response)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

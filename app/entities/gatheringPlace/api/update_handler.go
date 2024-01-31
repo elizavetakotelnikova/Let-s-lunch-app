@@ -3,7 +3,6 @@ package api
 import (
 	"cmd/app/entities/gatheringPlace/dto"
 	"cmd/app/entities/gatheringPlace/usecases"
-	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
@@ -25,8 +24,7 @@ func NewUpdateGatheringPlaceHandler(useCase *usecases.UpdateGatheringPlaceUseCas
 func (handler *UpdateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var updateGatheringPlaceDto dto.UpdateGatheringPlaceDto
 	if err := json.NewDecoder(request.Body).Decode(&updateGatheringPlaceDto); err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -43,11 +41,10 @@ func (handler *UpdateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		customError := errors.NewError(err)
-		marshledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
-		writer.Write(marshledError)
+		writer.Write(marshaledError)
 		return
 	}
 

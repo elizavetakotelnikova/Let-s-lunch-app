@@ -3,7 +3,6 @@ package api
 import (
 	"cmd/app/entities/meeting/dto"
 	"cmd/app/entities/meeting/usecases"
-	"cmd/pkg/errors"
 	"encoding/json"
 	"github.com/gofrs/uuid/v5"
 	"net/http"
@@ -24,8 +23,7 @@ func NewCreateMeetingHandler(useCase *usecases.CreateMeetingUseCase) *CreateMeet
 func (handler *CreateMeetingHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var createMeetingDto dto.CreateMeetingDto
 	if err := json.NewDecoder(request.Body).Decode(&createMeetingDto); err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -43,8 +41,7 @@ func (handler *CreateMeetingHandler) ServeHTTP(writer http.ResponseWriter, reque
 	meeting, err := handler.useCase.Handle(request.Context(), command)
 
 	if err != nil {
-		customError := errors.NewError(err)
-		marshaledError, _ := json.Marshal(customError)
+		marshaledError, _ := json.Marshal(err)
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)
