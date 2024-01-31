@@ -1,14 +1,21 @@
 package usecases
 
 import (
-	domain "cmd/app/entities/meeting"
+	"cmd/app/entities/meeting"
 	"cmd/app/entities/meeting/repository"
 	"context"
 	"github.com/gofrs/uuid/v5"
+	"time"
 )
 
 type FindMeetingByIdResponse struct {
-	Meeting *domain.Meeting `json:"data"`
+	ID               uuid.UUID            `json:"id"`
+	GatheringPlaceID uuid.UUID            `json:"gatheringPlaceId"`
+	InitiatorsID     uuid.UUID            `json:"initiatorsId"`
+	StartTime        time.Time            `json:"startTime"`
+	EndTime          time.Time            `json:"endTime"`
+	UsersQuantity    int                  `json:"usersQuantity"`
+	State            meeting.MeetingState `json:"state"`
 }
 
 type FindMeetingByIdUseCase struct {
@@ -26,6 +33,12 @@ func (useCase *FindMeetingByIdUseCase) Handle(ctx context.Context, id uuid.UUID)
 	}
 
 	return &FindMeetingByIdResponse{
-		Meeting: meetings,
+		ID:               meetings.ID,
+		GatheringPlaceID: meetings.GatheringPlaceId,
+		InitiatorsID:     meetings.InitiatorsId,
+		StartTime:        meetings.StartTime,
+		EndTime:          meetings.EndTime,
+		UsersQuantity:    meetings.UsersQuantity,
+		State:            meetings.State,
 	}, nil
 }

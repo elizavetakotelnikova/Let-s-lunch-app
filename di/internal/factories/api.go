@@ -15,8 +15,12 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	r.Use(middleware.Logger)
 
 	r.Route("/api", func(r chi.Router) {
-		r.Route("/meetings", func(r chi.Router) {
-			r.Get("/{meetingID}", c.API().FindMeetingHandler(ctx).ServeHTTP)
+		r.Route("/meeting", func(r chi.Router) {
+			r.Route("/find", func(r chi.Router) {
+				r.Get("/{meetingID}", c.API().FindMeetingHandler(ctx).ServeHTTP)
+
+			})
+			r.Post("/create", c.API().CreateMeetingHandler(ctx).ServeHTTPc)
 		})
 
 		r.Route("/user", func(r chi.Router) {
@@ -73,5 +77,11 @@ func CreateAPIUpdateUserHandler(ctx context.Context, c lookup.Container) *user_a
 func CreateAPIDeleteUserHandler(ctx context.Context, c lookup.Container) *user_api.DeleteUserHandler {
 	return user_api.NewDeleteUserHandler(
 		c.UseCases().DeleteUser(ctx),
+	)
+}
+
+func CreateAPICreateMeetingHandler(ctx context.Context, c lookup.Container) *meeting_api.CreateMeetingHandler {
+	return meeting_api.NewCreateMeetingHandler(
+		c.UseCases().CreateMeeting(ctx),
 	)
 }

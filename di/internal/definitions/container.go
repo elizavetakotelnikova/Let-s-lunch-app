@@ -34,21 +34,23 @@ type Container struct {
 }
 
 type APIContainer struct {
-	FindMeetingHandler        *meeting_api.FindMeetingByIdHandler
-	FindUserHandler           *user_api.FindUserByIdHandler
-	FindGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
 	CreateUserHandler         *user_api.CreateUserHandler
 	UpdateUserHandler         *user_api.UpdateUserHandler
 	DeleteUserHandler         *user_api.DeleteUserHandler
+	FindUserHandler           *user_api.FindUserByIdHandler
+	FindMeetingHandler        *meeting_api.FindMeetingByIdHandler
+	CreateMeetingHandler      *meeting_api.CreateMeetingHandler
+	FindGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
 }
 
 type UseCaseContainer struct {
-	FindMeeting        *meeting_usecase.FindMeetingByIdUseCase
 	FindUser           *user_usecase.FindUserByIdUseCase
-	FindGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	CreateUser         *user_usecase.CreateUserUseCase
 	UpdateUser         *user_usecase.UpdateUserUseCase
 	DeleteUser         *user_usecase.DeleteUserUseCase
+	FindMeeting        *meeting_usecase.FindMeetingByIdUseCase
+	CreateMeeting      *meeting_usecase.CreateMeetingUseCase
+	FindGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 }
 
 type RepositoryContainer struct {

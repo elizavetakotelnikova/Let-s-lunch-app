@@ -62,23 +62,25 @@ func (c *Container) SetError(err error) {
 type APIContainer struct {
 	*Container
 
-	findMeetingHandler        *meeting_api.FindMeetingByIdHandler
-	findUserHandler           *user_api.FindUserByIdHandler
-	findGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
 	createUserHandler         *user_api.CreateUserHandler
 	updateUserHandler         *user_api.UpdateUserHandler
 	deleteUserHandler         *user_api.DeleteUserHandler
+	findUserHandler           *user_api.FindUserByIdHandler
+	findMeetingHandler        *meeting_api.FindMeetingByIdHandler
+	createMeetingHandler      *meeting_api.CreateMeetingHandler
+	findGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
 }
 
 type UseCaseContainer struct {
 	*Container
 
-	findMeeting        *meeting_usecase.FindMeetingByIdUseCase
 	findUser           *user_usecase.FindUserByIdUseCase
-	findGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	createUser         *user_usecase.CreateUserUseCase
 	updateUser         *user_usecase.UpdateUserUseCase
 	deleteUser         *user_usecase.DeleteUserUseCase
+	findMeeting        *meeting_usecase.FindMeetingByIdUseCase
+	createMeeting      *meeting_usecase.CreateMeetingUseCase
+	findGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 }
 
 type RepositoryContainer struct {
@@ -125,27 +127,6 @@ func (c *Container) API() lookup.APIContainer {
 	return c.api
 }
 
-func (c *APIContainer) FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler {
-	if c.findMeetingHandler == nil && c.err == nil {
-		c.findMeetingHandler = factories.CreateAPIFindMeetingHandler(ctx, c)
-	}
-	return c.findMeetingHandler
-}
-
-func (c *APIContainer) FindUserHandler(ctx context.Context) *user_api.FindUserByIdHandler {
-	if c.findUserHandler == nil && c.err == nil {
-		c.findUserHandler = factories.CreateAPIFindUserHandler(ctx, c)
-	}
-	return c.findUserHandler
-}
-
-func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler {
-	if c.findGatheringPlaceHandler == nil && c.err == nil {
-		c.findGatheringPlaceHandler = factories.CreateAPIFindGatheringPlaceHandler(ctx, c)
-	}
-	return c.findGatheringPlaceHandler
-}
-
 func (c *APIContainer) CreateUserHandler(ctx context.Context) *user_api.CreateUserHandler {
 	if c.createUserHandler == nil && c.err == nil {
 		c.createUserHandler = factories.CreateAPICreateUserHandler(ctx, c)
@@ -167,15 +148,36 @@ func (c *APIContainer) DeleteUserHandler(ctx context.Context) *user_api.DeleteUs
 	return c.deleteUserHandler
 }
 
-func (c *Container) UseCases() lookup.UseCaseContainer {
-	return c.useCases
+func (c *APIContainer) FindUserHandler(ctx context.Context) *user_api.FindUserByIdHandler {
+	if c.findUserHandler == nil && c.err == nil {
+		c.findUserHandler = factories.CreateAPIFindUserHandler(ctx, c)
+	}
+	return c.findUserHandler
 }
 
-func (c *UseCaseContainer) FindMeeting(ctx context.Context) *meeting_usecase.FindMeetingByIdUseCase {
-	if c.findMeeting == nil && c.err == nil {
-		c.findMeeting = factories.CreateUseCasesFindMeeting(ctx, c)
+func (c *APIContainer) FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler {
+	if c.findMeetingHandler == nil && c.err == nil {
+		c.findMeetingHandler = factories.CreateAPIFindMeetingHandler(ctx, c)
 	}
-	return c.findMeeting
+	return c.findMeetingHandler
+}
+
+func (c *APIContainer) CreateMeetingHandler(ctx context.Context) *meeting_api.CreateMeetingHandler {
+	if c.createMeetingHandler == nil && c.err == nil {
+		c.createMeetingHandler = factories.CreateAPICreateMeetingHandler(ctx, c)
+	}
+	return c.createMeetingHandler
+}
+
+func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler {
+	if c.findGatheringPlaceHandler == nil && c.err == nil {
+		c.findGatheringPlaceHandler = factories.CreateAPIFindGatheringPlaceHandler(ctx, c)
+	}
+	return c.findGatheringPlaceHandler
+}
+
+func (c *Container) UseCases() lookup.UseCaseContainer {
+	return c.useCases
 }
 
 func (c *UseCaseContainer) FindUser(ctx context.Context) *user_usecase.FindUserByIdUseCase {
@@ -183,13 +185,6 @@ func (c *UseCaseContainer) FindUser(ctx context.Context) *user_usecase.FindUserB
 		c.findUser = factories.CreateUseCasesFindUser(ctx, c)
 	}
 	return c.findUser
-}
-
-func (c *UseCaseContainer) FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase {
-	if c.findGatheringPlace == nil && c.err == nil {
-		c.findGatheringPlace = factories.CreateUseCasesFindGatheringPlace(ctx, c)
-	}
-	return c.findGatheringPlace
 }
 
 func (c *UseCaseContainer) CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase {
@@ -211,6 +206,27 @@ func (c *UseCaseContainer) DeleteUser(ctx context.Context) *user_usecase.DeleteU
 		c.deleteUser = factories.CreateUseCasesDeleteUser(ctx, c)
 	}
 	return c.deleteUser
+}
+
+func (c *UseCaseContainer) FindMeeting(ctx context.Context) *meeting_usecase.FindMeetingByIdUseCase {
+	if c.findMeeting == nil && c.err == nil {
+		c.findMeeting = factories.CreateUseCasesFindMeeting(ctx, c)
+	}
+	return c.findMeeting
+}
+
+func (c *UseCaseContainer) CreateMeeting(ctx context.Context) *meeting_usecase.CreateMeetingUseCase {
+	if c.createMeeting == nil && c.err == nil {
+		c.createMeeting = factories.CreateUseCasesCreateMeeting(ctx, c)
+	}
+	return c.createMeeting
+}
+
+func (c *UseCaseContainer) FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase {
+	if c.findGatheringPlace == nil && c.err == nil {
+		c.findGatheringPlace = factories.CreateUseCasesFindGatheringPlace(ctx, c)
+	}
+	return c.findGatheringPlace
 }
 
 func (c *Container) Repositories() lookup.RepositoryContainer {
