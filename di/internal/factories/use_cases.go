@@ -50,6 +50,12 @@ func CreateUseCasesCreateMeeting(ctx context.Context, c lookup.Container) *meeti
 	)
 }
 
+func CreateUseCasesUpdateMeeting(ctx context.Context, c lookup.Container) *meeting_usecase.UpdateMeetingUseCase {
+	return meeting_usecase.NewUpdateMeetingUseCase(
+		c.Repositories().MeetingRepository(ctx),
+	)
+}
+
 func CreateUseCasesCreateGatheringPlace(ctx context.Context, c lookup.Container) *gathering_place_usecase.CreateGatheringPlaceUseCase {
 	return gathering_place_usecase.NewCreateGatheringPlaceUseCase(
 		c.Repositories().GatheringPlaceRepository(ctx),

@@ -68,6 +68,7 @@ type APIContainer struct {
 	findUserHandler             *user_api.FindUserByIdHandler
 	findMeetingHandler          *meeting_api.FindMeetingByIdHandler
 	createMeetingHandler        *meeting_api.CreateMeetingHandler
+	updateMeetingHandler        *meeting_api.UpdateMeetingHandler
 	findGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
 	createGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 	updateGatheringPlaceHandler *gathering_place_api.UpdateGatheringPlaceHandler
@@ -83,6 +84,7 @@ type UseCaseContainer struct {
 	deleteUser           *user_usecase.DeleteUserUseCase
 	findMeeting          *meeting_usecase.FindMeetingByIdUseCase
 	createMeeting        *meeting_usecase.CreateMeetingUseCase
+	updateMeeting        *meeting_usecase.UpdateMeetingUseCase
 	findGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	createGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 	updateGatheringPlace *gathering_place_usecase.UpdateGatheringPlaceUseCase
@@ -175,6 +177,13 @@ func (c *APIContainer) CreateMeetingHandler(ctx context.Context) *meeting_api.Cr
 	return c.createMeetingHandler
 }
 
+func (c *APIContainer) UpdateMeetingHandler(ctx context.Context) *meeting_api.UpdateMeetingHandler {
+	if c.updateMeetingHandler == nil && c.err == nil {
+		c.updateMeetingHandler = factories.CreateAPIUpdateMeetingHandler(ctx, c)
+	}
+	return c.updateMeetingHandler
+}
+
 func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler {
 	if c.findGatheringPlaceHandler == nil && c.err == nil {
 		c.findGatheringPlaceHandler = factories.CreateAPIFindGatheringPlaceHandler(ctx, c)
@@ -247,6 +256,13 @@ func (c *UseCaseContainer) CreateMeeting(ctx context.Context) *meeting_usecase.C
 		c.createMeeting = factories.CreateUseCasesCreateMeeting(ctx, c)
 	}
 	return c.createMeeting
+}
+
+func (c *UseCaseContainer) UpdateMeeting(ctx context.Context) *meeting_usecase.UpdateMeetingUseCase {
+	if c.updateMeeting == nil && c.err == nil {
+		c.updateMeeting = factories.CreateUseCasesUpdateMeeting(ctx, c)
+	}
+	return c.updateMeeting
 }
 
 func (c *UseCaseContainer) FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase {

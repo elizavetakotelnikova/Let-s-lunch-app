@@ -40,6 +40,7 @@ type APIContainer struct {
 	FindUserHandler             *user_api.FindUserByIdHandler
 	FindMeetingHandler          *meeting_api.FindMeetingByIdHandler
 	CreateMeetingHandler        *meeting_api.CreateMeetingHandler
+	UpdateMeetingHandler        *meeting_api.UpdateMeetingHandler
 	FindGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
 	CreateGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 	UpdateGatheringPlaceHandler *gathering_place_api.UpdateGatheringPlaceHandler
@@ -53,6 +54,7 @@ type UseCaseContainer struct {
 	DeleteUser           *user_usecase.DeleteUserUseCase
 	FindMeeting          *meeting_usecase.FindMeetingByIdUseCase
 	CreateMeeting        *meeting_usecase.CreateMeetingUseCase
+	UpdateMeeting        *meeting_usecase.UpdateMeetingUseCase
 	FindGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	CreateGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 	UpdateGatheringPlace *gathering_place_usecase.UpdateGatheringPlaceUseCase
