@@ -69,6 +69,7 @@ type APIContainer struct {
 	findMeetingHandler          *meeting_api.FindMeetingByIdHandler
 	createMeetingHandler        *meeting_api.CreateMeetingHandler
 	updateMeetingHandler        *meeting_api.UpdateMeetingHandler
+	deleteMeetingHandler        *meeting_api.DeleteMeetingHandler
 	findGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
 	createGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 	updateGatheringPlaceHandler *gathering_place_api.UpdateGatheringPlaceHandler
@@ -85,6 +86,7 @@ type UseCaseContainer struct {
 	findMeeting          *meeting_usecase.FindMeetingByIdUseCase
 	createMeeting        *meeting_usecase.CreateMeetingUseCase
 	updateMeeting        *meeting_usecase.UpdateMeetingUseCase
+	deleteMeeting        *meeting_usecase.DeleteMeetingUseCase
 	findGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	createGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 	updateGatheringPlace *gathering_place_usecase.UpdateGatheringPlaceUseCase
@@ -184,6 +186,13 @@ func (c *APIContainer) UpdateMeetingHandler(ctx context.Context) *meeting_api.Up
 	return c.updateMeetingHandler
 }
 
+func (c *APIContainer) DeleteMeetingHandler(ctx context.Context) *meeting_api.DeleteMeetingHandler {
+	if c.deleteMeetingHandler == nil && c.err == nil {
+		c.deleteMeetingHandler = factories.CreateAPIDeleteMeetingHandler(ctx, c)
+	}
+	return c.deleteMeetingHandler
+}
+
 func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler {
 	if c.findGatheringPlaceHandler == nil && c.err == nil {
 		c.findGatheringPlaceHandler = factories.CreateAPIFindGatheringPlaceHandler(ctx, c)
@@ -263,6 +272,13 @@ func (c *UseCaseContainer) UpdateMeeting(ctx context.Context) *meeting_usecase.U
 		c.updateMeeting = factories.CreateUseCasesUpdateMeeting(ctx, c)
 	}
 	return c.updateMeeting
+}
+
+func (c *UseCaseContainer) DeleteMeeting(ctx context.Context) *meeting_usecase.DeleteMeetingUseCase {
+	if c.deleteMeeting == nil && c.err == nil {
+		c.deleteMeeting = factories.CreateUseCasesDeleteMeeting(ctx, c)
+	}
+	return c.deleteMeeting
 }
 
 func (c *UseCaseContainer) FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase {

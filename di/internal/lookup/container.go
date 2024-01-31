@@ -45,6 +45,7 @@ type APIContainer interface {
 	FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler
 	CreateMeetingHandler(ctx context.Context) *meeting_api.CreateMeetingHandler
 	UpdateMeetingHandler(ctx context.Context) *meeting_api.UpdateMeetingHandler
+	DeleteMeetingHandler(ctx context.Context) *meeting_api.DeleteMeetingHandler
 	FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler
 	CreateGatheringPlaceHandler(ctx context.Context) *gathering_place_api.CreateGatheringPlaceHandler
 	UpdateGatheringPlaceHandler(ctx context.Context) *gathering_place_api.UpdateGatheringPlaceHandler
@@ -59,6 +60,7 @@ type UseCaseContainer interface {
 	FindMeeting(ctx context.Context) *meeting_usecase.FindMeetingByIdUseCase
 	CreateMeeting(ctx context.Context) *meeting_usecase.CreateMeetingUseCase
 	UpdateMeeting(ctx context.Context) *meeting_usecase.UpdateMeetingUseCase
+	DeleteMeeting(ctx context.Context) *meeting_usecase.DeleteMeetingUseCase
 	FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	CreateGatheringPlace(ctx context.Context) *gathering_place_usecase.CreateGatheringPlaceUseCase
 	UpdateGatheringPlace(ctx context.Context) *gathering_place_usecase.UpdateGatheringPlaceUseCase
