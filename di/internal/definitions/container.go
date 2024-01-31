@@ -34,23 +34,25 @@ type Container struct {
 }
 
 type APIContainer struct {
-	CreateUserHandler         *user_api.CreateUserHandler
-	UpdateUserHandler         *user_api.UpdateUserHandler
-	DeleteUserHandler         *user_api.DeleteUserHandler
-	FindUserHandler           *user_api.FindUserByIdHandler
-	FindMeetingHandler        *meeting_api.FindMeetingByIdHandler
-	CreateMeetingHandler      *meeting_api.CreateMeetingHandler
-	FindGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
+	CreateUserHandler           *user_api.CreateUserHandler
+	UpdateUserHandler           *user_api.UpdateUserHandler
+	DeleteUserHandler           *user_api.DeleteUserHandler
+	FindUserHandler             *user_api.FindUserByIdHandler
+	FindMeetingHandler          *meeting_api.FindMeetingByIdHandler
+	CreateMeetingHandler        *meeting_api.CreateMeetingHandler
+	FindGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
+	CreateGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 }
 
 type UseCaseContainer struct {
-	FindUser           *user_usecase.FindUserByIdUseCase
-	CreateUser         *user_usecase.CreateUserUseCase
-	UpdateUser         *user_usecase.UpdateUserUseCase
-	DeleteUser         *user_usecase.DeleteUserUseCase
-	FindMeeting        *meeting_usecase.FindMeetingByIdUseCase
-	CreateMeeting      *meeting_usecase.CreateMeetingUseCase
-	FindGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	FindUser             *user_usecase.FindUserByIdUseCase
+	CreateUser           *user_usecase.CreateUserUseCase
+	UpdateUser           *user_usecase.UpdateUserUseCase
+	DeleteUser           *user_usecase.DeleteUserUseCase
+	FindMeeting          *meeting_usecase.FindMeetingByIdUseCase
+	CreateMeeting        *meeting_usecase.CreateMeetingUseCase
+	FindGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	CreateGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 }
 
 type RepositoryContainer struct {

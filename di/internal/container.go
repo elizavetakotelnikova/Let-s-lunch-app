@@ -62,25 +62,27 @@ func (c *Container) SetError(err error) {
 type APIContainer struct {
 	*Container
 
-	createUserHandler         *user_api.CreateUserHandler
-	updateUserHandler         *user_api.UpdateUserHandler
-	deleteUserHandler         *user_api.DeleteUserHandler
-	findUserHandler           *user_api.FindUserByIdHandler
-	findMeetingHandler        *meeting_api.FindMeetingByIdHandler
-	createMeetingHandler      *meeting_api.CreateMeetingHandler
-	findGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
+	createUserHandler           *user_api.CreateUserHandler
+	updateUserHandler           *user_api.UpdateUserHandler
+	deleteUserHandler           *user_api.DeleteUserHandler
+	findUserHandler             *user_api.FindUserByIdHandler
+	findMeetingHandler          *meeting_api.FindMeetingByIdHandler
+	createMeetingHandler        *meeting_api.CreateMeetingHandler
+	findGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
+	createGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 }
 
 type UseCaseContainer struct {
 	*Container
 
-	findUser           *user_usecase.FindUserByIdUseCase
-	createUser         *user_usecase.CreateUserUseCase
-	updateUser         *user_usecase.UpdateUserUseCase
-	deleteUser         *user_usecase.DeleteUserUseCase
-	findMeeting        *meeting_usecase.FindMeetingByIdUseCase
-	createMeeting      *meeting_usecase.CreateMeetingUseCase
-	findGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	findUser             *user_usecase.FindUserByIdUseCase
+	createUser           *user_usecase.CreateUserUseCase
+	updateUser           *user_usecase.UpdateUserUseCase
+	deleteUser           *user_usecase.DeleteUserUseCase
+	findMeeting          *meeting_usecase.FindMeetingByIdUseCase
+	createMeeting        *meeting_usecase.CreateMeetingUseCase
+	findGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	createGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 }
 
 type RepositoryContainer struct {
@@ -176,6 +178,13 @@ func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering
 	return c.findGatheringPlaceHandler
 }
 
+func (c *APIContainer) CreateGatheringPlaceHandler(ctx context.Context) *gathering_place_api.CreateGatheringPlaceHandler {
+	if c.createGatheringPlaceHandler == nil && c.err == nil {
+		c.createGatheringPlaceHandler = factories.CreateAPICreateGatheringPlaceHandler(ctx, c)
+	}
+	return c.createGatheringPlaceHandler
+}
+
 func (c *Container) UseCases() lookup.UseCaseContainer {
 	return c.useCases
 }
@@ -227,6 +236,13 @@ func (c *UseCaseContainer) FindGatheringPlace(ctx context.Context) *gathering_pl
 		c.findGatheringPlace = factories.CreateUseCasesFindGatheringPlace(ctx, c)
 	}
 	return c.findGatheringPlace
+}
+
+func (c *UseCaseContainer) CreateGatheringPlace(ctx context.Context) *gathering_place_usecase.CreateGatheringPlaceUseCase {
+	if c.createGatheringPlace == nil && c.err == nil {
+		c.createGatheringPlace = factories.CreateUseCasesCreateGatheringPlace(ctx, c)
+	}
+	return c.createGatheringPlace
 }
 
 func (c *Container) Repositories() lookup.RepositoryContainer {

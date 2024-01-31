@@ -49,3 +49,9 @@ func CreateUseCasesCreateMeeting(ctx context.Context, c lookup.Container) *meeti
 		c.Repositories().MeetingRepository(ctx),
 	)
 }
+
+func CreateUseCasesCreateGatheringPlace(ctx context.Context, c lookup.Container) *gathering_place_usecase.CreateGatheringPlaceUseCase {
+	return gathering_place_usecase.NewCreateGatheringPlaceUseCase(
+		c.Repositories().GatheringPlaceRepository(ctx),
+	)
+}
