@@ -10,10 +10,6 @@ import (
 	"strconv"
 )
 
-type JsonFindUsersByCriteriaResponse struct {
-	User []user.User `json:"user"`
-}
-
 type FindUsersByCriteriaHandler struct {
 	useCase *usecases.FindUsersByCriteriaUseCase
 }

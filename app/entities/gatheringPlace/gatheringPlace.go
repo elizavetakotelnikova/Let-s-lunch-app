@@ -6,12 +6,12 @@ import (
 )
 
 type GatheringPlace struct {
-	ID           uuid.UUID
-	Address      models.Address
-	AveragePrice int
-	CuisineType  CuisineType
-	Rating       int
-	PhoneNumber  string
+	ID           uuid.UUID      `json:"id"`
+	Address      models.Address `json:"address"`
+	AveragePrice int            `json:"averagePrice"`
+	CuisineType  CuisineType    `json:"cuisineType"`
+	Rating       int            `json:"rating"`
+	PhoneNumber  string         `json:"phoneNumber"`
 }
 
 func NewGatheringPlace(address models.Address, averagePrice int, cusineType CuisineType, rating int, phoneNumber string) *GatheringPlace {

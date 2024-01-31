@@ -72,6 +72,7 @@ type APIContainer struct {
 	updateMeetingHandler        *meeting_api.UpdateMeetingHandler
 	deleteMeetingHandler        *meeting_api.DeleteMeetingHandler
 	findGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
+	findGatheringPlacesHandler  *gathering_place_api.FindGatheringPlacesByCriteriaHandler
 	createGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 	updateGatheringPlaceHandler *gathering_place_api.UpdateGatheringPlaceHandler
 	deleteGatheringPlaceHandler *gathering_place_api.DeleteGatheringPlaceHandler
@@ -90,6 +91,7 @@ type UseCaseContainer struct {
 	updateMeeting        *meeting_usecase.UpdateMeetingUseCase
 	deleteMeeting        *meeting_usecase.DeleteMeetingUseCase
 	findGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	findGatheringPlaces  *gathering_place_usecase.FindGatheringPlacesByCriteriaUseCase
 	createGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 	updateGatheringPlace *gathering_place_usecase.UpdateGatheringPlaceUseCase
 	deleteGatheringPlace *gathering_place_usecase.DeleteGatheringPlaceUseCase
@@ -209,6 +211,13 @@ func (c *APIContainer) FindGatheringPlaceHandler(ctx context.Context) *gathering
 	return c.findGatheringPlaceHandler
 }
 
+func (c *APIContainer) FindGatheringPlacesHandler(ctx context.Context) *gathering_place_api.FindGatheringPlacesByCriteriaHandler {
+	if c.findGatheringPlacesHandler == nil && c.err == nil {
+		c.findGatheringPlacesHandler = factories.CreateAPIFindGatheringPlacesHandler(ctx, c)
+	}
+	return c.findGatheringPlacesHandler
+}
+
 func (c *APIContainer) CreateGatheringPlaceHandler(ctx context.Context) *gathering_place_api.CreateGatheringPlaceHandler {
 	if c.createGatheringPlaceHandler == nil && c.err == nil {
 		c.createGatheringPlaceHandler = factories.CreateAPICreateGatheringPlaceHandler(ctx, c)
@@ -302,6 +311,13 @@ func (c *UseCaseContainer) FindGatheringPlace(ctx context.Context) *gathering_pl
 		c.findGatheringPlace = factories.CreateUseCasesFindGatheringPlace(ctx, c)
 	}
 	return c.findGatheringPlace
+}
+
+func (c *UseCaseContainer) FindGatheringPlaces(ctx context.Context) *gathering_place_usecase.FindGatheringPlacesByCriteriaUseCase {
+	if c.findGatheringPlaces == nil && c.err == nil {
+		c.findGatheringPlaces = factories.CreateUseCasesFindGatheringPlaces(ctx, c)
+	}
+	return c.findGatheringPlaces
 }
 
 func (c *UseCaseContainer) CreateGatheringPlace(ctx context.Context) *gathering_place_usecase.CreateGatheringPlaceUseCase {

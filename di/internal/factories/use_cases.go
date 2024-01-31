@@ -85,3 +85,9 @@ func CreateUseCasesFindUsers(ctx context.Context, c lookup.Container) *user_usec
 		c.Repositories().UserRepository(ctx),
 	)
 }
+
+func CreateUseCasesFindGatheringPlaces(ctx context.Context, c lookup.Container) *gathering_place_usecase.FindGatheringPlacesByCriteriaUseCase {
+	return gathering_place_usecase.NewFindGatheringPlacesByCriteriaUseCase(
+		c.Repositories().GatheringPlaceRepository(ctx),
+	)
+}

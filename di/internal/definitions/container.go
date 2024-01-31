@@ -44,6 +44,7 @@ type APIContainer struct {
 	UpdateMeetingHandler        *meeting_api.UpdateMeetingHandler
 	DeleteMeetingHandler        *meeting_api.DeleteMeetingHandler
 	FindGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
+	FindGatheringPlacesHandler  *gathering_place_api.FindGatheringPlacesByCriteriaHandler
 	CreateGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 	UpdateGatheringPlaceHandler *gathering_place_api.UpdateGatheringPlaceHandler
 	DeleteGatheringPlaceHandler *gathering_place_api.DeleteGatheringPlaceHandler
@@ -60,6 +61,7 @@ type UseCaseContainer struct {
 	UpdateMeeting        *meeting_usecase.UpdateMeetingUseCase
 	DeleteMeeting        *meeting_usecase.DeleteMeetingUseCase
 	FindGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	FindGatheringPlaces  *gathering_place_usecase.FindGatheringPlacesByCriteriaUseCase
 	CreateGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 	UpdateGatheringPlace *gathering_place_usecase.UpdateGatheringPlaceUseCase
 	DeleteGatheringPlace *gathering_place_usecase.DeleteGatheringPlaceUseCase

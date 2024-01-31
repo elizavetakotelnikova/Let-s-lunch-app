@@ -42,6 +42,7 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 		})
 
 		r.Route("/gatheringPlace", func(r chi.Router) {
+			r.Get("/find", c.API().FindGatheringPlacesHandler(ctx).ServeHTTP)
 			r.Route("/find_by_id", func(r chi.Router) {
 				r.Get("/{placeID}", c.API().FindGatheringPlaceHandler(ctx).ServeHTTP)
 			})
@@ -131,5 +132,11 @@ func CreateAPIDeleteGatheringPlaceHandler(ctx context.Context, c lookup.Containe
 func CreateAPIFindUsersHandler(ctx context.Context, c lookup.Container) *user_api.FindUsersByCriteriaHandler {
 	return user_api.NewFindUsersByCriteriaHandler(
 		c.UseCases().FindUsers(ctx),
+	)
+}
+
+func CreateAPIFindGatheringPlacesHandler(ctx context.Context, c lookup.Container) *gathering_place_api.FindGatheringPlacesByCriteriaHandler {
+	return gathering_place_api.NewFindGatheringPlacesByCriteriaHandler(
+		c.UseCases().FindGatheringPlaces(ctx),
 	)
 }
