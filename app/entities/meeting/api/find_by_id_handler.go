@@ -1,72 +1,41 @@
 package api
 
 import (
-	domain "cmd/app/entities/meeting"
 	usecase "cmd/app/entities/meeting/usecases"
 	"encoding/json"
-	"github.com/go-chi/chi/v5"
+	"fmt"
 	"github.com/gofrs/uuid/v5"
 	"net/http"
-	"time"
+	"path"
 )
 
-type JsonFindMeetingByIdResponse struct {
-	ID               uuid.UUID           `json:"id"`
-	GatheringPlaceID uuid.UUID           `json:"gatheringPlaceId"`
-	InitiatorsID     uuid.UUID           `json:"initiatorsId"`
-	StartTime        time.Time           `json:"startTime"`
-	EndTime          time.Time           `json:"endTime"`
-	UsersQuantity    int                 `json:"usersQuantity"`
-	State            domain.MeetingState `json:"state"`
+type FindMeetingRequest struct {
+	ID uuid.UUID `json:"id"`
 }
 
-type FindMeetingByIdHandler struct {
-	useCase *usecase.FindMeetingByIdUseCase
+type FindMeeting struct {
+	useCase *usecase.FindMeeting
 }
 
-func NewFindMeetingByIdHandler(useCase *usecase.FindMeetingByIdUseCase) *FindMeetingByIdHandler {
-	return &FindMeetingByIdHandler{useCase: useCase}
+func NewFindMeeting(useCase *usecase.FindMeeting) *FindMeeting {
+	return &FindMeeting{useCase: useCase}
 }
 
-func (handler *FindMeetingByIdHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
-	id := chi.URLParam(request, "meetingID")
+func (h *FindMeeting) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
+	fmt.Println("in meeting handler")
+	base := path.Base(request.URL.Path)
 
-	uuidID, err := uuid.FromString(id)
+	meeting, err := h.useCase.Handle(request.Context(), uuid.FromStringOrNil(base))
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
-
 		writer.WriteHeader(http.StatusBadRequest)
-		writer.Write(marshaledError)
-		return
 	}
 
-	meeting, err := handler.useCase.Handle(request.Context(), uuidID)
+	response, err := json.Marshal(meeting)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
-
 		writer.WriteHeader(http.StatusInternalServerError)
-		writer.Write(marshaledError)
 	}
 
-	response := JsonFindMeetingByIdResponse{
-		ID:               meeting.ID,
-		GatheringPlaceID: meeting.GatheringPlaceID,
-		InitiatorsID:     meeting.InitiatorsID,
-		StartTime:        meeting.StartTime,
-		EndTime:          meeting.EndTime,
-		UsersQuantity:    meeting.UsersQuantity,
-		State:            meeting.State,
-	}
+	writer.Write(response)
 
-	marshaledResponse, err := json.Marshal(response)
-	if err != nil {
-		marshaledError, _ := json.Marshal(err)
-
-		writer.WriteHeader(http.StatusInternalServerError)
-		writer.Write(marshaledError)
-		return
-	}
-
-	writer.WriteHeader(http.StatusOK)
-	writer.Write(marshaledResponse)
+	return
 }

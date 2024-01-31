@@ -17,20 +17,12 @@ type Meeting struct {
 	State            MeetingState
 }
 
-func NewMeeting(gatheringPlaceID uuid.UUID, initiatorsID uuid.UUID, startTime time.Time, endTime time.Time, usersQuantity int, state MeetingState) *Meeting {
+func NewMeeting() *Meeting {
 	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}
-	return &Meeting{
-		ID:               id,
-		GatheringPlaceId: gatheringPlaceID,
-		InitiatorsId:     initiatorsID,
-		StartTime:        startTime,
-		EndTime:          endTime,
-		UsersQuantity:    usersQuantity,
-		State:            state,
-	}
+	return &Meeting{ID: id}
 }
 
 /*func NewMeeting(ID uuid.UUID, placeID uuid.UUID, usersID uuid.UUID,
