@@ -77,9 +77,7 @@ func (handler *FindUsersByCriteriaHandler) ServeHTTP(writer http.ResponseWriter,
 		return
 	}
 
-	response := users
-
-	marshaledResponse, err := json.Marshal(response)
+	marshaledResponse, err := json.Marshal(users)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err)
 

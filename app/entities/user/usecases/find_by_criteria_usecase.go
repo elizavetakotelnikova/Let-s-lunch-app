@@ -9,10 +9,6 @@ import (
 	"github.com/gofrs/uuid/v5"
 )
 
-type FindUsersByCriteriaResponse struct {
-	User []user.User `json:"user"`
-}
-
 type FindUsersByCriteriaUseCase struct {
 	user repository.UsersRepository
 }

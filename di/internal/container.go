@@ -68,6 +68,7 @@ type APIContainer struct {
 	findUserHandler             *user_api.FindUserByIdHandler
 	findUsersHandler            *user_api.FindUsersByCriteriaHandler
 	findMeetingHandler          *meeting_api.FindMeetingByIdHandler
+	findMeetingsHandler         *meeting_api.FindMeetingsByCriteriaHandler
 	createMeetingHandler        *meeting_api.CreateMeetingHandler
 	updateMeetingHandler        *meeting_api.UpdateMeetingHandler
 	deleteMeetingHandler        *meeting_api.DeleteMeetingHandler
@@ -87,6 +88,7 @@ type UseCaseContainer struct {
 	updateUser           *user_usecase.UpdateUserUseCase
 	deleteUser           *user_usecase.DeleteUserUseCase
 	findMeeting          *meeting_usecase.FindMeetingByIdUseCase
+	findMeetings         *meeting_usecase.FindMeetingsByCriteriaUseCase
 	createMeeting        *meeting_usecase.CreateMeetingUseCase
 	updateMeeting        *meeting_usecase.UpdateMeetingUseCase
 	deleteMeeting        *meeting_usecase.DeleteMeetingUseCase
@@ -181,6 +183,13 @@ func (c *APIContainer) FindMeetingHandler(ctx context.Context) *meeting_api.Find
 		c.findMeetingHandler = factories.CreateAPIFindMeetingHandler(ctx, c)
 	}
 	return c.findMeetingHandler
+}
+
+func (c *APIContainer) FindMeetingsHandler(ctx context.Context) *meeting_api.FindMeetingsByCriteriaHandler {
+	if c.findMeetingsHandler == nil && c.err == nil {
+		c.findMeetingsHandler = factories.CreateAPIFindMeetingsHandler(ctx, c)
+	}
+	return c.findMeetingsHandler
 }
 
 func (c *APIContainer) CreateMeetingHandler(ctx context.Context) *meeting_api.CreateMeetingHandler {
@@ -283,6 +292,13 @@ func (c *UseCaseContainer) FindMeeting(ctx context.Context) *meeting_usecase.Fin
 		c.findMeeting = factories.CreateUseCasesFindMeeting(ctx, c)
 	}
 	return c.findMeeting
+}
+
+func (c *UseCaseContainer) FindMeetings(ctx context.Context) *meeting_usecase.FindMeetingsByCriteriaUseCase {
+	if c.findMeetings == nil && c.err == nil {
+		c.findMeetings = factories.CreateUseCasesFindMeetings(ctx, c)
+	}
+	return c.findMeetings
 }
 
 func (c *UseCaseContainer) CreateMeeting(ctx context.Context) *meeting_usecase.CreateMeetingUseCase {
