@@ -38,21 +38,23 @@ type Container interface {
 }
 
 type APIContainer interface {
-	FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler
-	FindUserHandler(ctx context.Context) *user_api.FindUserByIdHandler
-	FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler
 	CreateUserHandler(ctx context.Context) *user_api.CreateUserHandler
 	UpdateUserHandler(ctx context.Context) *user_api.UpdateUserHandler
 	DeleteUserHandler(ctx context.Context) *user_api.DeleteUserHandler
+	FindUserHandler(ctx context.Context) *user_api.FindUserByIdHandler
+	FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler
+	CreateMeetingHandler(ctx context.Context) *meeting_api.CreateMeetingHandler
+	FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler
 }
 
 type UseCaseContainer interface {
-	FindMeeting(ctx context.Context) *meeting_usecase.FindMeetingByIdUseCase
 	FindUser(ctx context.Context) *user_usecase.FindUserByIdUseCase
-	FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase
 	UpdateUser(ctx context.Context) *user_usecase.UpdateUserUseCase
 	DeleteUser(ctx context.Context) *user_usecase.DeleteUserUseCase
+	FindMeeting(ctx context.Context) *meeting_usecase.FindMeetingByIdUseCase
+	CreateMeeting(ctx context.Context) *meeting_usecase.CreateMeetingUseCase
+	FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 }
 
 type RepositoryContainer interface {

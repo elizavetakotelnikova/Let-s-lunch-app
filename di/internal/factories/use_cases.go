@@ -43,3 +43,9 @@ func CreateUseCasesDeleteUser(ctx context.Context, c lookup.Container) *user_use
 		c.Repositories().UserRepository(ctx),
 	)
 }
+
+func CreateUseCasesCreateMeeting(ctx context.Context, c lookup.Container) *meeting_usecase.CreateMeetingUseCase {
+	return meeting_usecase.NewCreateMeetingUseCase(
+		c.Repositories().MeetingRepository(ctx),
+	)
+}
