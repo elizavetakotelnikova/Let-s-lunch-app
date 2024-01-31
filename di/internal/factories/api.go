@@ -43,6 +43,7 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 			r.Post("/create", c.API().CreateGatheringPlaceHandler(ctx).ServeHTTP)
 			r.Route("/update", func(r chi.Router) {
 				r.Put("/{placeID}", c.API().UpdateGatheringPlaceHandler(ctx).ServeHTTP)
+				r.Delete("/{placeID}", c.API().DeleteGatheringPlaceHandler(ctx).ServeHTTP)
 			})
 		})
 	})
@@ -100,5 +101,12 @@ func CreateAPICreateGatheringPlaceHandler(ctx context.Context, c lookup.Containe
 
 func CreateAPIUpdateGatheringPlaceHandler(ctx context.Context, c lookup.Container) *gathering_place_api.UpdateGatheringPlaceHandler {
 	return gathering_place_api.NewUpdateGatheringPlaceHandler(
-		c.UseCases().UpdateGatheringPlace(ctx))
+		c.UseCases().UpdateGatheringPlace(ctx),
+	)
+}
+
+func CreateAPIDeleteGatheringPlaceHandler(ctx context.Context, c lookup.Container) *gathering_place_api.DeleteGatheringPlaceHandler {
+	return gathering_place_api.NewDeleteUserHandler(
+		c.UseCases().DeleteGatheringPlace(ctx),
+	)
 }

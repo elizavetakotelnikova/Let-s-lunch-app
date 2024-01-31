@@ -61,3 +61,9 @@ func CreateUseCasesUpdateGatheringPlace(ctx context.Context, c lookup.Container)
 		c.Repositories().GatheringPlaceRepository(ctx),
 	)
 }
+
+func CreateUseCasesDeleteGatheringPlace(ctx context.Context, c lookup.Container) *gathering_place_usecase.DeleteGatheringPlaceUseCase {
+	return gathering_place_usecase.NewDeleteUserUseCase(
+		c.Repositories().GatheringPlaceRepository(ctx),
+	)
+}
