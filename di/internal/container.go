@@ -66,6 +66,7 @@ type APIContainer struct {
 	updateUserHandler           *user_api.UpdateUserHandler
 	deleteUserHandler           *user_api.DeleteUserHandler
 	findUserHandler             *user_api.FindUserByIdHandler
+	findUsersHandler            *user_api.FindUsersByCriteriaHandler
 	findMeetingHandler          *meeting_api.FindMeetingByIdHandler
 	createMeetingHandler        *meeting_api.CreateMeetingHandler
 	updateMeetingHandler        *meeting_api.UpdateMeetingHandler
@@ -80,6 +81,7 @@ type UseCaseContainer struct {
 	*Container
 
 	findUser             *user_usecase.FindUserByIdUseCase
+	findUsers            *user_usecase.FindUsersByCriteriaUseCase
 	createUser           *user_usecase.CreateUserUseCase
 	updateUser           *user_usecase.UpdateUserUseCase
 	deleteUser           *user_usecase.DeleteUserUseCase
@@ -165,6 +167,13 @@ func (c *APIContainer) FindUserHandler(ctx context.Context) *user_api.FindUserBy
 	return c.findUserHandler
 }
 
+func (c *APIContainer) FindUsersHandler(ctx context.Context) *user_api.FindUsersByCriteriaHandler {
+	if c.findUsersHandler == nil && c.err == nil {
+		c.findUsersHandler = factories.CreateAPIFindUsersHandler(ctx, c)
+	}
+	return c.findUsersHandler
+}
+
 func (c *APIContainer) FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler {
 	if c.findMeetingHandler == nil && c.err == nil {
 		c.findMeetingHandler = factories.CreateAPIFindMeetingHandler(ctx, c)
@@ -230,6 +239,13 @@ func (c *UseCaseContainer) FindUser(ctx context.Context) *user_usecase.FindUserB
 		c.findUser = factories.CreateUseCasesFindUser(ctx, c)
 	}
 	return c.findUser
+}
+
+func (c *UseCaseContainer) FindUsers(ctx context.Context) *user_usecase.FindUsersByCriteriaUseCase {
+	if c.findUsers == nil && c.err == nil {
+		c.findUsers = factories.CreateUseCasesFindUsers(ctx, c)
+	}
+	return c.findUsers
 }
 
 func (c *UseCaseContainer) CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase {

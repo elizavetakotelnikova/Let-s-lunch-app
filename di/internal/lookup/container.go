@@ -42,6 +42,7 @@ type APIContainer interface {
 	UpdateUserHandler(ctx context.Context) *user_api.UpdateUserHandler
 	DeleteUserHandler(ctx context.Context) *user_api.DeleteUserHandler
 	FindUserHandler(ctx context.Context) *user_api.FindUserByIdHandler
+	FindUsersHandler(ctx context.Context) *user_api.FindUsersByCriteriaHandler
 	FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler
 	CreateMeetingHandler(ctx context.Context) *meeting_api.CreateMeetingHandler
 	UpdateMeetingHandler(ctx context.Context) *meeting_api.UpdateMeetingHandler
@@ -54,6 +55,7 @@ type APIContainer interface {
 
 type UseCaseContainer interface {
 	FindUser(ctx context.Context) *user_usecase.FindUserByIdUseCase
+	FindUsers(ctx context.Context) *user_usecase.FindUsersByCriteriaUseCase
 	CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase
 	UpdateUser(ctx context.Context) *user_usecase.UpdateUserUseCase
 	DeleteUser(ctx context.Context) *user_usecase.DeleteUserUseCase
