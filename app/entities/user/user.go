@@ -17,10 +17,17 @@ type User struct {
 	PhoneNumber      string
 }
 
-func NewUser() *User {
+func NewUser(username string, displayname string, birthday time.Time, phoneNumber string, gender Gender) *User {
 	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}
-	return &User{ID: id}
+
+	return &User{
+		ID:          id,
+		Username:    username,
+		DisplayName: displayname,
+		Birthday:    birthday,
+		PhoneNumber: phoneNumber,
+		Gender:      gender}
 }

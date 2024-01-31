@@ -14,11 +14,18 @@ type GatheringPlace struct {
 	PhoneNumber  string
 }
 
-func NewGatheringPlace() *GatheringPlace {
+func NewGatheringPlace(address models.Address, averagePrice int, cusineType CuisineType, rating int, phoneNumber string) *GatheringPlace {
 	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}
 
-	return &GatheringPlace{ID: id}
+	return &GatheringPlace{
+		ID:           id,
+		Address:      address,
+		AveragePrice: averagePrice,
+		CuisineType:  cusineType,
+		Rating:       rating,
+		PhoneNumber:  phoneNumber,
+	}
 }
