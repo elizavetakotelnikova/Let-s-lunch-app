@@ -5,15 +5,38 @@
 package internal
 
 import (
+	"cmd/app/config"
+	meeting_api "cmd/app/entities/meeting/api"
+	meeting_repository "cmd/app/entities/meeting/repository"
+	meeting_usecase "cmd/app/entities/meeting/usecases"
+	"cmd/di/internal/factories"
+	"cmd/di/internal/lookup"
 	"context"
+	"database/sql"
+	chi "github.com/go-chi/chi/v5"
+	"log"
+	"net/http"
 )
 
 type Container struct {
 	err error
+
+	config config.Params
+	logger *log.Logger
+	db     *sql.DB
+	server *http.Server
+	router *chi.Mux
+
+	api          *APIContainer
+	useCases     *UseCaseContainer
+	repositories *RepositoryContainer
 }
 
 func NewContainer() *Container {
 	c := &Container{}
+	c.api = &APIContainer{Container: c}
+	c.useCases = &UseCaseContainer{Container: c}
+	c.repositories = &RepositoryContainer{Container: c}
 
 	return c
 }
@@ -30,4 +53,103 @@ func (c *Container) SetError(err error) {
 	}
 }
 
-func (c *Container) Close() {}
+type APIContainer struct {
+	*Container
+
+	findMeetingHandler *meeting_api.FindMeeting
+}
+
+type UseCaseContainer struct {
+	*Container
+
+	findMeeting *meeting_usecase.FindMeeting
+}
+
+type RepositoryContainer struct {
+	*Container
+
+	meetingRepository meeting_repository.MeetingsRepository
+}
+
+func (c *Container) Config(ctx context.Context) config.Params {
+	return c.config
+}
+
+func (c *Container) Logger(ctx context.Context) *log.Logger {
+	if c.logger == nil && c.err == nil {
+		c.logger = factories.CreateLogger(ctx, c)
+	}
+	return c.logger
+}
+
+func (c *Container) DB(ctx context.Context) *sql.DB {
+	if c.db == nil && c.err == nil {
+		c.db = factories.CreateDB(ctx, c)
+	}
+	return c.db
+}
+
+func (c *Container) Server(ctx context.Context) *http.Server {
+	if c.server == nil && c.err == nil {
+		c.server = factories.CreateServer(ctx, c)
+	}
+	return c.server
+}
+
+func (c *Container) Router(ctx context.Context) *chi.Mux {
+	if c.router == nil && c.err == nil {
+		c.router = factories.CreateRouter(ctx, c)
+	}
+	return c.router
+}
+
+func (c *Container) API() lookup.APIContainer {
+	return c.api
+}
+
+func (c *APIContainer) FindMeetingHandler(ctx context.Context) *meeting_api.FindMeeting {
+	if c.findMeetingHandler == nil && c.err == nil {
+		c.findMeetingHandler = factories.CreateAPIFindMeetingHandler(ctx, c)
+	}
+	return c.findMeetingHandler
+}
+
+func (c *Container) UseCases() lookup.UseCaseContainer {
+	return c.useCases
+}
+
+func (c *UseCaseContainer) FindMeeting(ctx context.Context) *meeting_usecase.FindMeeting {
+	if c.findMeeting == nil && c.err == nil {
+		c.findMeeting = factories.CreateUseCasesFindMeeting(ctx, c)
+	}
+	return c.findMeeting
+}
+
+func (c *Container) Repositories() lookup.RepositoryContainer {
+	return c.repositories
+}
+
+func (c *RepositoryContainer) MeetingRepository(ctx context.Context) meeting_repository.MeetingsRepository {
+	if c.meetingRepository == nil && c.err == nil {
+		c.meetingRepository = factories.CreateRepositoriesMeetingRepository(ctx, c)
+	}
+	return c.meetingRepository
+}
+
+func (c *Container) SetConfig(s config.Params) {
+	c.config = s
+}
+
+func (c *RepositoryContainer) SetMeetingRepository(s meeting_repository.MeetingsRepository) {
+	c.meetingRepository = s
+}
+
+func (c *Container) Close() {
+	if c.db != nil {
+		c.db.Close()
+	}
+
+	if c.server != nil {
+		c.server.Close()
+	}
+}

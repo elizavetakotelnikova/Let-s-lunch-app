@@ -1,17 +1,40 @@
 package definitions
 
+import (
+	meeting_api "cmd/app/entities/meeting/api"
+	meeting_repository "cmd/app/entities/meeting/repository"
+	meeting_usecase "cmd/app/entities/meeting/usecases"
+	chi "github.com/go-chi/chi/v5"
+
+	"cmd/app/config"
+	"database/sql"
+	"log"
+	"net/http"
+)
+
 // Container is a root dependency injection container. It is required to describe
 // your services.
 type Container struct {
-	// put the list of your services here
-	// for example
-	//  log *log.Logger
+	Config config.Params `di:"required"`
+	Logger *log.Logger
+	DB     *sql.DB `di:"close"`
 
-	// also, you can describe your services in a separate container
-	// repositories RepositoryContainer
+	Server *http.Server `di:"public,close" factory-file:"server"`
+	Router *chi.Mux     `factory-file:"api"`
+
+	API          APIContainer
+	UseCases     UseCaseContainer
+	Repositories RepositoryContainer
 }
 
-// this is a separate container
-// type RepositoryContainer {
-// 	entityRepository domain.EntityRepository
-// }
+type APIContainer struct {
+	FindMeetingHandler *meeting_api.FindMeeting
+}
+
+type UseCaseContainer struct {
+	FindMeeting *meeting_usecase.FindMeeting
+}
+
+type RepositoryContainer struct {
+	meetingRepository meeting_repository.MeetingsRepository `di:"set"`
+}

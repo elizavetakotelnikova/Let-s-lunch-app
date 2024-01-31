@@ -1,0 +1,14 @@
+package query
+
+import (
+	"cmd/app/models"
+	"database/sql"
+	"github.com/gofrs/uuid/v5"
+)
+
+type FindCriteria struct {
+	Address     *models.Address
+	InitiatorID uuid.NullUUID
+	CuisineType sql.NullInt16
+	Rating      int
+}
