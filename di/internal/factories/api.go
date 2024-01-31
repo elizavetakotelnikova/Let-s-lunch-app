@@ -1,6 +1,7 @@
 package factories
 
 import (
+	"cmd/app/auth"
 	gathering_place_api "cmd/app/entities/gatheringPlace/api"
 	meeting_api "cmd/app/entities/meeting/api"
 	user_api "cmd/app/entities/user/api"
@@ -13,6 +14,10 @@ import (
 func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	config := auth.Config{
+		Users: c.Repositories().UserRepository(ctx),
+	}
+	r.Use(config.AuthMiddleware)
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/meeting", func(r chi.Router) {
 			r.Route("/find", func(r chi.Router) {
