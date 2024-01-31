@@ -70,6 +70,7 @@ type APIContainer struct {
 	createMeetingHandler        *meeting_api.CreateMeetingHandler
 	findGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
 	createGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
+	updateGatheringPlaceHandler *gathering_place_api.UpdateGatheringPlaceHandler
 }
 
 type UseCaseContainer struct {
@@ -83,6 +84,7 @@ type UseCaseContainer struct {
 	createMeeting        *meeting_usecase.CreateMeetingUseCase
 	findGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	createGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
+	updateGatheringPlace *gathering_place_usecase.UpdateGatheringPlaceUseCase
 }
 
 type RepositoryContainer struct {
@@ -185,6 +187,13 @@ func (c *APIContainer) CreateGatheringPlaceHandler(ctx context.Context) *gatheri
 	return c.createGatheringPlaceHandler
 }
 
+func (c *APIContainer) UpdateGatheringPlaceHandler(ctx context.Context) *gathering_place_api.UpdateGatheringPlaceHandler {
+	if c.updateGatheringPlaceHandler == nil && c.err == nil {
+		c.updateGatheringPlaceHandler = factories.CreateAPIUpdateGatheringPlaceHandler(ctx, c)
+	}
+	return c.updateGatheringPlaceHandler
+}
+
 func (c *Container) UseCases() lookup.UseCaseContainer {
 	return c.useCases
 }
@@ -243,6 +252,13 @@ func (c *UseCaseContainer) CreateGatheringPlace(ctx context.Context) *gathering_
 		c.createGatheringPlace = factories.CreateUseCasesCreateGatheringPlace(ctx, c)
 	}
 	return c.createGatheringPlace
+}
+
+func (c *UseCaseContainer) UpdateGatheringPlace(ctx context.Context) *gathering_place_usecase.UpdateGatheringPlaceUseCase {
+	if c.updateGatheringPlace == nil && c.err == nil {
+		c.updateGatheringPlace = factories.CreateUseCasesUpdateGatheringPlace(ctx, c)
+	}
+	return c.updateGatheringPlace
 }
 
 func (c *Container) Repositories() lookup.RepositoryContainer {
