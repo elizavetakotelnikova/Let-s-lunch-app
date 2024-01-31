@@ -28,6 +28,8 @@ func (handler *DeleteUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 		return
 	}
 
+	sfsdf
+
 	err = handler.useCase.Handle(request.Context(), uuidID)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err)
