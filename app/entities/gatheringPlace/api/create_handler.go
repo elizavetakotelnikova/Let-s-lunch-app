@@ -23,7 +23,7 @@ func NewCreateGatheringPlaceHandler(useCase *usecases.CreateGatheringPlaceUseCas
 func (handler *CreateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var createGatheringPlaceDto dto.CreateGatheringPlaceDto
 	if err := json.NewDecoder(request.Body).Decode(&createGatheringPlaceDto); err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -40,7 +40,7 @@ func (handler *CreateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 	gathering_place, err := handler.useCase.Handle(request.Context(), command)
 
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

@@ -13,7 +13,6 @@ import (
 func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/meeting", func(r chi.Router) {
 			r.Route("/find", func(r chi.Router) {

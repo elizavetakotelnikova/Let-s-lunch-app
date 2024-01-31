@@ -21,18 +21,16 @@ func (handler *DeleteUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
 		return
 	}
 
-	sfsdf
-
 	err = handler.useCase.Handle(request.Context(), uuidID)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

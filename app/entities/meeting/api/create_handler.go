@@ -23,7 +23,7 @@ func NewCreateMeetingHandler(useCase *usecases.CreateMeetingUseCase) *CreateMeet
 func (handler *CreateMeetingHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var createMeetingDto dto.CreateMeetingDto
 	if err := json.NewDecoder(request.Body).Decode(&createMeetingDto); err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -41,7 +41,7 @@ func (handler *CreateMeetingHandler) ServeHTTP(writer http.ResponseWriter, reque
 	meeting, err := handler.useCase.Handle(request.Context(), command)
 
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)
