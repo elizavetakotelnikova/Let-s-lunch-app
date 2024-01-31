@@ -43,6 +43,7 @@ type APIContainer interface {
 	FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler
 	CreateUserHandler(ctx context.Context) *user_api.CreateUserHandler
 	UpdateUserHandler(ctx context.Context) *user_api.UpdateUserHandler
+	DeleteUserHandler(ctx context.Context) *user_api.DeleteUserHandler
 }
 
 type UseCaseContainer interface {
@@ -51,6 +52,7 @@ type UseCaseContainer interface {
 	FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase
 	UpdateUser(ctx context.Context) *user_usecase.UpdateUserUseCase
+	DeleteUser(ctx context.Context) *user_usecase.DeleteUserUseCase
 }
 
 type RepositoryContainer interface {

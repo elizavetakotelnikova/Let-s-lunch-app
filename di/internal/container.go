@@ -67,6 +67,7 @@ type APIContainer struct {
 	findGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
 	createUserHandler         *user_api.CreateUserHandler
 	updateUserHandler         *user_api.UpdateUserHandler
+	deleteUserHandler         *user_api.DeleteUserHandler
 }
 
 type UseCaseContainer struct {
@@ -77,6 +78,7 @@ type UseCaseContainer struct {
 	findGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	createUser         *user_usecase.CreateUserUseCase
 	updateUser         *user_usecase.UpdateUserUseCase
+	deleteUser         *user_usecase.DeleteUserUseCase
 }
 
 type RepositoryContainer struct {
@@ -158,6 +160,13 @@ func (c *APIContainer) UpdateUserHandler(ctx context.Context) *user_api.UpdateUs
 	return c.updateUserHandler
 }
 
+func (c *APIContainer) DeleteUserHandler(ctx context.Context) *user_api.DeleteUserHandler {
+	if c.deleteUserHandler == nil && c.err == nil {
+		c.deleteUserHandler = factories.CreateAPIDeleteUserHandler(ctx, c)
+	}
+	return c.deleteUserHandler
+}
+
 func (c *Container) UseCases() lookup.UseCaseContainer {
 	return c.useCases
 }
@@ -195,6 +204,13 @@ func (c *UseCaseContainer) UpdateUser(ctx context.Context) *user_usecase.UpdateU
 		c.updateUser = factories.CreateUseCasesUpdateUser(ctx, c)
 	}
 	return c.updateUser
+}
+
+func (c *UseCaseContainer) DeleteUser(ctx context.Context) *user_usecase.DeleteUserUseCase {
+	if c.deleteUser == nil && c.err == nil {
+		c.deleteUser = factories.CreateUseCasesDeleteUser(ctx, c)
+	}
+	return c.deleteUser
 }
 
 func (c *Container) Repositories() lookup.RepositoryContainer {

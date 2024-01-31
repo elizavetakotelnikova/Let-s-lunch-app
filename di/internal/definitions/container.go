@@ -39,6 +39,7 @@ type APIContainer struct {
 	FindGatheringPlaceHandler *gathering_place_api.FindGatheringPlaceByIdHandler
 	CreateUserHandler         *user_api.CreateUserHandler
 	UpdateUserHandler         *user_api.UpdateUserHandler
+	DeleteUserHandler         *user_api.DeleteUserHandler
 }
 
 type UseCaseContainer struct {
@@ -47,6 +48,7 @@ type UseCaseContainer struct {
 	FindGatheringPlace *gathering_place_usecase.FindGatheringPlaceByIdUseCase
 	CreateUser         *user_usecase.CreateUserUseCase
 	UpdateUser         *user_usecase.UpdateUserUseCase
+	DeleteUser         *user_usecase.DeleteUserUseCase
 }
 
 type RepositoryContainer struct {
