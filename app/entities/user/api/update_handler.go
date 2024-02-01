@@ -14,11 +14,11 @@ type JsonUpdateUserResponse struct {
 }
 
 type UpdateUserHandler struct {
-	useCase *usecases.UpdateUserUseCase
+	UseCase *usecases.UpdateUserUseCase
 }
 
 func NewUpdateUserHandler(useCase *usecases.UpdateUserUseCase) *UpdateUserHandler {
-	return &UpdateUserHandler{useCase: useCase}
+	return &UpdateUserHandler{UseCase: useCase}
 }
 
 func (handler *UpdateUserHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -48,7 +48,7 @@ func (handler *UpdateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 		return
 	}
 
-	response, err := handler.useCase.Handle(request.Context(), command, uuidID)
+	response, err := handler.UseCase.Handle(request.Context(), command, uuidID)
 
 	marshaledResponse, err := json.Marshal(response)
 

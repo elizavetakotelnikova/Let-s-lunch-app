@@ -9,11 +9,11 @@ import (
 )
 
 type DeleteUserHandler struct {
-	useCase *usecases.DeleteUserUseCase
+	UseCase *usecases.DeleteUserUseCase
 }
 
 func NewDeleteUserHandler(useCase *usecases.DeleteUserUseCase) *DeleteUserHandler {
-	return &DeleteUserHandler{useCase: useCase}
+	return &DeleteUserHandler{UseCase: useCase}
 }
 
 func (handler *DeleteUserHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -28,7 +28,7 @@ func (handler *DeleteUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 		return
 	}
 
-	err = handler.useCase.Handle(request.Context(), uuidID)
+	err = handler.UseCase.Handle(request.Context(), uuidID)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err)
 

@@ -11,11 +11,11 @@ import (
 )
 
 type FindUsersByCriteriaHandler struct {
-	useCase *usecases.FindUsersByCriteriaUseCase
+	UseCase *usecases.FindUsersByCriteriaUseCase
 }
 
 func NewFindUsersByCriteriaHandler(useCase *usecases.FindUsersByCriteriaUseCase) *FindUsersByCriteriaHandler {
-	return &FindUsersByCriteriaHandler{useCase: useCase}
+	return &FindUsersByCriteriaHandler{UseCase: useCase}
 }
 
 func (handler *FindUsersByCriteriaHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -68,7 +68,7 @@ func (handler *FindUsersByCriteriaHandler) ServeHTTP(writer http.ResponseWriter,
 		findCriteria.Gender = &actualGender
 	}
 
-	users, err := handler.useCase.Handle(request.Context(), findCriteria)
+	users, err := handler.UseCase.Handle(request.Context(), findCriteria)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err)
 
