@@ -18,18 +18,18 @@ response:
 
 ```json
 {
-    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
-    "username": "string",
-    "displayName": "string",
-    "currentMeetingId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"meetingHistory": [
-        "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "04056053-5d96-4069-94c3-4b3281ef32a0"
-    ],
-	"rating": 1,
-	"age": 1,
-	"gender": 1
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "username": "string",
+  "displayName": "string",
+  "currentMeetingId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "meetingHistory": [
+    "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "04056053-5d96-4069-94c3-4b3281ef32a0"
+  ],
+  "rating": 1,
+  "age": 1,
+  "gender": 1
 }
 ```
 
@@ -52,25 +52,27 @@ response:
 **response:**
 
 ```json
-{
-    "04056053-5d96-4069-94c3-4b3281ef32a0": {
-        "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "username": "string",
-        "displayName": "string",
-        "currentMeetingId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "meetingHistory": [
-            "04056053-5d96-4069-94c3-4b3281ef32a0",
-            "04056053-5d96-4069-94c3-4b3281ef32a0",
-            "04056053-5d96-4069-94c3-4b3281ef32a0"
-        ],
-        "rating": 1,
-        "age": 1,
-        "gender": 1
-    },
-    "04056053-5d96-4069-94c3-4b3281ef32a0": {
-        ...
-    }
-} // это map[uuid]user
+[
+  {
+    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "username": "string",
+    "displayName": "string",
+    "currentMeetingId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "meetingHistory": [
+      "04056053-5d96-4069-94c3-4b3281ef32a0",
+      "04056053-5d96-4069-94c3-4b3281ef32a0",
+      "04056053-5d96-4069-94c3-4b3281ef32a0"
+    ],
+    "rating": 1,
+    "age": 1,
+    "gender": 1
+  },
+  {
+    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    ...
+  }
+]
+// это []user
 ```
 
 ### Create
@@ -79,14 +81,15 @@ response:
 
 **Method:** POST
 
-**request:** 
+**request:**
 
 ```json
 {
-    "username": "string",
-    "displayName": "string",
-	"age": 1,
-	"gender": 1
+  "username": "string",
+  "displayName": "string",
+  "birthday": "2000-01-01T20-20Z",
+  "phoneNumber": "+78129520011",
+  "gender": 1
 }
 ```
 
@@ -94,7 +97,7 @@ response:
 
 ```json
 {
-	"id": "04056053-5d96-4069-94c3-4b3281ef32a0"
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0"
 }
 ```
 
@@ -108,14 +111,15 @@ response:
 
 * {userID}
 
-**request:** 
+**request:**
 
 ```json
 {
-    "username": "string",
-    "displayName": "string",
-	"age": 1,
-	"gender": 1
+  "username": "string",
+  "displayName": "string",
+  "birthday": "2000-01-01T20-20Z",
+  "phoneNumber": "+78129520011",
+  "gender": 1
 }
 ```
 
@@ -123,7 +127,7 @@ response:
 
 ```json
 {
-	"id": "04056053-5d96-4069-94c3-4b3281ef32a0"
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0"
 }
 ```
 
@@ -159,13 +163,13 @@ response:
 
 ```json
 {
-    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
-    "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"startTime": "2024-01-30T18:38:25.125Z",
-	"endTime": "2024-01-30T18:38:25.125Z",
-	"usersQuantity": 2,
-	"state": 0
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "startTime": "2024-01-30T18:38:25.125Z",
+  "endTime": "2024-01-30T18:38:25.125Z",
+  "usersQuantity": 2,
+  "state": 0
 }
 ```
 
@@ -185,20 +189,22 @@ response:
 **response:**
 
 ```json
-{
-    "04056053-5d96-4069-94c3-4b3281ef32a0": {
-        "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "startTime": "2024-01-30T18:38:25.125Z",
-        "endTime": "2024-01-30T18:38:25.125Z",
-        "usersQuantity": 2,
-        "state": 0
-    },
-    "04056053-5d96-4069-94c3-4b3281ef32a0": {
-        ...
-    }
-} // это map[uuid]user
+[
+  {
+    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "startTime": "2024-01-30T18:38:25.125Z",
+    "endTime": "2024-01-30T18:38:25.125Z",
+    "usersQuantity": 2,
+    "state": 0
+  },
+  {
+    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    ...
+  }
+]
+// []meeting
 ```
 
 ### Create
@@ -207,16 +213,16 @@ response:
 
 **Method:** POST
 
-**request:** 
+**request:**
 
 ```json
 {
-    "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"startTime": "2024-01-30T18:38:25.125Z",
-	"endTime": "2024-01-30T18:38:25.125Z",
-	"usersQuantity": 2,
-	"state": 0
+  "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "startTime": "2024-01-30T18:38:25.125Z",
+  "endTime": "2024-01-30T18:38:25.125Z",
+  "usersQuantity": 2,
+  "state": 0
 }
 ```
 
@@ -224,7 +230,7 @@ response:
 
 ```json
 {
-	"id": "04056053-5d96-4069-94c3-4b3281ef32a0"
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0"
 }
 ```
 
@@ -238,16 +244,16 @@ response:
 
 * {meetingID}
 
-**request:** 
+**request:**
 
 ```json
 {
-    "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"startTime": "2024-01-30T18:38:25.125Z",
-	"endTime": "2024-01-30T18:38:25.125Z",
-	"usersQuantity": 2,
-	"state": 0
+  "gatheringPlaceId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "initiatorsId": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "startTime": "2024-01-30T18:38:25.125Z",
+  "endTime": "2024-01-30T18:38:25.125Z",
+  "usersQuantity": 2,
+  "state": 0
 }
 ```
 
@@ -255,7 +261,7 @@ response:
 
 ```json
 {
-	"id": "04056053-5d96-4069-94c3-4b3281ef32a0"
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0"
 }
 ```
 
@@ -291,18 +297,18 @@ response:
 
 ```json
 {
-    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
-	"address": {
-        "country":        "Russia",
-        "city":           "Piter",
-        "streetName ":    "kronverksky",
-        "houseNumber":    "49",
-        "BbuildingNumber" 5
-    },
-	"averagePrice": 1,
-	"cuisineType": 0,
-	"rating": 1,
-	"phoneNumber": "88005553535"
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+  "address": {
+    "country": "Russia",
+    "city": "Piter",
+    "streetName ": "kronverksky",
+    "buildingNumber": 5,
+    "houseNumber": "49"
+  },
+  "averagePrice": 1,
+  "cuisineType": 0,
+  "rating": 1,
+  "phoneNumber": "88005553535"
 }
 ```
 
@@ -324,25 +330,26 @@ response:
 **response:**
 
 ```json
-{
-    "04056053-5d96-4069-94c3-4b3281ef32a0": {
-        "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
-        "address": {
-            "country":        "Russia",
-            "city":           "Piter",
-            "streetName ":    "kronverksky",
-            "houseNumber":    "49",
-            "BbuildingNumber" 5
-        },
-        "averagePrice": 1,
-        "cuisineType": 0,
-        "rating": 1,
-        "phoneNumber": "88005553535"
+[
+  {
+    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    "address": {
+      "country": "Russia",
+      "city": "Piter",
+      "streetName ": "kronverksky",
+      "buildingNumber": 5,
+      "houseNumber": "49"
     },
-    "04056053-5d96-4069-94c3-4b3281ef32a0": {
-        ...
-    }
-} // это map[uuid]user
+    "averagePrice": 1,
+    "cuisineType": 0,
+    "rating": 1,
+    "phoneNumber": "88005553535"
+  },
+  {
+    "id": "04056053-5d96-4069-94c3-4b3281ef32a0",
+    ...
+  }
+] // это []gatheringPlace
 ```
 
 ### Create
@@ -351,21 +358,21 @@ response:
 
 **Method:** POST
 
-**request:** 
+**request:**
 
 ```json
 {
-	"address": {
-        "country":        "Russia",
-        "city":           "Piter",
-        "streetName ":    "kronverksky",
-        "houseNumber":    "49",
-        "BbuildingNumber" 5
-    },
-	"averagePrice": 1,
-	"cuisineType": 0,
-	"rating": 1,
-	"phoneNumber": "88005553535"
+  "address": {
+    "country": "Russia",
+    "city": "Piter",
+    "streetName ": "kronverksky",
+    "buildingNumber": 5,
+    "houseNumber": "49"
+  },
+  "averagePrice": 1,
+  "cuisineType": 0,
+  "rating": 1,
+  "phoneNumber": "88005553535"
 }
 ```
 
@@ -373,7 +380,7 @@ response:
 
 ```json
 {
-	"id": "04056053-5d96-4069-94c3-4b3281ef32a0"
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0"
 }
 ```
 
@@ -387,21 +394,21 @@ response:
 
 * {gatheringPlaceID}
 
-**request:** 
+**request:**
 
 ```json
 {
-	"address": {
-        "country":        "Russia",
-        "city":           "Piter",
-        "streetName ":    "kronverksky",
-        "houseNumber":    "49",
-        "BbuildingNumber" 5
-    },
-	"averagePrice": 1,
-	"cuisineType": 0,
-	"rating": 1,
-	"phoneNumber": "88005553535"
+  "address": {
+    "country": "Russia",
+    "city": "Piter",
+    "streetName ": "kronverksky",
+    "buildingNumber": 5,
+    "houseNumber": "49"
+  },
+  "averagePrice": 1,
+  "cuisineType": 0,
+  "rating": 1,
+  "phoneNumber": "88005553535"
 }
 ```
 
@@ -409,7 +416,7 @@ response:
 
 ```json
 {
-	"id": "04056053-5d96-4069-94c3-4b3281ef32a0"
+  "id": "04056053-5d96-4069-94c3-4b3281ef32a0"
 }
 ```
 
