@@ -5,6 +5,7 @@ import (
 	"cmd/app/entities/user/usecases"
 	"encoding/json"
 	"github.com/gofrs/uuid/v5"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
 
@@ -36,6 +37,15 @@ func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 	command.Birthday = createUserDto.Birthday
 	command.PhoneNumber = createUserDto.PhoneNumber
 	command.Gender = createUserDto.Gender
+	var err error
+	command.HashedPassword, err = bcrypt.GenerateFromPassword([]byte(createUserDto.Password), 8)
+	if err != nil {
+		marshaledError, _ := json.Marshal(err.Error())
+
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write(marshaledError)
+		return
+	}
 
 	user, err := handler.useCase.Handle(request.Context(), command)
 

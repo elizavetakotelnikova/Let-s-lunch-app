@@ -79,3 +79,10 @@ func CreateUseCasesDeleteGatheringPlace(ctx context.Context, c lookup.Container)
 		c.Repositories().GatheringPlaceRepository(ctx),
 	)
 }
+
+func CreateUseCasesGetToken(ctx context.Context, c lookup.Container) *user_usecase.GetTokenUseCase {
+	return user_usecase.NewGetTokenUseCase(
+		c.Repositories().UserRepository(ctx),
+		c.TokenAuth(ctx),
+	)
+}

@@ -14,11 +14,12 @@ type CreateUserUseCase struct {
 }
 
 type CreateUserCommand struct {
-	Username    string
-	DisplayName string
-	Birthday    time.Time
-	PhoneNumber string
-	Gender      user.Gender
+	Username       string
+	DisplayName    string
+	Birthday       time.Time
+	PhoneNumber    string
+	Gender         user.Gender
+	HashedPassword []byte
 }
 
 func NewCreateUserUseCase(user repository.UsersRepository) *CreateUserUseCase {
@@ -35,6 +36,7 @@ func (useCase *CreateUserUseCase) Handle(
 		command.Birthday,
 		command.PhoneNumber,
 		command.Gender,
+		command.HashedPassword,
 	)
 
 	_, err := useCase.user.Create(ctx, user)

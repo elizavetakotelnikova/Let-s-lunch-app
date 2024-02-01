@@ -10,18 +10,27 @@ import (
 	"strings"
 )
 
-type Config struct {
-	Users  users_repository.UsersRepository
-	Secret string
+type AuthConfig struct {
+	users     users_repository.UsersRepository
+	tokenAuth *jwtauth.JWTAuth
 }
 
-func (a *Config) AuthMiddleware(next http.Handler) http.Handler {
+func NewAuthConfig(
+	users users_repository.UsersRepository,
+	tokenAuth *jwtauth.JWTAuth,
+) *AuthConfig {
+	return &AuthConfig{
+		users:     users,
+		tokenAuth: tokenAuth,
+	}
+}
+
+func (a *AuthConfig) AuthMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
 		ctx := context.WithValue(r.Context(), "user", "123")
 		fmt.Println("received with token: ", r.Header.Get("Authorization"))
 
-		tokenAuth := jwtauth.New("HS256", []byte("secret"), nil)
 		tockenStr := r.Header.Get("Authorization")
 		tockenStr, found := strings.CutPrefix(tockenStr, "Bearer ")
 		if found == false {
@@ -29,7 +38,7 @@ func (a *Config) AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		token, err := tokenAuth.Decode(tockenStr)
+		token, err := a.tokenAuth.Decode(tockenStr)
 		if err != nil {
 			marshaledError, _ := json.Marshal(err.Error())
 
@@ -39,8 +48,6 @@ func (a *Config) AuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		fmt.Println(token.AsMap(ctx))
-
-		token.Expiration()
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})
