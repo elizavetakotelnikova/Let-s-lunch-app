@@ -15,7 +15,8 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	config := auth.Config{
-		Users: c.Repositories().UserRepository(ctx),
+		Users:  c.Repositories().UserRepository(ctx),
+		Secret: c.Config(ctx).Secret,
 	}
 	r.Use(config.AuthMiddleware)
 	r.Route("/api", func(r chi.Router) {
