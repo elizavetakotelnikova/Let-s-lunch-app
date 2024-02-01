@@ -12,6 +12,7 @@ import (
 	"github.com/go-chi/jwtauth/v5"
 	"github.com/lestrrat-go/jwx/v2/jwt"
 	"time"
+	"github.com/go-chi/cors"
 )
 
 func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
@@ -20,6 +21,20 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	r.Post("/api/user/token", c.API().GetTokenHandler(ctx).ServeHTTP)
 	r.Post("/api/user/create", c.API().CreateUserHandler(ctx).ServeHTTP)
 
+	r.Use(cors.Handler(cors.Options{
+		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins: []string{"https://*", "http://*"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
+	config := auth.Config{
+		Users: c.Repositories().UserRepository(ctx),
+	}
+	r.Use(config.AuthMiddleware)
 	r.Route("/api", func(r chi.Router) {
 		r.Use(c.AuthConfig(ctx).AuthMiddleware)
 
