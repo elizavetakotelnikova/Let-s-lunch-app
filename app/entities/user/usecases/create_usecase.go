@@ -3,8 +3,8 @@ package usecases
 import (
 	"cmd/app/entities/user"
 	domain "cmd/app/entities/user"
-	"cmd/app/entities/user/query"
 	"cmd/app/entities/user/repository"
+	"cmd/app/entities/user/validators"
 	"context"
 	"fmt"
 	"time"
@@ -38,22 +38,16 @@ func (useCase *CreateUserUseCase) Handle(
 		command.Gender,
 	)
 
-	// Is there any user with same username
-	criteria := query.FindCriteria{}
-	criteria.Username.String = user.Username
-	criteria.Username.Valid = true
+	isUsernameUnique, err := validators.IsUsernameUnique(ctx, user, useCase.user)
 
-	existingUser, err := useCase.user.FindUsersByCriteria(ctx, criteria)
-	if err != nil {
-		return nil, fmt.Errorf("user: create user %w", err)
-	}
-	if len(existingUser) == 0 {
+	if isUsernameUnique == true {
 		_, err = useCase.user.Create(ctx, user)
 		if err != nil {
 			return nil, fmt.Errorf("user: create user %w", err)
 		}
 		return user, nil
 	} else {
-		return nil, fmt.Errorf("user: username already exists")
+		return nil, nil
 	}
+
 }
