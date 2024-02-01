@@ -280,3 +280,24 @@ func TestDeletingUser(t *testing.T) {
 	assert.True(t, reflect.DeepEqual(responseID, api.JsonUpdateUserResponse{}))
 	usersRepository.Delete(context.Background(), testUser)
 }
+
+func TestUpdateUserShouldReturnStatus500(t *testing.T) {
+	date, _ := time.Parse(time.DateOnly, "2003-04-16")
+	var testUser = user.NewUser("Katya", "Katya13", date, "+79528123333", user.Female)
+	var usersRepository = repository.NewUsersDatabaseRepository(db)
+	testUser.Username = "Katya78"
+	usersRepository.Update(context.Background(), testUser)
+	var requestBody = `{"username": "katya78", "gender": 1}`
+	req := httptest.NewRequest(http.MethodPut, "/api/user/update/{user_id}", strings.NewReader(requestBody))
+	rctx := chi.NewRouteContext()
+	rctx.URLParams.Add("userID", testUser.ID.String())
+	req = req.WithContext(context.WithValue(req.Context(), chi.RouteCtxKey, rctx))
+	w := httptest.NewRecorder()
+	var updateUsecase = usecases.NewUpdateUserUseCase(usersRepository)
+	handler := api.UpdateUserHandler{UseCase: updateUsecase}
+	handler.ServeHTTP(w, req)
+	res := w.Result()
+	defer res.Body.Close()
+	status := w.Code
+	assert.Equal(t, http.StatusInternalServerError, status)
+}

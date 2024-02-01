@@ -49,7 +49,10 @@ func (handler *UpdateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 	}
 
 	response, err := handler.UseCase.Handle(request.Context(), command, uuidID)
-
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	marshaledResponse, err := json.Marshal(response)
 
 	if err != nil {
