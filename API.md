@@ -2,6 +2,31 @@
 
 ## user
 
+### Token
+
+**route:** /api/user/token
+
+**Method:** POST
+
+**request:**
+
+```json
+{
+    "phoneNumber": "880005553535",
+    "password": "1234567890"
+}
+```
+
+**response:**
+
+```json
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.XbPfbIHMI6arZ3Y922BhjWgQzWXcXNrz0ogtVhfEd2o"
+}
+```
+
+
+
 ### FindByID
 
 **route:** /api/user/find_by_id/{userID}

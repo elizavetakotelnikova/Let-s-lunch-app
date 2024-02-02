@@ -34,7 +34,7 @@ func (repository *UsersDatabaseRepository) FindUsersByCriteria(ctx context.Conte
 	}
 	var currentUser user.User
 	for rows.Next() {
-		if err = rows.Scan(&currentUser.ID, &currentUser.Username, &currentUser.DisplayName, &currentUser.Rating, &currentUser.Gender, &currentUser.CurrentMeetingId, &currentUser.PhoneNumber, &currentUser.Birthday); err != nil {
+		if err = rows.Scan(&currentUser.ID, &currentUser.Username, &currentUser.DisplayName, &currentUser.Rating, &currentUser.Gender, &currentUser.CurrentMeetingId, &currentUser.PhoneNumber, &currentUser.Birthday, &currentUser.HashedPassword); err != nil {
 			return nil, fmt.Errorf("cannot query the database %w", err)
 		}
 		users = append(users, currentUser)

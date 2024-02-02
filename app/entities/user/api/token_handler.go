@@ -7,8 +7,8 @@ import (
 )
 
 type getTokenRequest struct {
-	UserName string `json:"username"`
-	Password string `json:"password"`
+	PhoneNumber string `json:"phoneNumber"`
+	Password    string `json:"password"`
 }
 
 type getTokenResponse struct {
@@ -33,7 +33,7 @@ func (t *GetTokenHandler) ServeHTTP(writer http.ResponseWriter, request *http.Re
 		return
 	}
 
-	token, err := t.useCase.Handle(request.Context(), r.UserName, r.Password)
+	token, err := t.useCase.Handle(request.Context(), r.PhoneNumber, r.Password)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err.Error())
 
