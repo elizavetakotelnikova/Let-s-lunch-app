@@ -9,18 +9,15 @@ import (
 	"context"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 	"github.com/go-chi/jwtauth/v5"
 	"github.com/lestrrat-go/jwx/v2/jwt"
 	"time"
-	"github.com/go-chi/cors"
 )
 
 func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Post("/api/user/token", c.API().GetTokenHandler(ctx).ServeHTTP)
-	r.Post("/api/user/create", c.API().CreateUserHandler(ctx).ServeHTTP)
-
 	r.Use(cors.Handler(cors.Options{
 		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
 		AllowedOrigins: []string{"https://*", "http://*"},
@@ -31,10 +28,10 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 		AllowCredentials: false,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
-	config := auth.Config{
-		Users: c.Repositories().UserRepository(ctx),
-	}
-	r.Use(config.AuthMiddleware)
+
+	r.Post("/api/user/token", c.API().GetTokenHandler(ctx).ServeHTTP)
+	r.Post("/api/user/create", c.API().CreateUserHandler(ctx).ServeHTTP)
+
 	r.Route("/api", func(r chi.Router) {
 		r.Use(c.AuthConfig(ctx).AuthMiddleware)
 
@@ -59,8 +56,6 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 			r.Route("/find_by_id", func(r chi.Router) {
 				r.Get("/{userID}", c.API().FindUserHandler(ctx).ServeHTTP)
 			})
-
-			r.Post("/create", c.API().CreateUserHandler(ctx).ServeHTTP)
 
 			r.Route("/update", func(r chi.Router) {
 				r.Put("/{userID}", c.API().UpdateUserHandler(ctx).ServeHTTP)
