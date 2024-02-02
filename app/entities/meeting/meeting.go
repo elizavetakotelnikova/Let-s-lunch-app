@@ -8,13 +8,13 @@ import (
 )
 
 type Meeting struct {
-	ID               uuid.UUID
-	GatheringPlaceId uuid.UUID
-	InitiatorsId     uuid.UUID
-	StartTime        time.Time
-	EndTime          time.Time
-	UsersQuantity    int
-	State            MeetingState
+	ID               uuid.UUID    `json:"id"`
+	GatheringPlaceId uuid.UUID    `json:"gatheringPlaceId"`
+	InitiatorsId     uuid.UUID    `json:"initiatorsId"`
+	StartTime        time.Time    `json:"startTime"`
+	EndTime          time.Time    `json:"endTime"`
+	UsersQuantity    int          `json:"usersQuantity"`
+	State            MeetingState `json:"state"`
 }
 
 func NewMeeting(gatheringPlaceID uuid.UUID, initiatorsID uuid.UUID, startTime time.Time, endTime time.Time, usersQuantity int, state MeetingState) *Meeting {

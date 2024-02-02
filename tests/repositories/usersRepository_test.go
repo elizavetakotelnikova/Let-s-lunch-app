@@ -29,7 +29,7 @@ func TestCreatingUser(t *testing.T) {
 	//set up
 	var databaseUsersRepository = repository.NewUsersDatabaseRepository(db)
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var currentUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male)
+	var currentUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male, []byte("1234567890"))
 	currentUser.Rating = 5
 	var ctx = context.Background()
 
@@ -56,20 +56,20 @@ func TestFindingByCriteriaUser(t *testing.T) {
 	//set up
 	var databaseUsersRepository = repository.NewUsersDatabaseRepository(db)
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var firstUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male)
+	var firstUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male, []byte("1234567890"))
 	var ctx = context.Background()
 	_, errCreating := databaseUsersRepository.Create(ctx, firstUser)
 	if errCreating != nil {
 		t.Fatalf("Error in creating user: %v", errCreating)
 	}
 	date, _ = time.Parse(time.DateOnly, "2003-04-16")
-	var secondUser = user.NewUser("Masha", "Masha456767", date, "+79528123334", user.Female)
+	var secondUser = user.NewUser("Masha", "Masha456767", date, "+79528123334", user.Female, []byte("1234567890"))
 	_, errCreating = databaseUsersRepository.Create(ctx, secondUser)
 	if errCreating != nil {
 		t.Fatalf("Error in creating user: %v", errCreating)
 	}
 	date, _ = time.Parse(time.DateOnly, "2003-04-16")
-	var thirdUser = user.NewUser("Steve", "Steve13", date, "+79528123332", user.Male)
+	var thirdUser = user.NewUser("Steve", "Steve13", date, "+79528123332", user.Male, []byte("1234567890"))
 	_, errCreating = databaseUsersRepository.Create(ctx, thirdUser)
 	if errCreating != nil {
 		t.Fatalf("Error in creating user: %v", errCreating)
@@ -110,7 +110,7 @@ func TestUpdatingUser(t *testing.T) {
 	//set up
 	var databaseUsersRepository = repository.NewUsersDatabaseRepository(db)
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var currentUser = user.NewUser("Katya", "Katya14", date, "+79528123330", user.Female)
+	var currentUser = user.NewUser("Katya", "Katya14", date, "+79528123330", user.Female, []byte("1234567890"))
 	var ctx = context.Background()
 	_, errCreating := databaseUsersRepository.Create(ctx, currentUser)
 	if errCreating != nil {
@@ -141,7 +141,7 @@ func TestDeletingUser(t *testing.T) {
 	//set up
 	var databaseUsersRepository = repository.NewUsersDatabaseRepository(db)
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var currentUser = user.NewUser("@testUser", "Steve13", date, "+79528123333", user.Male)
+	var currentUser = user.NewUser("@testUser", "Steve13", date, "+79528123333", user.Male, []byte("1234567890"))
 	var ctx = context.Background()
 	_, errCreating := databaseUsersRepository.Create(ctx, currentUser)
 	if errCreating != nil {

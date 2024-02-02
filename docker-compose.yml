@@ -52,6 +52,7 @@ services:
     environment:
       - SERVER_ADDRESS=0.0.0.0:3333
       - DATABASE_URL=postgresql://postgres:$PORT/$DB_NAME?user=$DB_USER&password=$DB_PASSWORD&sslmode=disable
+      - SECRET=$SECRET
       - IN_CONTAINER=True
     depends_on:
       - postgres
@@ -65,13 +66,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device:  ./volumes/db_data
+      device:  ./_volumes/db_data
       o: bind
   pgadmin-data:
     driver: "local"
     driver_opts:
       type: none
-      device:  ./volumes/pgadmin_data
+      device:  ./_volumes/pgadmin_data
       o: bind
 
 networks:
