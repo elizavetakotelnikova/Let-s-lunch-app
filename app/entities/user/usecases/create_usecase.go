@@ -11,7 +11,7 @@ import (
 )
 
 type CreateUserUseCase struct {
-	user repository.UsersRepository
+	User repository.UsersRepository
 }
 
 type CreateUserCommand struct {
@@ -23,7 +23,7 @@ type CreateUserCommand struct {
 }
 
 func NewCreateUserUseCase(user repository.UsersRepository) *CreateUserUseCase {
-	return &CreateUserUseCase{user: user}
+	return &CreateUserUseCase{User: user}
 }
 
 func (useCase *CreateUserUseCase) Handle(
@@ -37,11 +37,10 @@ func (useCase *CreateUserUseCase) Handle(
 		command.PhoneNumber,
 		command.Gender,
 	)
-
-	isUsernameUnique, err := validators.IsUsernameUnique(ctx, user, useCase.user)
+	isUsernameUnique, err := validators.IsUsernameUnique(ctx, user, useCase.User)
 
 	if isUsernameUnique == true {
-		_, err = useCase.user.Create(ctx, user)
+		_, err = useCase.User.Create(ctx, user)
 		if err != nil {
 			return nil, fmt.Errorf("user: create user %w", err)
 		}

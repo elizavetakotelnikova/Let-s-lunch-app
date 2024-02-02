@@ -22,11 +22,11 @@ type JsonFindUserByIdResponse struct {
 }
 
 type FindUserByIdHandler struct {
-	useCase *usecases.FindUserByIdUseCase
+	UseCase *usecases.FindUserByIdUseCase
 }
 
 func NewFindUserByIdHandler(useCase *usecases.FindUserByIdUseCase) *FindUserByIdHandler {
-	return &FindUserByIdHandler{useCase: useCase}
+	return &FindUserByIdHandler{UseCase: useCase}
 }
 
 func (handler *FindUserByIdHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -41,7 +41,7 @@ func (handler *FindUserByIdHandler) ServeHTTP(writer http.ResponseWriter, reques
 		return
 	}
 
-	users, err := handler.useCase.Handle(request.Context(), uuidID)
+	users, err := handler.UseCase.Handle(request.Context(), uuidID)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err.Error())
 
