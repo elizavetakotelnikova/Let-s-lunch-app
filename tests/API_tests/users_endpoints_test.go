@@ -13,7 +13,7 @@ import (
 	"github.com/gofrs/uuid/v5"
 	"github.com/gorilla/mux"
 	"github.com/ory/dockertest/v3"
-	"github.com/ory/dockertest/v3/docker"
+	"github.com/pressly/goose/v3"
 	"github.com/stretchr/testify/assert"
 	"log"
 	"net/http"
@@ -50,26 +50,19 @@ func TestMain(m *testing.M) {
 	}
 
 	// pulls an image, creates a container based on it and runs it
-	opts := dockertest.RunOptions{
-		Repository:   "postgres",
-		Tag:          "14.8-alpine",
-		Env:          []string{"POSTGRES_USER=admin POSTGRES_PASSWORD=admin DBNAME=foodate"},
-		ExposedPorts: []string{"5432"},
-		PortBindings: map[docker.Port][]docker.PortBinding{
-			"5433": {
-				{HostIP: "0.0.0.0", HostPort: "5432"},
-			},
-		},
-	}
-
-	resource, err := pool.RunWithOptions(&opts)
+	resource, err := pool.Run("postgres", "latest", []string{
+		"POSTGRES_PASSWORD=secret",
+		"POSTGRES_USER=user",
+		"POSTGRES_DB=testdb",
+	})
 	if err != nil {
 		log.Fatalf("Could not start resource: %s", err)
 	}
+	var testPort = resource.GetPort("5432/tcp")
 	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
 	if err := pool.Retry(func() error {
 		var err error
-		db, err = sql.Open("postgres", fmt.Sprintf("host=localhost port=5432 user=admin password=admin dbname=foodate sslmode=disable"))
+		db, err = sql.Open("postgres", fmt.Sprintf("host=localhost port=%s user=user password=secret dbname=testdb sslmode=disable", testPort))
 		if err != nil {
 			return err
 		}
@@ -77,17 +70,24 @@ func TestMain(m *testing.M) {
 	}); err != nil {
 		log.Fatalf("Could not connect to database: %s", err)
 	}
+	if err := goose.SetDialect("postgres"); err != nil {
+		panic(err)
+	}
+	if err := goose.Up(db, "../../migrations"); err != nil {
+		panic(err)
+	}
 
 	code := m.Run()
 	// You can't defer this because os.Exit doesn't care for defer
 	if err = pool.Purge(resource); err != nil {
 		log.Fatalf("Could not purge resource: %s", err)
 	}
+	resource.Close()
 	os.Exit(code)
 }
 
 func TestCreatingUserShouldReturnStatus200(t *testing.T) {
-	var requestBody = `{"username": "katya78", "displayName": "katya", "birthday": "2006-12-13T08:08:08Z", "phoneNumber": "89816999983", "gender": 1}`
+	var requestBody = `{"username": "katya76", "displayName": "katya", "birthday": "2006-12-13T08:08:08Z", "phoneNumber": "89816999983", "gender": 1}`
 	req := httptest.NewRequest(http.MethodPost, "/api/user/create", strings.NewReader(requestBody))
 	w := httptest.NewRecorder()
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
@@ -151,7 +151,6 @@ func TestFindUserByIdShouldReturnStatus200(t *testing.T) {
 	status := w.Code
 	assert.Equal(t, http.StatusOK, status)
 	assert.Equal(t, responseBody, response)
-	usersRepository.Delete(context.Background(), testUser)
 }
 
 func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
@@ -186,7 +185,6 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 		}
 	}
 	assert.True(t, AreUsersEqual(testUser, &userFromRepository))
-	usersRepository.Delete(context.Background(), testUser)
 }
 
 func TestUpdateUserShouldReturnStatus200(t *testing.T) {
@@ -240,7 +238,6 @@ func TestUpdateUserShouldReturnStatus200(t *testing.T) {
 	responseBody.Gender = user.Female
 	responseBody.ID = testUser.ID
 	assert.Equal(t, responseBody, response)
-	usersRepository.Delete(context.Background(), testUser)
 	// ок, если таки должно быть, что старые поля затираются нулями, если не поданы в запросе
 }
 
@@ -278,7 +275,7 @@ func TestDeletingUser(t *testing.T) {
 	json.Unmarshal([]byte(w.Body.String()), &responseID)
 	assert.Equal(t, http.StatusOK, status)
 	assert.True(t, reflect.DeepEqual(responseID, api.JsonUpdateUserResponse{}))
-	usersRepository.Delete(context.Background(), testUser)
+	//usersRepository.Delete(context.Background(), testUser)
 }
 
 func TestUpdateUserShouldReturnStatus500(t *testing.T) {
