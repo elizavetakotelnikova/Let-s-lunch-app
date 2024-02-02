@@ -40,8 +40,8 @@ func (useCase *CreateUserUseCase) Handle(
 		command.HashedPassword,
 	)
 	isUsernameUnique, err := validators.IsUsernameUnique(ctx, user, useCase.User)
-
-	if isUsernameUnique == true {
+	isPhoneUnique, err := validators.IsPhoneNubmerUnique(ctx, user, useCase.User)
+	if (isUsernameUnique && isPhoneUnique) == true {
 		_, err = useCase.User.Create(ctx, user)
 		if err != nil {
 			return nil, fmt.Errorf("user: create user %w", err)

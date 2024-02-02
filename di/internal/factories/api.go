@@ -57,6 +57,8 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 				r.Get("/{userID}", c.API().FindUserHandler(ctx).ServeHTTP)
 			})
 
+			r.Post("/create", c.API().CreateUserHandler(ctx).ServeHTTP)
+
 			r.Route("/update", func(r chi.Router) {
 				r.Put("/{userID}", c.API().UpdateUserHandler(ctx).ServeHTTP)
 				r.Delete("/{userID}", c.API().DeleteUserHandler(ctx).ServeHTTP)

@@ -36,6 +36,8 @@ func (handler *CreateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 	command.CusineType = createGatheringPlaceDto.CusineType
 	command.Rating = createGatheringPlaceDto.Rating
 	command.PhoneNumber = createGatheringPlaceDto.PhoneNumber
+	command.Description = createGatheringPlaceDto.Description
+	command.Title = createGatheringPlaceDto.Title
 
 	gathering_place, err := handler.useCase.Handle(request.Context(), command)
 

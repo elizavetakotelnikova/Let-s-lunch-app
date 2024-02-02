@@ -117,7 +117,7 @@ response:
 {
   "username": "string",
   "displayName": "string",
-  "birthday": "2000-01-01T20-20Z",
+  "birthday": "2000-01-01T20:20:00Z",
   "phoneNumber": "+78129520011",
   "gender": 1
 }
