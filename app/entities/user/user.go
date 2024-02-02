@@ -15,7 +15,7 @@ type User struct {
 	Birthday         time.Time     `json:"birthday"`
 	Gender           Gender        `json:"gender"`
 	PhoneNumber      string        `json:"phoneNumber"`
-	HashedPassword   []byte 	   `json:"hashed_password"`
+	HashedPassword   []byte        `json:"-"`
 }
 
 func NewUser(username string, displayName string, birthday time.Time, phoneNumber string, gender Gender, hashedPassword []byte) *User {
