@@ -23,7 +23,7 @@ func NewCreateUserHandler(useCase *usecases.CreateUserUseCase) *CreateUserHandle
 func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var createUserDto dto.CreateUserDto
 	if err := json.NewDecoder(request.Body).Decode(&createUserDto); err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -40,7 +40,7 @@ func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 	user, err := handler.UseCase.Handle(request.Context(), command)
 
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

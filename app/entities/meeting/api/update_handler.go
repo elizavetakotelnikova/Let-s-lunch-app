@@ -24,7 +24,7 @@ func NewUpdateMeetingHandler(useCase *usecases.UpdateMeetingUseCase) *UpdateMeet
 func (handler *UpdateMeetingHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var updateMeetingDto dto.UpdateMeetingDto
 	if err := json.NewDecoder(request.Body).Decode(&updateMeetingDto); err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -43,7 +43,7 @@ func (handler *UpdateMeetingHandler) ServeHTTP(writer http.ResponseWriter, reque
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
