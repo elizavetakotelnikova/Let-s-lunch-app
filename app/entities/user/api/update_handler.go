@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
 
@@ -37,6 +38,15 @@ func (handler *UpdateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 	command.Birthday = updateUserDto.Birthday
 	command.PhoneNumber = updateUserDto.PhoneNumber
 	command.Gender = updateUserDto.Gender
+	var err error
+	command.HashedPassword, err = bcrypt.GenerateFromPassword([]byte(updateUserDto.Password), 8)
+	if err != nil {
+		marshaledError, _ := json.Marshal(err.Error())
+
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write(marshaledError)
+		return
+	}
 	id := chi.URLParam(request, "userID")
 
 	uuidID, err := uuid.FromString(id)

@@ -80,6 +80,13 @@ func CreateUseCasesDeleteGatheringPlace(ctx context.Context, c lookup.Container)
 	)
 }
 
+func CreateUseCasesGetToken(ctx context.Context, c lookup.Container) *user_usecase.GetTokenUseCase {
+	return user_usecase.NewGetTokenUseCase(
+		c.Repositories().UserRepository(ctx),
+		c.TokenAuth(ctx),
+	)
+}
+
 func CreateUseCasesFindUsers(ctx context.Context, c lookup.Container) *user_usecase.FindUsersByCriteriaUseCase {
 	return user_usecase.NewFindUsersByCriteriaUseCase(
 		c.Repositories().UserRepository(ctx),

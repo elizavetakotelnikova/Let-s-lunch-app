@@ -15,19 +15,22 @@ type User struct {
 	Birthday         time.Time     `json:"birthday"`
 	Gender           Gender        `json:"gender"`
 	PhoneNumber      string        `json:"phoneNumber"`
+	HashedPassword   []byte 	   `json:"hashed_password"`
 }
 
-func NewUser(username string, displayname string, birthday time.Time, phoneNumber string, gender Gender) *User {
+func NewUser(username string, displayName string, birthday time.Time, phoneNumber string, gender Gender, hashedPassword []byte) *User {
 	id, err := uuid.NewV4()
 	if err != nil {
 		return nil
 	}
 
 	return &User{
-		ID:          id,
-		Username:    username,
-		DisplayName: displayname,
-		Birthday:    birthday,
-		PhoneNumber: phoneNumber,
-		Gender:      gender}
+		ID:             id,
+		Username:       username,
+		DisplayName:    displayName,
+		Birthday:       birthday,
+		PhoneNumber:    phoneNumber,
+		Gender:         gender,
+		HashedPassword: hashedPassword,
+	}
 }
