@@ -3,7 +3,6 @@ package auth
 import (
 	users_repository "cmd/app/entities/user/repository"
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/go-chi/jwtauth/v5"
 	"net/http"
@@ -38,16 +37,13 @@ func (a *AuthConfig) AuthMiddleware(next http.Handler) http.Handler {
 			return
 		}
 
-		token, err := a.tokenAuth.Decode(tockenStr)
+		_, err := a.tokenAuth.Decode(tockenStr)
 		if err != nil {
-			marshaledError, _ := json.Marshal(err.Error())
-
-			w.WriteHeader(http.StatusUnauthorized)
-			w.Write(marshaledError)
+			http.Error(w, err.Error(), http.StatusUnauthorized)
 			return
 		}
 
-		fmt.Println(token.AsMap(ctx))
+		//fmt.Println(token.AsMap(ctx))
 
 		next.ServeHTTP(w, r.WithContext(ctx))
 	})

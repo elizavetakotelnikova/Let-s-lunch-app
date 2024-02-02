@@ -24,7 +24,7 @@ func NewGetTokenUseCase(users repository.UsersRepository, tokenAuth *jwtauth.JWT
 
 func (t *GetTokenUseCase) Handle(ctx context.Context, username string, password string) (string, error) {
 	users, err := t.users.FindUsersByCriteria(ctx, query.FindCriteria{
-		Username: sql.NullString{String: username, Valid: true},
+		PhoneNumber: sql.NullString{String: username, Valid: true},
 	})
 	if err != nil {
 		return "", err
@@ -40,8 +40,8 @@ func (t *GetTokenUseCase) Handle(ctx context.Context, username string, password 
 	}
 
 	_, tokenStr, err := t.tokenAuth.Encode(map[string]interface{}{
-		"username": username,
-		"password": password,
+		"phoneNumber": username,
+		"password":    password,
 	})
 	if err != nil {
 		return "", err
