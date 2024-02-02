@@ -25,7 +25,7 @@ func TestMain(m *testing.M) {
 func TestCreatingGatheringPlace(t *testing.T) {
 	//set up
 	var databasePlacesRepository = repositoryPlaces.NewPlacesDatabaseRepository(db)
-	var currentPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005")
+	var currentPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005", "", "", "")
 	var ctx = context.Background()
 
 	//main part
@@ -49,18 +49,18 @@ func TestCreatingGatheringPlace(t *testing.T) {
 func TestFindingByCriteriaGatheringPlace(t *testing.T) {
 	//set up
 	var databasePlacesRepository = repositoryPlaces.NewPlacesDatabaseRepository(db)
-	var firstPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005")
+	var firstPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005", "", "", "")
 	var ctx = context.Background()
 	_, errCreating := databasePlacesRepository.Create(ctx, firstPlace)
 	if errCreating != nil {
 		t.Fatalf("Error in creating place: %v", errCreating)
 	}
-	var secondPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.Eastern, 5, "+781245422005")
+	var secondPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.Eastern, 5, "+781245422005", "", "", "")
 	_, errCreating = databasePlacesRepository.Create(ctx, secondPlace)
 	if errCreating != nil {
 		t.Fatalf("Error in creating place: %v", errCreating)
 	}
-	var thirdPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005")
+	var thirdPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005", "", "", "")
 	_, errCreating = databasePlacesRepository.Create(ctx, thirdPlace)
 	if errCreating != nil {
 		t.Fatalf("Error in creating place: %v", errCreating)
@@ -97,7 +97,7 @@ func TestFindingByCriteriaGatheringPlace(t *testing.T) {
 func TestUpdatingGatheringPlace(t *testing.T) {
 	//set up
 	var databasePlacesRepository = repositoryPlaces.NewPlacesDatabaseRepository(db)
-	var firstPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005")
+	var firstPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005", "", "", "")
 	var ctx = context.Background()
 	_, errCreating := databasePlacesRepository.Create(ctx, firstPlace)
 	if errCreating != nil {
@@ -126,7 +126,7 @@ func TestUpdatingGatheringPlace(t *testing.T) {
 func TestDeletingGatheringPlace(t *testing.T) {
 	//set up
 	var databasePlacesRepository = repositoryPlaces.NewPlacesDatabaseRepository(db)
-	var firstPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005")
+	var firstPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005", "", "", "")
 	var ctx = context.Background()
 	_, errCreating := databasePlacesRepository.Create(ctx, firstPlace)
 	if errCreating != nil {
