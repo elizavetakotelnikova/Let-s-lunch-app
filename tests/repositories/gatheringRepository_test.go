@@ -65,10 +65,13 @@ func TestFindingByCriteriaGatheringPlace(t *testing.T) {
 	if errCreating != nil {
 		t.Fatalf("Error in creating place: %v", errCreating)
 	}
-	var findingCriteria = query.FindCriteria{CuisineType: sql.NullInt16{Int16: gatheringPlace.FastFood, Valid: true}}
 
 	//main part
+	var findingCriteria = query.FindCriteria{CuisineType: sql.NullInt16{Int16: gatheringPlace.FastFood, Valid: true}}
 	placesWithFastFood, errFinding := databasePlacesRepository.FindByCriteria(ctx, findingCriteria)
+	if errFinding != nil {
+		t.Fatalf("Error in finding place: %v", errFinding)
+	}
 	findingCriteria.CuisineType = sql.NullInt16{Int16: gatheringPlace.Eastern, Valid: true}
 	placesWithEastern, errFinding := databasePlacesRepository.FindByCriteria(ctx, findingCriteria)
 	if errFinding != nil {

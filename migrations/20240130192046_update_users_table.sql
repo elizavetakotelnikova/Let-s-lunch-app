@@ -16,5 +16,6 @@ ALTER TABLE users
 ADD COLUMN age int;
 
 ALTER TABLE users
-DROP COLUMN phone_number, birthday;
+DROP COLUMN phone_number,
+DROP column birthday;
 -- +goose StatementEnd

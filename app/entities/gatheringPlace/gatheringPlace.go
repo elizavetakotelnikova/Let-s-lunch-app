@@ -12,6 +12,9 @@ type GatheringPlace struct {
 	CuisineType  CuisineType
 	Rating       int
 	PhoneNumber  string
+	Title        string
+	Description  string
+	PhotoLink    string
 }
 
 func NewGatheringPlace(address models.Address, averagePrice int, cusineType CuisineType, rating int, phoneNumber string) *GatheringPlace {
