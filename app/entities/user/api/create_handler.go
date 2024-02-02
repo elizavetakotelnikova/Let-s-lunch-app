@@ -47,6 +47,11 @@ func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 		return
 	}
 
+	if user == nil {
+		writer.WriteHeader(http.StatusUnprocessableEntity)
+		return
+	}
+
 	response := JsonCreateUserResponse{UserUUID: user.ID}
 
 	marshaledResponse, err := json.Marshal(response)
