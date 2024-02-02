@@ -12,6 +12,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
 	"github.com/gorilla/mux"
+	_ "github.com/lib/pq"
 	"github.com/ory/dockertest/v3"
 	"github.com/pressly/goose/v3"
 	"github.com/stretchr/testify/assert"
@@ -26,6 +27,8 @@ import (
 	"time"
 )
 
+var db *sql.DB
+
 func AreUsersEqual(first *user.User, second *user.User) bool {
 	if (first.ID != second.ID) || (first.CurrentMeetingId != second.CurrentMeetingId) ||
 		(!time.Time.Equal(first.Birthday, second.Birthday)) || (first.PhoneNumber != second.PhoneNumber) ||
@@ -37,19 +40,18 @@ func AreUsersEqual(first *user.User, second *user.User) bool {
 }
 
 func TestMain(m *testing.M) {
-	//setUpConnectionToTestContainers()
 	pool, err := dockertest.NewPool("")
 	if err != nil {
 		log.Fatalf("Could not construct pool: %s", err)
 	}
 
-	// uses pool to try to connect to Docker
+	//connecting to docker
 	err = pool.Client.Ping()
 	if err != nil {
 		log.Fatalf("Could not connect to Docker: %s", err)
 	}
 
-	// pulls an image, creates a container based on it and runs it
+	//creating test container
 	resource, err := pool.Run("postgres", "latest", []string{
 		"POSTGRES_PASSWORD=secret",
 		"POSTGRES_USER=user",
@@ -59,7 +61,8 @@ func TestMain(m *testing.M) {
 		log.Fatalf("Could not start resource: %s", err)
 	}
 	var testPort = resource.GetPort("5432/tcp")
-	// exponential backoff-retry, because the application in the container might not be ready to accept connections yet
+
+	//retry in case container is not ready to accept connections yet
 	if err := pool.Retry(func() error {
 		var err error
 		db, err = sql.Open("postgres", fmt.Sprintf("host=localhost port=%s user=user password=secret dbname=testdb sslmode=disable", testPort))
@@ -78,7 +81,6 @@ func TestMain(m *testing.M) {
 	}
 
 	code := m.Run()
-	// You can't defer this because os.Exit doesn't care for defer
 	if err = pool.Purge(resource); err != nil {
 		log.Fatalf("Could not purge resource: %s", err)
 	}
@@ -86,7 +88,7 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
-func TestCreatingUserShouldReturnStatus200(t *testing.T) {
+func TestCreatingUsersWithSamePhoneNumber(t *testing.T) {
 	var requestBody = `{"username": "katya76", "displayName": "katya", "birthday": "2006-12-13T08:08:08Z", "phoneNumber": "89816999983", "gender": 1}`
 	req := httptest.NewRequest(http.MethodPost, "/api/user/create", strings.NewReader(requestBody))
 	w := httptest.NewRecorder()
@@ -102,6 +104,13 @@ func TestCreatingUserShouldReturnStatus200(t *testing.T) {
 	}
 	status := w.Code
 	assert.Equal(t, http.StatusOK, status)
+
+	req = httptest.NewRequest(http.MethodPost, "/api/user/create", strings.NewReader(requestBody))
+	w = httptest.NewRecorder()
+	res = w.Result()
+	handler.ServeHTTP(w, req)
+	status = w.Code
+	assert.Equal(t, http.StatusUnprocessableEntity, status)
 }
 
 func TestCreatingUserShouldReturnStatus400(t *testing.T) {
@@ -120,11 +129,11 @@ func TestCreatingUserShouldReturnStatus400(t *testing.T) {
 
 func TestFindUserByIdShouldReturnStatus200(t *testing.T) {
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var testUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male)
+	var testUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male, nil)
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	_, err := usersRepository.Create(context.Background(), testUser)
 	if err != nil {
-		t.Fatalf("")
+		t.Fatalf("error creating a user %v", err)
 	}
 	var responseBody = api.JsonFindUserByIdResponse{}
 	responseBody.Username = "Steve"
@@ -155,12 +164,13 @@ func TestFindUserByIdShouldReturnStatus200(t *testing.T) {
 
 func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var testUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male)
+	var testUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male, nil)
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	_, err := usersRepository.Create(context.Background(), testUser)
 	if err != nil {
-		t.Fatalf("")
+		t.Fatalf("error creating a user %v", err)
 	}
+
 	req := httptest.NewRequest(http.MethodGet, "/find?", nil)
 	req.URL.Query().Add("user_name", testUser.Username)
 	w := httptest.NewRecorder()
@@ -176,6 +186,7 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 	}
 	status := w.Code
 	assert.Equal(t, http.StatusOK, status)
+
 	var IDs = []uuid.UUID{}
 	var userFromRepository = user.User{}
 	for _, element := range response {
@@ -189,7 +200,7 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 
 func TestUpdateUserShouldReturnStatus200(t *testing.T) {
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var testUser = user.NewUser("Katya", "Katya13", date, "+79528123333", user.Female)
+	var testUser = user.NewUser("Katya", "Katya13", date, "+79528123333", user.Female, nil)
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	_, err := usersRepository.Create(context.Background(), testUser)
 	if err != nil {
@@ -243,7 +254,7 @@ func TestUpdateUserShouldReturnStatus200(t *testing.T) {
 
 func TestDeletingUser(t *testing.T) {
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var testUser = user.NewUser("Katya", "Katya13", date, "+79528123333", user.Female)
+	var testUser = user.NewUser("Katya", "Katya13", date, "+79528123333", user.Female, nil)
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	req := httptest.NewRequest(http.MethodDelete, "/api/user/update/{user_id}", nil)
 	rctx := chi.NewRouteContext()
@@ -275,14 +286,12 @@ func TestDeletingUser(t *testing.T) {
 	json.Unmarshal([]byte(w.Body.String()), &responseID)
 	assert.Equal(t, http.StatusOK, status)
 	assert.True(t, reflect.DeepEqual(responseID, api.JsonUpdateUserResponse{}))
-	//usersRepository.Delete(context.Background(), testUser)
 }
 
 func TestUpdateUserShouldReturnStatus500(t *testing.T) {
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var testUser = user.NewUser("Katya", "Katya13", date, "+79528123333", user.Female)
+	var testUser = user.NewUser("Katya", "Katya78", date, "+79528123333", user.Female, nil)
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
-	testUser.Username = "Katya78"
 	usersRepository.Update(context.Background(), testUser)
 	var requestBody = `{"username": "katya78", "gender": 1}`
 	req := httptest.NewRequest(http.MethodPut, "/api/user/update/{user_id}", strings.NewReader(requestBody))
