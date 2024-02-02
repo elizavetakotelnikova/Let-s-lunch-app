@@ -42,11 +42,14 @@ type APIContainer interface {
 	UpdateUserHandler(ctx context.Context) *user_api.UpdateUserHandler
 	DeleteUserHandler(ctx context.Context) *user_api.DeleteUserHandler
 	FindUserHandler(ctx context.Context) *user_api.FindUserByIdHandler
+	FindUsersHandler(ctx context.Context) *user_api.FindUsersByCriteriaHandler
 	FindMeetingHandler(ctx context.Context) *meeting_api.FindMeetingByIdHandler
+	FindMeetingsHandler(ctx context.Context) *meeting_api.FindMeetingsByCriteriaHandler
 	CreateMeetingHandler(ctx context.Context) *meeting_api.CreateMeetingHandler
 	UpdateMeetingHandler(ctx context.Context) *meeting_api.UpdateMeetingHandler
 	DeleteMeetingHandler(ctx context.Context) *meeting_api.DeleteMeetingHandler
 	FindGatheringPlaceHandler(ctx context.Context) *gathering_place_api.FindGatheringPlaceByIdHandler
+	FindGatheringPlacesHandler(ctx context.Context) *gathering_place_api.FindGatheringPlacesByCriteriaHandler
 	CreateGatheringPlaceHandler(ctx context.Context) *gathering_place_api.CreateGatheringPlaceHandler
 	UpdateGatheringPlaceHandler(ctx context.Context) *gathering_place_api.UpdateGatheringPlaceHandler
 	DeleteGatheringPlaceHandler(ctx context.Context) *gathering_place_api.DeleteGatheringPlaceHandler
@@ -54,14 +57,17 @@ type APIContainer interface {
 
 type UseCaseContainer interface {
 	FindUser(ctx context.Context) *user_usecase.FindUserByIdUseCase
+	FindUsers(ctx context.Context) *user_usecase.FindUsersByCriteriaUseCase
 	CreateUser(ctx context.Context) *user_usecase.CreateUserUseCase
 	UpdateUser(ctx context.Context) *user_usecase.UpdateUserUseCase
 	DeleteUser(ctx context.Context) *user_usecase.DeleteUserUseCase
 	FindMeeting(ctx context.Context) *meeting_usecase.FindMeetingByIdUseCase
+	FindMeetings(ctx context.Context) *meeting_usecase.FindMeetingsByCriteriaUseCase
 	CreateMeeting(ctx context.Context) *meeting_usecase.CreateMeetingUseCase
 	UpdateMeeting(ctx context.Context) *meeting_usecase.UpdateMeetingUseCase
 	DeleteMeeting(ctx context.Context) *meeting_usecase.DeleteMeetingUseCase
 	FindGatheringPlace(ctx context.Context) *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	FindGatheringPlaces(ctx context.Context) *gathering_place_usecase.FindGatheringPlacesByCriteriaUseCase
 	CreateGatheringPlace(ctx context.Context) *gathering_place_usecase.CreateGatheringPlaceUseCase
 	UpdateGatheringPlace(ctx context.Context) *gathering_place_usecase.UpdateGatheringPlaceUseCase
 	DeleteGatheringPlace(ctx context.Context) *gathering_place_usecase.DeleteGatheringPlaceUseCase

@@ -79,3 +79,21 @@ func CreateUseCasesDeleteGatheringPlace(ctx context.Context, c lookup.Container)
 		c.Repositories().GatheringPlaceRepository(ctx),
 	)
 }
+
+func CreateUseCasesFindUsers(ctx context.Context, c lookup.Container) *user_usecase.FindUsersByCriteriaUseCase {
+	return user_usecase.NewFindUsersByCriteriaUseCase(
+		c.Repositories().UserRepository(ctx),
+	)
+}
+
+func CreateUseCasesFindGatheringPlaces(ctx context.Context, c lookup.Container) *gathering_place_usecase.FindGatheringPlacesByCriteriaUseCase {
+	return gathering_place_usecase.NewFindGatheringPlacesByCriteriaUseCase(
+		c.Repositories().GatheringPlaceRepository(ctx),
+	)
+}
+
+func CreateUseCasesFindMeetings(ctx context.Context, c lookup.Container) *meeting_usecase.FindMeetingsByCriteriaUseCase {
+	return meeting_usecase.NewFindMeetingsByCriteriaUseCase(
+		c.Repositories().MeetingRepository(ctx),
+	)
+}

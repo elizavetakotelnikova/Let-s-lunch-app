@@ -38,11 +38,14 @@ type APIContainer struct {
 	UpdateUserHandler           *user_api.UpdateUserHandler
 	DeleteUserHandler           *user_api.DeleteUserHandler
 	FindUserHandler             *user_api.FindUserByIdHandler
+	FindUsersHandler            *user_api.FindUsersByCriteriaHandler
 	FindMeetingHandler          *meeting_api.FindMeetingByIdHandler
+	FindMeetingsHandler         *meeting_api.FindMeetingsByCriteriaHandler
 	CreateMeetingHandler        *meeting_api.CreateMeetingHandler
 	UpdateMeetingHandler        *meeting_api.UpdateMeetingHandler
 	DeleteMeetingHandler        *meeting_api.DeleteMeetingHandler
 	FindGatheringPlaceHandler   *gathering_place_api.FindGatheringPlaceByIdHandler
+	FindGatheringPlacesHandler  *gathering_place_api.FindGatheringPlacesByCriteriaHandler
 	CreateGatheringPlaceHandler *gathering_place_api.CreateGatheringPlaceHandler
 	UpdateGatheringPlaceHandler *gathering_place_api.UpdateGatheringPlaceHandler
 	DeleteGatheringPlaceHandler *gathering_place_api.DeleteGatheringPlaceHandler
@@ -50,14 +53,17 @@ type APIContainer struct {
 
 type UseCaseContainer struct {
 	FindUser             *user_usecase.FindUserByIdUseCase
+	FindUsers            *user_usecase.FindUsersByCriteriaUseCase
 	CreateUser           *user_usecase.CreateUserUseCase
 	UpdateUser           *user_usecase.UpdateUserUseCase
 	DeleteUser           *user_usecase.DeleteUserUseCase
 	FindMeeting          *meeting_usecase.FindMeetingByIdUseCase
+	FindMeetings         *meeting_usecase.FindMeetingsByCriteriaUseCase
 	CreateMeeting        *meeting_usecase.CreateMeetingUseCase
 	UpdateMeeting        *meeting_usecase.UpdateMeetingUseCase
 	DeleteMeeting        *meeting_usecase.DeleteMeetingUseCase
 	FindGatheringPlace   *gathering_place_usecase.FindGatheringPlaceByIdUseCase
+	FindGatheringPlaces  *gathering_place_usecase.FindGatheringPlacesByCriteriaUseCase
 	CreateGatheringPlace *gathering_place_usecase.CreateGatheringPlaceUseCase
 	UpdateGatheringPlace *gathering_place_usecase.UpdateGatheringPlaceUseCase
 	DeleteGatheringPlace *gathering_place_usecase.DeleteGatheringPlaceUseCase

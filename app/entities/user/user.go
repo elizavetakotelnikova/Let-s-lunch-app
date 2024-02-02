@@ -6,15 +6,15 @@ import (
 )
 
 type User struct {
-	ID               uuid.UUID
-	Username         string
-	DisplayName      string
-	CurrentMeetingId uuid.NullUUID
-	MeetingHistory   []uuid.UUID
-	Rating           int
-	Birthday         time.Time
-	Gender           Gender
-	PhoneNumber      string
+	ID               uuid.UUID     `json:"id"`
+	Username         string        `json:"username"`
+	DisplayName      string        `json:"displayName"`
+	CurrentMeetingId uuid.NullUUID `json:"currentMeetingId"`
+	MeetingHistory   []uuid.UUID   `json:"meetingHistory"`
+	Rating           int           `json:"rating"`
+	Birthday         time.Time     `json:"birthday"`
+	Gender           Gender        `json:"gender"`
+	PhoneNumber      string        `json:"phoneNumber"`
 }
 
 func NewUser(username string, displayname string, birthday time.Time, phoneNumber string, gender Gender) *User {

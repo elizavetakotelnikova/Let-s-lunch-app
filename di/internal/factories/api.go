@@ -30,23 +30,30 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	}
 	r.Use(config.AuthMiddleware)
 	r.Route("/api", func(r chi.Router) {
+
 		r.Route("/meeting", func(r chi.Router) {
-			r.Route("/find", func(r chi.Router) {
+			r.Get("/find", c.API().FindMeetingsHandler(ctx).ServeHTTP)
+
+			r.Route("/find_by_id", func(r chi.Router) {
 				r.Get("/{meetingID}", c.API().FindMeetingHandler(ctx).ServeHTTP)
 			})
+
+			r.Post("/create", c.API().CreateMeetingHandler(ctx).ServeHTTP)
+
 			r.Route("/update", func(r chi.Router) {
 				r.Put("/{meetingID}", c.API().UpdateMeetingHandler(ctx).ServeHTTP)
 				r.Delete("/{meetingID}", c.API().DeleteMeetingHandler(ctx).ServeHTTP)
 			})
-			r.Post("/create", c.API().CreateMeetingHandler(ctx).ServeHTTP)
 		})
 
 		r.Route("/user", func(r chi.Router) {
-			r.Post("/create", c.API().CreateUserHandler(ctx).ServeHTTP)
+			r.Get("/find", c.API().FindUsersHandler(ctx).ServeHTTP)
 
 			r.Route("/find_by_id", func(r chi.Router) {
 				r.Get("/{userID}", c.API().FindUserHandler(ctx).ServeHTTP)
 			})
+
+			r.Post("/create", c.API().CreateUserHandler(ctx).ServeHTTP)
 
 			r.Route("/update", func(r chi.Router) {
 				r.Put("/{userID}", c.API().UpdateUserHandler(ctx).ServeHTTP)
@@ -55,10 +62,14 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 		})
 
 		r.Route("/gatheringPlace", func(r chi.Router) {
+			r.Get("/find", c.API().FindGatheringPlacesHandler(ctx).ServeHTTP)
+
 			r.Route("/find_by_id", func(r chi.Router) {
 				r.Get("/{placeID}", c.API().FindGatheringPlaceHandler(ctx).ServeHTTP)
 			})
+
 			r.Post("/create", c.API().CreateGatheringPlaceHandler(ctx).ServeHTTP)
+
 			r.Route("/update", func(r chi.Router) {
 				r.Put("/{placeID}", c.API().UpdateGatheringPlaceHandler(ctx).ServeHTTP)
 				r.Delete("/{placeID}", c.API().DeleteGatheringPlaceHandler(ctx).ServeHTTP)
@@ -138,5 +149,23 @@ func CreateAPIUpdateGatheringPlaceHandler(ctx context.Context, c lookup.Containe
 func CreateAPIDeleteGatheringPlaceHandler(ctx context.Context, c lookup.Container) *gathering_place_api.DeleteGatheringPlaceHandler {
 	return gathering_place_api.NewDeleteUserHandler(
 		c.UseCases().DeleteGatheringPlace(ctx),
+	)
+}
+
+func CreateAPIFindUsersHandler(ctx context.Context, c lookup.Container) *user_api.FindUsersByCriteriaHandler {
+	return user_api.NewFindUsersByCriteriaHandler(
+		c.UseCases().FindUsers(ctx),
+	)
+}
+
+func CreateAPIFindGatheringPlacesHandler(ctx context.Context, c lookup.Container) *gathering_place_api.FindGatheringPlacesByCriteriaHandler {
+	return gathering_place_api.NewFindGatheringPlacesByCriteriaHandler(
+		c.UseCases().FindGatheringPlaces(ctx),
+	)
+}
+
+func CreateAPIFindMeetingsHandler(ctx context.Context, c lookup.Container) *meeting_api.FindMeetingsByCriteriaHandler {
+	return meeting_api.NewFindMeetingsByCriteriaHandler(
+		c.UseCases().FindMeetings(ctx),
 	)
 }
