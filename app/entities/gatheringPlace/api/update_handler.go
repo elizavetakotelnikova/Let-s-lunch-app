@@ -24,7 +24,7 @@ func NewUpdateGatheringPlaceHandler(useCase *usecases.UpdateGatheringPlaceUseCas
 func (handler *UpdateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
 	var updateGatheringPlaceDto dto.UpdateGatheringPlaceDto
 	if err := json.NewDecoder(request.Body).Decode(&updateGatheringPlaceDto); err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -41,7 +41,7 @@ func (handler *UpdateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)

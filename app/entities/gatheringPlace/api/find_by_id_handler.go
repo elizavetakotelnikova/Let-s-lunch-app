@@ -32,7 +32,7 @@ func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWrit
 
 	uuidID, err := uuid.FromString(id)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusBadRequest)
 		writer.Write(marshaledError)
@@ -41,7 +41,7 @@ func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWrit
 
 	gathering_places, err := handler.useCase.Handle(request.Context(), uuidID)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)
@@ -59,7 +59,7 @@ func (handler *FindGatheringPlaceByIdHandler) ServeHTTP(writer http.ResponseWrit
 
 	marshaledResponse, err := json.Marshal(response)
 	if err != nil {
-		marshaledError, _ := json.Marshal(err)
+		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)

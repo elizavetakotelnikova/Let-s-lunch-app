@@ -12,7 +12,11 @@ import (
 )
 
 func init() {
-	if err := godotenv.Load(); err != nil {
+	if os.Getenv("IN_CONTAINER") == "True" {
+		return
+	}
+
+	if err := godotenv.Load(".env"); err != nil {
 		log.Fatal("No .env file found: ", err)
 	}
 }

@@ -1,6 +1,7 @@
 package factories
 
 import (
+	"cmd/app/auth"
 	gathering_place_api "cmd/app/entities/gatheringPlace/api"
 	meeting_api "cmd/app/entities/meeting/api"
 	user_api "cmd/app/entities/user/api"
@@ -8,12 +9,26 @@ import (
 	"context"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/go-chi/cors"
 )
 
 func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-
+	r.Use(cors.Handler(cors.Options{
+		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
+		AllowedOrigins: []string{"https://*", "http://*"},
+		// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
+		ExposedHeaders:   []string{"Link"},
+		AllowCredentials: false,
+		MaxAge:           300, // Maximum value not ignored by any of major browsers
+	}))
+	config := auth.Config{
+		Users: c.Repositories().UserRepository(ctx),
+	}
+	r.Use(config.AuthMiddleware)
 	r.Route("/api", func(r chi.Router) {
 		r.Route("/meeting", func(r chi.Router) {
 			r.Route("/find", func(r chi.Router) {
