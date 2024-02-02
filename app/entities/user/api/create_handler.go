@@ -14,11 +14,11 @@ type JsonCreateUserResponse struct {
 }
 
 type CreateUserHandler struct {
-	useCase *usecases.CreateUserUseCase
+	UseCase *usecases.CreateUserUseCase
 }
 
 func NewCreateUserHandler(useCase *usecases.CreateUserUseCase) *CreateUserHandler {
-	return &CreateUserHandler{useCase: useCase}
+	return &CreateUserHandler{UseCase: useCase}
 }
 
 func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -47,13 +47,18 @@ func (handler *CreateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 		return
 	}
 
-	user, err := handler.useCase.Handle(request.Context(), command)
+	user, err := handler.UseCase.Handle(request.Context(), command)
 
 	if err != nil {
 		marshaledError, _ := json.Marshal(err.Error())
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)
+		return
+	}
+
+	if user == nil {
+		writer.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 

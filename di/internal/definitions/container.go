@@ -1,7 +1,6 @@
 package definitions
 
 import (
-	"cmd/app/auth"
 	gathering_place_api "cmd/app/entities/gatheringPlace/api"
 	gathering_place_repository "cmd/app/entities/gatheringPlace/repository"
 	gathering_place_usecase "cmd/app/entities/gatheringPlace/usecases"
@@ -12,7 +11,6 @@ import (
 	user_repository "cmd/app/entities/user/repository"
 	user_usecase "cmd/app/entities/user/usecases"
 	chi "github.com/go-chi/chi/v5"
-	jwtauth "github.com/go-chi/jwtauth/v5"
 
 	"cmd/app/config"
 	"database/sql"
@@ -27,10 +25,8 @@ type Container struct {
 	Logger *log.Logger
 	DB     *sql.DB `di:"close"`
 
-	Server     *http.Server     `di:"public,close" factory-file:"server"`
-	Router     *chi.Mux         `factory-file:"api"`
-	TokenAuth  *jwtauth.JWTAuth `factory-file:"api"`
-	AuthConfig *auth.AuthConfig `factory-file:"api"`
+	Server *http.Server `di:"public,close" factory-file:"server"`
+	Router *chi.Mux     `factory-file:"api"`
 
 	API          APIContainer
 	UseCases     UseCaseContainer
@@ -42,7 +38,6 @@ type APIContainer struct {
 	UpdateUserHandler           *user_api.UpdateUserHandler
 	DeleteUserHandler           *user_api.DeleteUserHandler
 	FindUserHandler             *user_api.FindUserByIdHandler
-	GetTokenHandler             *user_api.GetTokenHandler
 	FindMeetingHandler          *meeting_api.FindMeetingByIdHandler
 	CreateMeetingHandler        *meeting_api.CreateMeetingHandler
 	UpdateMeetingHandler        *meeting_api.UpdateMeetingHandler
@@ -58,7 +53,6 @@ type UseCaseContainer struct {
 	CreateUser           *user_usecase.CreateUserUseCase
 	UpdateUser           *user_usecase.UpdateUserUseCase
 	DeleteUser           *user_usecase.DeleteUserUseCase
-	GetToken             *user_usecase.GetTokenUseCase
 	FindMeeting          *meeting_usecase.FindMeetingByIdUseCase
 	CreateMeeting        *meeting_usecase.CreateMeetingUseCase
 	UpdateMeeting        *meeting_usecase.UpdateMeetingUseCase
