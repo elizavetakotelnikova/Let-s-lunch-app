@@ -11,4 +11,5 @@ type CreateUserDto struct {
 	Birthday    time.Time   `json:"birthday"`
 	PhoneNumber string      `json:"phoneNumber"`
 	Gender      user.Gender `json:"gender"`
+	Password    string      `json:"password"`
 }

@@ -46,6 +46,7 @@ func (handler *FindMeetingByIdHandler) ServeHTTP(writer http.ResponseWriter, req
 
 		writer.WriteHeader(http.StatusInternalServerError)
 		writer.Write(marshaledError)
+		return
 	}
 
 	response := JsonFindMeetingByIdResponse{

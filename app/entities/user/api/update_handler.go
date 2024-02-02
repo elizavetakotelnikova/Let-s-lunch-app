@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"github.com/go-chi/chi/v5"
 	"github.com/gofrs/uuid/v5"
+	"golang.org/x/crypto/bcrypt"
 	"net/http"
 )
 
@@ -14,11 +15,11 @@ type JsonUpdateUserResponse struct {
 }
 
 type UpdateUserHandler struct {
-	useCase *usecases.UpdateUserUseCase
+	UseCase *usecases.UpdateUserUseCase
 }
 
 func NewUpdateUserHandler(useCase *usecases.UpdateUserUseCase) *UpdateUserHandler {
-	return &UpdateUserHandler{useCase: useCase}
+	return &UpdateUserHandler{UseCase: useCase}
 }
 
 func (handler *UpdateUserHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -37,6 +38,15 @@ func (handler *UpdateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 	command.Birthday = updateUserDto.Birthday
 	command.PhoneNumber = updateUserDto.PhoneNumber
 	command.Gender = updateUserDto.Gender
+	var err error
+	command.HashedPassword, err = bcrypt.GenerateFromPassword([]byte(updateUserDto.Password), 8)
+	if err != nil {
+		marshaledError, _ := json.Marshal(err.Error())
+
+		writer.WriteHeader(http.StatusInternalServerError)
+		writer.Write(marshaledError)
+		return
+	}
 	id := chi.URLParam(request, "userID")
 
 	uuidID, err := uuid.FromString(id)
@@ -48,8 +58,11 @@ func (handler *UpdateUserHandler) ServeHTTP(writer http.ResponseWriter, request 
 		return
 	}
 
-	response, err := handler.useCase.Handle(request.Context(), command, uuidID)
-
+	response, err := handler.UseCase.Handle(request.Context(), command, uuidID)
+	if err != nil {
+		writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 	marshaledResponse, err := json.Marshal(response)
 
 	if err != nil {

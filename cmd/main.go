@@ -26,6 +26,7 @@ func main() {
 		config.Params{
 			DatabaseURL:   os.Getenv("DATABASE_URL"),
 			ServerAddress: os.Getenv("SERVER_ADDRESS"),
+			Secret:        os.Getenv("SECRET"),
 		},
 	)
 	if err != nil {

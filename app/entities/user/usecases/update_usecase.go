@@ -18,11 +18,12 @@ type UpdateUserUseCase struct {
 }
 
 type UpdateUserCommand struct {
-	Username    string
-	DisplayName string
-	Birthday    time.Time
-	PhoneNumber string
-	Gender      user.Gender
+	Username       string
+	DisplayName    string
+	Birthday       time.Time
+	PhoneNumber    string
+	Gender         user.Gender
+	HashedPassword []byte
 }
 
 func NewUpdateUserUseCase(user repository.UsersRepository) *UpdateUserUseCase {
@@ -44,6 +45,7 @@ func (useCase *UpdateUserUseCase) Handle(
 	user.Birthday = command.Birthday
 	user.PhoneNumber = command.PhoneNumber
 	user.Gender = command.Gender
+	user.HashedPassword = command.HashedPassword
 
 	_, err = useCase.user.Update(ctx, user)
 	if err != nil {

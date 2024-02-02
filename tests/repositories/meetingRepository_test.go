@@ -22,7 +22,7 @@ import (
 
 func setUpTestUser(t *testing.T, ctx context.Context) *user.User {
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var testUser = user.NewUser("@testUser", "Steve13", date, "+79528123333", user.Male)
+	var testUser = user.NewUser("@testUser", "Steve13", date, "+79528123333", user.Male, []byte("1234567890"))
 	var databaseUsersRepository = repository.NewUsersDatabaseRepository(db)
 	_, err := databaseUsersRepository.Create(ctx, testUser)
 	if err != nil {
@@ -32,7 +32,7 @@ func setUpTestUser(t *testing.T, ctx context.Context) *user.User {
 }
 
 func setUpTestPlace(t *testing.T, ctx context.Context) *gatheringPlace.GatheringPlace {
-	var testPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005")
+	var testPlace = gatheringPlace.NewGatheringPlace(testAddress, 500, gatheringPlace.FastFood, 5, "+781245422005", "", "", "")
 	var databasePlacesRepository = repositoryPlaces.NewPlacesDatabaseRepository(db)
 	_, err := databasePlacesRepository.Create(ctx, testPlace)
 	if err != nil {

@@ -10,6 +10,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	"github.com/go-chi/jwtauth/v5"
+	"github.com/lestrrat-go/jwx/v2/jwt"
+	"time"
 )
 
 func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
@@ -25,11 +28,12 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 		AllowCredentials: false,
 		MaxAge:           300, // Maximum value not ignored by any of major browsers
 	}))
-	config := auth.Config{
-		Users: c.Repositories().UserRepository(ctx),
-	}
-	r.Use(config.AuthMiddleware)
+
+	r.Post("/api/user/token", c.API().GetTokenHandler(ctx).ServeHTTP)
+	r.Post("/api/user/create", c.API().CreateUserHandler(ctx).ServeHTTP)
+
 	r.Route("/api", func(r chi.Router) {
+		r.Use(c.AuthConfig(ctx).AuthMiddleware)
 
 		r.Route("/meeting", func(r chi.Router) {
 			r.Get("/find", c.API().FindMeetingsHandler(ctx).ServeHTTP)
@@ -52,8 +56,6 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 			r.Route("/find_by_id", func(r chi.Router) {
 				r.Get("/{userID}", c.API().FindUserHandler(ctx).ServeHTTP)
 			})
-
-			r.Post("/create", c.API().CreateUserHandler(ctx).ServeHTTP)
 
 			r.Route("/update", func(r chi.Router) {
 				r.Put("/{userID}", c.API().UpdateUserHandler(ctx).ServeHTTP)
@@ -78,6 +80,17 @@ func CreateRouter(ctx context.Context, c lookup.Container) *chi.Mux {
 	})
 
 	return r
+}
+
+func CreateAuthConfig(ctx context.Context, c lookup.Container) *auth.AuthConfig {
+	return auth.NewAuthConfig(
+		c.Repositories().UserRepository(ctx),
+		c.TokenAuth(ctx),
+	)
+}
+
+func CreateTokenAuth(ctx context.Context, c lookup.Container) *jwtauth.JWTAuth {
+	return jwtauth.New("HS256", []byte(c.Config(ctx).Secret), nil, jwt.WithAcceptableSkew(30*time.Second))
 }
 
 func CreateAPIFindMeetingHandler(ctx context.Context, c lookup.Container) *meeting_api.FindMeetingByIdHandler {
@@ -149,6 +162,12 @@ func CreateAPIUpdateGatheringPlaceHandler(ctx context.Context, c lookup.Containe
 func CreateAPIDeleteGatheringPlaceHandler(ctx context.Context, c lookup.Container) *gathering_place_api.DeleteGatheringPlaceHandler {
 	return gathering_place_api.NewDeleteUserHandler(
 		c.UseCases().DeleteGatheringPlace(ctx),
+	)
+}
+
+func CreateAPIGetTokenHandler(ctx context.Context, c lookup.Container) *user_api.GetTokenHandler {
+	return user_api.NewGetTokenHandler(
+		c.UseCases().GetToken(ctx),
 	)
 }
 
