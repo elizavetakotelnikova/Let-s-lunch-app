@@ -105,9 +105,10 @@ func TestCreatingUsersWithSamePhoneNumber(t *testing.T) {
 	status := w.Code
 	assert.Equal(t, http.StatusOK, status)
 
-	requestBody = `{"username": "katya76", "displayName": "katya", "birthday": "2006-12-13T08:08:08Z", "phoneNumber": "89816999983", "gender": 1}`
 	req = httptest.NewRequest(http.MethodPost, "/api/user/create", strings.NewReader(requestBody))
 	w = httptest.NewRecorder()
+	res = w.Result()
+	handler.ServeHTTP(w, req)
 	status = w.Code
 	assert.Equal(t, http.StatusUnprocessableEntity, status)
 }
@@ -132,7 +133,7 @@ func TestFindUserByIdShouldReturnStatus200(t *testing.T) {
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	_, err := usersRepository.Create(context.Background(), testUser)
 	if err != nil {
-		t.Fatalf("")
+		t.Fatalf("error creating a user %v", err)
 	}
 	var responseBody = api.JsonFindUserByIdResponse{}
 	responseBody.Username = "Steve"
@@ -167,8 +168,9 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	_, err := usersRepository.Create(context.Background(), testUser)
 	if err != nil {
-		t.Fatalf("")
+		t.Fatalf("error creating a user %v", err)
 	}
+
 	req := httptest.NewRequest(http.MethodGet, "/find?", nil)
 	req.URL.Query().Add("user_name", testUser.Username)
 	w := httptest.NewRecorder()
@@ -184,6 +186,7 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 	}
 	status := w.Code
 	assert.Equal(t, http.StatusOK, status)
+
 	var IDs = []uuid.UUID{}
 	var userFromRepository = user.User{}
 	for _, element := range response {
@@ -283,14 +286,12 @@ func TestDeletingUser(t *testing.T) {
 	json.Unmarshal([]byte(w.Body.String()), &responseID)
 	assert.Equal(t, http.StatusOK, status)
 	assert.True(t, reflect.DeepEqual(responseID, api.JsonUpdateUserResponse{}))
-	//usersRepository.Delete(context.Background(), testUser)
 }
 
 func TestUpdateUserShouldReturnStatus500(t *testing.T) {
 	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	var testUser = user.NewUser("Katya", "Katya13", date, "+79528123333", user.Female, nil)
+	var testUser = user.NewUser("Katya", "Katya78", date, "+79528123333", user.Female, nil)
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
-	testUser.Username = "Katya78"
 	usersRepository.Update(context.Background(), testUser)
 	var requestBody = `{"username": "katya78", "gender": 1}`
 	req := httptest.NewRequest(http.MethodPut, "/api/user/update/{user_id}", strings.NewReader(requestBody))
