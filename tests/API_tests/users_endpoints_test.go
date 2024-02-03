@@ -175,9 +175,11 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 	}
 
 	req := httptest.NewRequest(http.MethodGet, "/find?", nil)
-	req.URL.Query().Add("user_name", testUser.Username)
+	q := req.URL.Query()                        // Get a copy of the query values.
+	q.Add("phone_number", testUser.PhoneNumber) // Add a new value to the set.
+	req.URL.RawQuery = q.Encode()               // Encode and assign back to the original query.
 	w := httptest.NewRecorder()
-	req = mux.SetURLVars(req, map[string]string{"phone_Number": testUser.PhoneNumber})
+	req = mux.SetURLVars(req, map[string]string{"phone_number": testUser.PhoneNumber})
 	var findUsecase = usecases.NewFindUsersByCriteriaUseCase(usersRepository)
 	handler := api.FindUsersByCriteriaHandler{UseCase: findUsecase}
 	handler.ServeHTTP(w, req)

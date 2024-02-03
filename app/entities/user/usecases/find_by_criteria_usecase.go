@@ -31,6 +31,8 @@ func (useCase *FindUsersByCriteriaUseCase) Handle(
 	queryCriteria.CurrentMeetingId.Valid = true
 	queryCriteria.Age.Int32 = int32(criteria.Age)
 	queryCriteria.Age.Valid = true
+	queryCriteria.PhoneNumber.String = criteria.PhoneNumber
+	queryCriteria.PhoneNumber.Valid = true
 
 	if criteria.Username == "" {
 		queryCriteria.Username.Valid = false
@@ -49,6 +51,9 @@ func (useCase *FindUsersByCriteriaUseCase) Handle(
 	} else {
 		queryCriteria.Gender.Int16 = int16(*criteria.Gender)
 		queryCriteria.Gender.Valid = true
+	}
+	if criteria.PhoneNumber == "" {
+		queryCriteria.Username.Valid = false
 	}
 
 	queryResult, err := useCase.user.FindUsersByCriteria(ctx, queryCriteria)
