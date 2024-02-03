@@ -177,7 +177,7 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 	req := httptest.NewRequest(http.MethodGet, "/find?", nil)
 	req.URL.Query().Add("user_name", testUser.Username)
 	w := httptest.NewRecorder()
-	req = mux.SetURLVars(req, map[string]string{"user_name": testUser.Username})
+	req = mux.SetURLVars(req, map[string]string{"phone_Number": testUser.PhoneNumber})
 	var findUsecase = usecases.NewFindUsersByCriteriaUseCase(usersRepository)
 	handler := api.FindUsersByCriteriaHandler{UseCase: findUsecase}
 	handler.ServeHTTP(w, req)
