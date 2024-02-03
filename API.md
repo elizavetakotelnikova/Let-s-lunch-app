@@ -320,10 +320,10 @@ response:
 
 **path Parameters**
 
-* initiator=uuid
-* rating=int
-* aвdress=(сложна, наверное надо разбить на несколько параметров адреса)
-* cuisine_type=int
+* rating = int
+* adress = (сложна, наверное надо разбить на несколько параметров адреса) // есть критерий OnlyCity - поиск по городу
+* cuisine_type = int
+* title = string
 
 **request:** none
 
