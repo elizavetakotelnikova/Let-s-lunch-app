@@ -95,8 +95,8 @@ func TestCreatingUsersWithSamePhoneNumber(t *testing.T) {
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	var createUsecase = usecases.NewCreateUserUseCase(usersRepository)
 	handler := api.CreateUserHandler{UseCase: createUsecase}
-	res := w.Result()
 	handler.ServeHTTP(w, req)
+	res := w.Result()
 	defer res.Body.Close()
 	var response api.JsonCreateUserResponse
 	if err := json.Unmarshal([]byte(w.Body.String()), &response); err != nil {
@@ -107,10 +107,11 @@ func TestCreatingUsersWithSamePhoneNumber(t *testing.T) {
 
 	req = httptest.NewRequest(http.MethodPost, "/api/user/create", strings.NewReader(requestBody))
 	w = httptest.NewRecorder()
-	res = w.Result()
 	handler.ServeHTTP(w, req)
+	res = w.Result()
 	status = w.Code
 	assert.Equal(t, http.StatusUnprocessableEntity, status)
+	assert.True(t, !response.UserUUID.IsNil())
 }
 
 func TestCreatingUserShouldReturnStatus400(t *testing.T) {
@@ -120,8 +121,8 @@ func TestCreatingUserShouldReturnStatus400(t *testing.T) {
 	var usersRepository = repository.NewUsersDatabaseRepository(db)
 	var createUsecase = usecases.NewCreateUserUseCase(usersRepository)
 	handler := api.CreateUserHandler{UseCase: createUsecase}
-	res := w.Result()
 	handler.ServeHTTP(w, req)
+	res := w.Result()
 	defer res.Body.Close()
 	status := w.Code
 	assert.Equal(t, http.StatusBadRequest, status)
@@ -135,14 +136,16 @@ func TestFindUserByIdShouldReturnStatus200(t *testing.T) {
 	if err != nil {
 		t.Fatalf("error creating a user %v", err)
 	}
-	var responseBody = api.JsonFindUserByIdResponse{}
-	responseBody.Username = "Steve"
-	responseBody.DisplayName = "Steve13"
-	responseBody.CurrentMeetingID = uuid.NullUUID{}
-	responseBody.Rating = 0
-	responseBody.Gender = user.Male
-	responseBody.Birthday = date
-	responseBody.ID = testUser.ID
+	var responseBody = api.JsonFindUserByIdResponse{
+		ID:               testUser.ID,
+		Username:         "Steve",
+		DisplayName:      "Steve13",
+		CurrentMeetingID: uuid.NullUUID{},
+		MeetingHistory:   nil,
+		Rating:           0,
+		Birthday:         date,
+		Gender:           user.Male,
+	}
 	req := httptest.NewRequest(http.MethodGet, "/{userID}", nil)
 	rctx := chi.NewRouteContext()
 	rctx.URLParams.Add("userID", testUser.ID.String())
@@ -249,7 +252,7 @@ func TestUpdateUserShouldReturnStatus200(t *testing.T) {
 	responseBody.Gender = user.Female
 	responseBody.ID = testUser.ID
 	assert.Equal(t, responseBody, response)
-	// ок, если таки должно быть, что старые поля затираются нулями, если не поданы в запросе
+	// alright if it is true old values to be forgotten
 }
 
 func TestDeletingUser(t *testing.T) {
