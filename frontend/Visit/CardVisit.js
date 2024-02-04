@@ -16,7 +16,7 @@ const CardVisit = ({url, name, children}) => {
                 <p className="card_desc">{children}</p>
                 <Button onClick={() => setModal(true)} className="event">Присоединиться</Button>
                 <Modal visible={modal} setVisible={setModal}>
-                    <Form setVisible={setModal}/>
+                    <h1>Вы присоеденились!</h1>
                 </Modal>
 
             </div>

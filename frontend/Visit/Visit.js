@@ -1,10 +1,13 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import './Visit.css';
 import axios from "axios";
 import NavBar from "../NavBar/NavBar";
 import CardVisit from "./CardVisit";
+import tokenContext from "../tokenContext";
 
 function Visit() {
+    const {token, setToken} = useContext(tokenContext)
+    const config = {headers: { Authorization: `Bearer ${token}` }}
     const [searchBarActive, setSearchBarActive] = useState(false);
     const [visits, setVisit] = useState([{
         url:"https://voyagist.ru/wp-content/uploads/2017/09/pekarni-sankt-peterburga-9.jpg",
@@ -12,13 +15,14 @@ function Visit() {
         description:"Описания нет, придумайте сами"}]);
 
     useEffect(() => {
-            /*fetchVisit()*/
+            fetchVisit()
         }, []
     )
 
     async function fetchVisit() {
-        const response = await axios.get('http://localhost:3333/api/meeting/find');
-        setVisit(response)
+        const response = await axios.get('http://localhost:3333/api/meeting/find',
+            config);
+        setVisit(response.data)
     }
 
     return (

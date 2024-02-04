@@ -1,4 +1,4 @@
 import {createContext} from "react";
 
-const visitContext = createContext('')
+const visitContext = createContext(null)
 export default visitContext;

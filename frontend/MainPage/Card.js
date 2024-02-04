@@ -4,7 +4,7 @@ import Form from "../Modal/Form";
 import './Card.css'
 import React, {useState} from "react";
 
-const Card = ({url, name, children}) => {
+const Card = ({url, name, children, id}) => {
     const [modal, setModal] = useState(false);
 
 
@@ -17,7 +17,7 @@ const Card = ({url, name, children}) => {
             <p className="card_desc">{children}</p>
             <Button onClick={() => setModal(true)} className="event">Назначить встречу</Button>
             <Modal visible={modal} setVisible={setModal}>
-                <Form setVisible={setModal} url={url} name={name}/>
+                <Form setVisible={setModal} url={url} name={name} id={id}/>
             </Modal>
 
         </div>

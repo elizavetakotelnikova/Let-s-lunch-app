@@ -11,21 +11,24 @@ function MainPage() {
     const {token, setToken} = useContext(tokenContext)
     const [searchBarActive, setSearchBarActive] = useState(false);
     const {meeting, setMeeting} = useContext(visitContext)
-    const [cards, setCards] = useState([{
-        url:"https://voyagist.ru/wp-content/uploads/2017/09/pekarni-sankt-peterburga-9.jpg",
-        name:"Люди Любят",
-        description:"Описания нет, придумайте сами"}]);
+    const [cards, setCards] = useState([]);
+    const config = {
+        headers: { Authorization: `Bearer ${token}` }
+    };
 
     useEffect(() => {
-       fetchCard()
-        }, []
-    )
+        fetchCard()
+    }, []);
+
 
     async function fetchCard() {
-        console.log(token)
-        axios.defaults.headers.common['Authorization'] = token;
-        const response = await axios.get('http://localhost:3333/api/gatheringPlace/find');
-        setCards(response)
+        try {
+            console.log(token)
+            const response = await axios.get('http://localhost:3333/api/gatheringPlace/find', config);
+            setCards(response.data)
+            console.log(response.data)
+        } catch (error) {
+        }
     }
 
     return (
@@ -41,7 +44,7 @@ function MainPage() {
                 <div>
                     <h2>Моя встреча</h2>
                     <div  style={{display: 'flex', justifyContent: 'center'}}>
-                    <MyCard url={meeting.url} name={meeting.name}>{meeting.description}</MyCard>
+                    <MyCard url={meeting.description} name={meeting.title}>{meeting.description}</MyCard>
                     </div>
                     <h2>Куда отправляемся?</h2>
                 </div>
@@ -50,7 +53,7 @@ function MainPage() {
 
             <div className="list">
                 {cards.map(card =>
-                <Card url={card.url} name={card.name}>{card.description}</Card>)}
+                <Card url={card.description} name={card.title} id={card.id}>{"Уютное место для встреч"}</Card>)}
             </div>
 
         </div>

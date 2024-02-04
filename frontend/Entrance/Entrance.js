@@ -6,7 +6,7 @@ import axios from "axios";
 import tokenContext from "../tokenContext";
 
 function Entrance() {
-    const {setToken, token} = useContext(tokenContext)
+    const { token, setToken} = useContext(tokenContext)
     const [error, setError] = useState('')
 
 
@@ -26,12 +26,14 @@ function Entrance() {
 
     async function fetchEntrance() {
         try {
+            console.log(token)
             const tokens = await axios.post('http://localhost:3333/api/user/token',
                 {
                     phoneNumber: phoneNumber,
                     password: password
                 });
-            setToken(tokens.data.token)
+            /*setToken(tokens.data.token)*/
+            axios.defaults.headers.common['Authorization'] = token;
         } catch (error) {
             console.log(error);
             if (error.response.status === 422) {

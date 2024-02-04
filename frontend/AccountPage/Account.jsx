@@ -1,9 +1,11 @@
-import React from "react";
-
-
+import React, {useContext} from "react";
 import './account.css';
 import NavBar from "../NavBar/NavBar";
+import personContext from "../personContext";
 function Account() {
+    const {person, setPerson} = useContext(personContext)
+
+
     return(
         <div className="account">
 

@@ -40,6 +40,7 @@ function Registration() {
                     displayName: "NoName",
                     birthday: d1,
                     phoneNumber: phoneNumber,
+                    password: password,
                     gender: male,
                 });
         } catch (error) {
