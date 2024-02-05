@@ -42,6 +42,36 @@ func AreUsersEqual(first *user.User, second *user.User) bool {
 	return true
 }
 
+func TestGetToken(t *testing.T) {
+	var requestBody = `{"password" : "12345", "phoneNumber" : "+79528123333"}`
+	date, _ := time.Parse(time.DateOnly, "2003-04-16")
+	hashed, _ := bcrypt.GenerateFromPassword([]byte("12345"), 8)
+	var testUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male, hashed)
+	var usersRepository = repository.NewUsersDatabaseRepository(db)
+	_, err := usersRepository.Create(context.Background(), testUser)
+	if err != nil {
+		t.Fatalf("error creating a user %v", err)
+	}
+
+	req := httptest.NewRequest(http.MethodGet, "/api/user/token", strings.NewReader(requestBody))
+	w := httptest.NewRecorder()
+	req = mux.SetURLVars(req, map[string]string{"phone_number": testUser.PhoneNumber, "password": "12345"})
+	var auth = jwtauth.New("HS256", []byte("secret"), nil, jwt.WithAcceptableSkew(30*time.Second))
+	var getTokenUsecase = usecases.NewGetTokenUseCase(usersRepository, auth)
+	handler := api.GetTokenHandler{UseCase: getTokenUsecase}
+	handler.ServeHTTP(w, req)
+	res := w.Result()
+	defer res.Body.Close()
+	var actualResponse api.GetTokenResponse
+	if err := json.Unmarshal([]byte(w.Body.String()), &actualResponse); err != nil {
+		log.Fatalln(err)
+	}
+	status := w.Code
+	assert.Equal(t, http.StatusOK, status)
+
+	assert.NotEmpty(t, actualResponse)
+}
+
 func TestMain(m *testing.M) {
 	pool, err := dockertest.NewPool("")
 	if err != nil {
@@ -204,36 +234,6 @@ func TestFindUserByCriteriaShouldReturnStatus200(t *testing.T) {
 		}
 	}
 	assert.True(t, AreUsersEqual(testUser, &userFromRepository))
-}
-
-func TestGetToken(t *testing.T) {
-	var requestBody = `{"password" : "12345", "phoneNumber" : "+79528123333"}`
-	date, _ := time.Parse(time.DateOnly, "2003-04-16")
-	hashed, _ := bcrypt.GenerateFromPassword([]byte("12345"), 8)
-	var testUser = user.NewUser("Steve", "Steve13", date, "+79528123333", user.Male, hashed)
-	var usersRepository = repository.NewUsersDatabaseRepository(db)
-	_, err := usersRepository.Create(context.Background(), testUser)
-	if err != nil {
-		t.Fatalf("error creating a user %v", err)
-	}
-
-	req := httptest.NewRequest(http.MethodGet, "/api/user/token", strings.NewReader(requestBody))
-	w := httptest.NewRecorder()
-	req = mux.SetURLVars(req, map[string]string{"phone_number": testUser.PhoneNumber, "password": "12345"})
-	var auth = jwtauth.New("HS256", []byte("secret"), nil, jwt.WithAcceptableSkew(30*time.Second))
-	var getTokenUsecase = usecases.NewGetTokenUseCase(usersRepository, auth)
-	handler := api.GetTokenHandler{UseCase: getTokenUsecase}
-	handler.ServeHTTP(w, req)
-	res := w.Result()
-	defer res.Body.Close()
-	var actualResponse api.GetTokenResponse
-	if err := json.Unmarshal([]byte(w.Body.String()), &actualResponse); err != nil {
-		log.Fatalln(err)
-	}
-	status := w.Code
-	assert.Equal(t, http.StatusOK, status)
-
-	assert.NotEmpty(t, actualResponse)
 }
 
 func TestUpdateUserShouldReturnStatus200(t *testing.T) {
