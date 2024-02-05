@@ -11,4 +11,5 @@ type FindUserCriteria struct {
 	CurrentMeetingId uuid.UUID
 	Age              int
 	Gender           *user.Gender
+	PhoneNumber      string
 }

@@ -11,6 +11,6 @@ type FindGatheringPlaceCriteria struct {
 	HouseNumber    string
 	BuildingNumber int
 	InitiatorID    uuid.UUID
-	CuisineType    int
+	CuisineType    *int
 	Rating         int
 }

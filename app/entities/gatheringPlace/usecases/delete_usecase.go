@@ -10,7 +10,7 @@ type DeleteGatheringPlaceUseCase struct {
 	gathering_place gathrering_places_repository.PlacesRepository
 }
 
-func NewDeleteUserUseCase(gathering_place gathrering_places_repository.PlacesRepository) *DeleteGatheringPlaceUseCase {
+func NewDeleteGatheringPlaceUsecase(gathering_place gathrering_places_repository.PlacesRepository) *DeleteGatheringPlaceUseCase {
 	return &DeleteGatheringPlaceUseCase{gathering_place: gathering_place}
 }
 

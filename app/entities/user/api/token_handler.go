@@ -11,16 +11,16 @@ type getTokenRequest struct {
 	Password    string `json:"password"`
 }
 
-type getTokenResponse struct {
+type GetTokenResponse struct {
 	Token string `json:"token"`
 }
 
 type GetTokenHandler struct {
-	useCase *usecases.GetTokenUseCase
+	UseCase *usecases.GetTokenUseCase
 }
 
 func NewGetTokenHandler(useCase *usecases.GetTokenUseCase) *GetTokenHandler {
-	return &GetTokenHandler{useCase: useCase}
+	return &GetTokenHandler{UseCase: useCase}
 }
 
 func (t *GetTokenHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -33,7 +33,7 @@ func (t *GetTokenHandler) ServeHTTP(writer http.ResponseWriter, request *http.Re
 		return
 	}
 
-	token, err := t.useCase.Handle(request.Context(), r.PhoneNumber, r.Password)
+	token, err := t.UseCase.Handle(request.Context(), r.PhoneNumber, r.Password)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err.Error())
 
@@ -42,7 +42,7 @@ func (t *GetTokenHandler) ServeHTTP(writer http.ResponseWriter, request *http.Re
 		return
 	}
 
-	response, err := json.Marshal(getTokenResponse{
+	response, err := json.Marshal(GetTokenResponse{
 		Token: token,
 	})
 

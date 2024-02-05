@@ -33,10 +33,9 @@ func (t *GetTokenUseCase) Handle(ctx context.Context, username string, password 
 		return "", errors.New("user not found")
 	}
 
-	hashed, _ := bcrypt.GenerateFromPassword([]byte(password), 8)
-
-	if users[0].Username != username || string(users[0].HashedPassword) != string(hashed) {
-		return "", errors.New("invalid username of password")
+	err = bcrypt.CompareHashAndPassword(users[0].HashedPassword, []byte(password))
+	if users[0].PhoneNumber != username || err != nil {
+		return "", errors.New("invalid username or password")
 	}
 
 	_, tokenStr, err := t.tokenAuth.Encode(map[string]interface{}{

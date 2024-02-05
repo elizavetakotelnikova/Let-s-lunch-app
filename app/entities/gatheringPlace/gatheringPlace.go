@@ -12,13 +12,21 @@ type GatheringPlace struct {
 	CuisineType  CuisineType    `json:"cuisineType"`
 	Rating       int            `json:"rating"`
 	PhoneNumber  string         `json:"phoneNumber"`
-  Title        string         `json:"title"`
-  Description  string         `json:"description"`
-  PhotoLink    string         `json:"photoLink"`
+	Title        string         `json:"title"`
+	Description  string         `json:"description"`
+	PhotoLink    string         `json:"photoLink"`
 }
 
-func NewGatheringPlace(address models.Address, averagePrice int, cusineType CuisineType, rating int, phoneNumber string,
-	description string, title string, photoLink string) *GatheringPlace {
+func NewGatheringPlace(
+	address models.Address,
+	averagePrice int,
+	cusineType CuisineType,
+	rating int,
+	phoneNumber string,
+	description string,
+	title string,
+	photoLink string,
+) *GatheringPlace {
 	id, err := uuid.NewV4()
 	if err != nil {
 		return nil

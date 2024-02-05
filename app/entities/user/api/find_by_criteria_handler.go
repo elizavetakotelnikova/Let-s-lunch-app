@@ -24,10 +24,12 @@ func (handler *FindUsersByCriteriaHandler) ServeHTTP(writer http.ResponseWriter,
 	currentMeetingID := request.URL.Query().Get("current_meeting_id")
 	age := request.URL.Query().Get("age")
 	gender := request.URL.Query().Get("gender")
+	phoneNumber := request.URL.Query().Get("phone_number")
 
 	findCriteria := models.FindUserCriteria{}
 	findCriteria.Username = username
 	findCriteria.DisplayName = displayName
+	findCriteria.PhoneNumber = phoneNumber
 
 	if currentMeetingID != "" {
 		uuidID, err := uuid.FromString(currentMeetingID)

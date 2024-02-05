@@ -31,13 +31,13 @@ func (useCase *FindGatheringPlacesByCriteriaUseCase) Handle(ctx context.Context,
 	queryCriteria.InitiatorID.Valid = false
 	queryCriteria.Rating = criteria.Rating
 
-	/*	if address.City == "" || address.Country == "" || address.StreetName == "" || address.BuildingNumber == 0 {
+	if address.City == "" || address.Country == "" || address.StreetName == "" || address.BuildingNumber == 0 {
 		queryCriteria.Address = nil
-	}*/
-	if &queryCriteria.CuisineType == nil {
+	}
+	if criteria.CuisineType == nil {
 		queryCriteria.CuisineType.Valid = false
 	} else {
-		queryCriteria.CuisineType.Int16 = int16(criteria.CuisineType)
+		queryCriteria.CuisineType.Int16 = int16(*criteria.CuisineType)
 		queryCriteria.CuisineType.Valid = true
 	}
 

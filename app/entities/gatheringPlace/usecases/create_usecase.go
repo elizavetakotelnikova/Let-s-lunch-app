@@ -18,6 +18,9 @@ type CreateGatheringPlaceCommand struct {
 	CusineType  gatheringPlace.CuisineType
 	Rating      int
 	PhoneNumber string
+	Description string
+	Title       string
+	PhotoLink   string
 }
 
 func NewCreateGatheringPlaceUseCase(gathering_places gathering_place_repository.PlacesRepository) *CreateGatheringPlaceUseCase {
@@ -33,7 +36,10 @@ func (useCase *CreateGatheringPlaceUseCase) Handle(
 		command.AvgPrice,
 		command.CusineType,
 		command.Rating,
-		command.PhoneNumber)
+		command.PhoneNumber,
+		command.Description,
+		command.Title,
+		command.PhotoLink)
 
 	_, err := useCase.gathering_places.Create(ctx, gatheringPlace)
 	if err != nil {

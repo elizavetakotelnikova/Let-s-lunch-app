@@ -9,11 +9,11 @@ import (
 )
 
 type FindGatheringPlacesByCriteriaHandler struct {
-	useCase *usecases.FindGatheringPlacesByCriteriaUseCase
+	UseCase *usecases.FindGatheringPlacesByCriteriaUseCase
 }
 
 func NewFindGatheringPlacesByCriteriaHandler(useCase *usecases.FindGatheringPlacesByCriteriaUseCase) *FindGatheringPlacesByCriteriaHandler {
-	return &FindGatheringPlacesByCriteriaHandler{useCase: useCase}
+	return &FindGatheringPlacesByCriteriaHandler{UseCase: useCase}
 }
 
 func (handler *FindGatheringPlacesByCriteriaHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -24,6 +24,7 @@ func (handler *FindGatheringPlacesByCriteriaHandler) ServeHTTP(writer http.Respo
 	streetName := request.URL.Query().Get("street_name")
 	buildingNubmer := request.URL.Query().Get("building_number")
 	houseNumber := request.URL.Query().Get("house_number")
+	cuisineType := request.URL.Query().Get("cuisine_type")
 
 	findCriteria := models.FindGatheringPlaceCriteria{}
 	findCriteria.Country = country
@@ -41,6 +42,10 @@ func (handler *FindGatheringPlacesByCriteriaHandler) ServeHTTP(writer http.Respo
 		findCriteria.BuildingNumber = convertedBuildingNumber
 	}
 
+	if houseNumber != "" {
+		findCriteria.HouseNumber = houseNumber
+	}
+
 	if rating != "" {
 		convertedRating, err := strconv.Atoi(rating)
 		if err != nil {
@@ -50,14 +55,22 @@ func (handler *FindGatheringPlacesByCriteriaHandler) ServeHTTP(writer http.Respo
 			writer.Write(marshaledError)
 			return
 		}
-		findCriteria.BuildingNumber = convertedRating
+		findCriteria.Rating = convertedRating
 	}
 
-	if houseNumber != "" {
-		findCriteria.HouseNumber = houseNumber
+	if cuisineType != "" {
+		convertedType, err := strconv.Atoi(rating)
+		if err != nil {
+			marshaledError, _ := json.Marshal(err)
+
+			writer.WriteHeader(http.StatusBadRequest)
+			writer.Write(marshaledError)
+			return
+		}
+		findCriteria.CuisineType = &convertedType
 	}
 
-	gatheringPlaces, err := handler.useCase.Handle(request.Context(), findCriteria)
+	gatheringPlaces, err := handler.UseCase.Handle(request.Context(), findCriteria)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err)
 
