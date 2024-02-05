@@ -9,11 +9,11 @@ import (
 )
 
 type DeleteGatheringPlaceHandler struct {
-	useCase *usecases.DeleteGatheringPlaceUseCase
+	UseCase *usecases.DeleteGatheringPlaceUseCase
 }
 
-func NewDeleteUserHandler(useCase *usecases.DeleteGatheringPlaceUseCase) *DeleteGatheringPlaceHandler {
-	return &DeleteGatheringPlaceHandler{useCase: useCase}
+func NewDeleteGatheringPlaceHandler(useCase *usecases.DeleteGatheringPlaceUseCase) *DeleteGatheringPlaceHandler {
+	return &DeleteGatheringPlaceHandler{UseCase: useCase}
 }
 
 func (handler *DeleteGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -28,7 +28,7 @@ func (handler *DeleteGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 		return
 	}
 
-	err = handler.useCase.Handle(request.Context(), uuidID)
+	err = handler.UseCase.Handle(request.Context(), uuidID)
 	if err != nil {
 		marshaledError, _ := json.Marshal(err.Error())
 

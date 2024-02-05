@@ -161,7 +161,7 @@ func CreateAPIUpdateGatheringPlaceHandler(ctx context.Context, c lookup.Containe
 }
 
 func CreateAPIDeleteGatheringPlaceHandler(ctx context.Context, c lookup.Container) *gathering_place_api.DeleteGatheringPlaceHandler {
-	return gathering_place_api.NewDeleteUserHandler(
+	return gathering_place_api.NewDeleteGatheringPlaceHandler(
 		c.UseCases().DeleteGatheringPlace(ctx),
 	)
 }

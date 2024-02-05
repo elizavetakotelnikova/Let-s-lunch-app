@@ -24,6 +24,7 @@ func (handler *FindGatheringPlacesByCriteriaHandler) ServeHTTP(writer http.Respo
 	streetName := request.URL.Query().Get("street_name")
 	buildingNubmer := request.URL.Query().Get("building_number")
 	houseNumber := request.URL.Query().Get("house_number")
+	cuisineType := request.URL.Query().Get("cuisine_type")
 
 	findCriteria := models.FindGatheringPlaceCriteria{}
 	findCriteria.Country = country
@@ -55,6 +56,18 @@ func (handler *FindGatheringPlacesByCriteriaHandler) ServeHTTP(writer http.Respo
 			return
 		}
 		findCriteria.Rating = convertedRating
+	}
+
+	if cuisineType != "" {
+		convertedType, err := strconv.Atoi(rating)
+		if err != nil {
+			marshaledError, _ := json.Marshal(err)
+
+			writer.WriteHeader(http.StatusBadRequest)
+			writer.Write(marshaledError)
+			return
+		}
+		findCriteria.CuisineType = &convertedType
 	}
 
 	gatheringPlaces, err := handler.UseCase.Handle(request.Context(), findCriteria)
