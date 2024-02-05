@@ -13,11 +13,11 @@ type JsonCreateGatheringPlaceResponse struct {
 }
 
 type CreateGatheringPlaceHandler struct {
-	useCase *usecases.CreateGatheringPlaceUseCase
+	UseCase *usecases.CreateGatheringPlaceUseCase
 }
 
 func NewCreateGatheringPlaceHandler(useCase *usecases.CreateGatheringPlaceUseCase) *CreateGatheringPlaceHandler {
-	return &CreateGatheringPlaceHandler{useCase: useCase}
+	return &CreateGatheringPlaceHandler{UseCase: useCase}
 }
 
 func (handler *CreateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter, request *http.Request) {
@@ -39,7 +39,7 @@ func (handler *CreateGatheringPlaceHandler) ServeHTTP(writer http.ResponseWriter
 	command.Description = createGatheringPlaceDto.Description
 	command.Title = createGatheringPlaceDto.Title
 
-	gathering_place, err := handler.useCase.Handle(request.Context(), command)
+	gathering_place, err := handler.UseCase.Handle(request.Context(), command)
 
 	if err != nil {
 		marshaledError, _ := json.Marshal(err.Error())
