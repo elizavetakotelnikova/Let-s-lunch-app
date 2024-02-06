@@ -4,10 +4,14 @@ import './entranceStyle.css'
 import Validation from "../Validation/Validation";
 import axios from "axios";
 import tokenContext from "../tokenContext";
+import personContext from "../personContext";
+import {useNavigate} from "react-router-dom";
 
 function Entrance() {
     const { token, setToken} = useContext(tokenContext)
     const [error, setError] = useState('')
+    const {person, setPerson} = useContext(personContext)
+    const navigate = useNavigate()
 
 
     const {blurHandler,
@@ -32,7 +36,11 @@ function Entrance() {
                     phoneNumber: phoneNumber,
                     password: password
                 });
-            /*setToken(tokens.data.token)*/
+
+            const response = await axios.get('http://localhost:3333/api/user/find')
+            setPerson(response.data.filter(elem => elem.phoneNumber === phoneNumber))
+            console.log(response)
+
             axios.defaults.headers.common['Authorization'] = token;
         } catch (error) {
             console.log(error);
@@ -45,8 +53,7 @@ function Entrance() {
     function onclick() {
         if (formValid) {
             fetchEntrance()
-            console.log(token)
-            window.location.assign('http://localhost:3000/mainpage')
+            navigate('/mainpage')
         }
     }
 

@@ -1,13 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import '../Registration/Registration.css'
+import {Link, Navigate} from "react-router-dom";
 
 class EntranceButton extends React.Component {
-    onclick () {
-        window.location.assign('http://localhost:3000/');
-    }
     render() {
-        return (<button className='login-button' onClick={(e) => this.onclick(e.preventDefault())}>Войти</button>);
+        return (<Link className='login-button' to={'/'}>Войти</Link>);
     }
 }
 export default EntranceButton;

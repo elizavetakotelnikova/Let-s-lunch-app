@@ -16,6 +16,7 @@ const MyCard = ({url, name, children}) => {
             <div className="card_body">
                 <h3 className="card_title">{name}</h3>
                 <p className="card_desc">{children}</p>
+                <h1>{name}</h1>
                 <Button onClick={() => setMeeting('')} className="event">Удалить</Button>
                 <Modal visible={modal} setVisible={setModal}>
                     <Form setVisible={setModal}/>

@@ -3,10 +3,12 @@ import EntranceButton from "../Button/EntranceButton";
 import Validation from "../Validation/Validation";
 import './Registration.css'
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 function Registration() {
     const [male, setMale] = useState('')
     const [error, setError] = useState('')
+    const navigate = useNavigate()
 
     const {blurHandler,
         phoneNumberHandler,
@@ -56,7 +58,7 @@ function Registration() {
             fetchRegistration()
         }
         if (formValid && !error) {
-            window.location.assign('http://localhost:3000/')
+            navigate('/')
         }
     }
 

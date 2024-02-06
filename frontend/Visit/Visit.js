@@ -19,9 +19,17 @@ function Visit() {
         }, []
     )
 
+    async function remove(id) {
+        console.log('http://localhost:3333/api/meeting/update/' + id)
+       await axios.delete('http://localhost:3333/api/meeting/update/' + id,
+            config);
+       fetchVisit()
+    }
+
     async function fetchVisit() {
         const response = await axios.get('http://localhost:3333/api/meeting/find',
             config);
+        console.log(response.data)
         setVisit(response.data)
     }
 
@@ -31,10 +39,10 @@ function Visit() {
                 {id: 0, link: "/mainpage/", description: "На главную"},
             ]}/>
 
-            <h1>Встречи</h1>
-            <div className="list">
+            <h1 style={{marginTop: "80px"}}>Встречи</h1>
+            <div className="list" style={{marginTop: "-5px", marginLeft: "20px"}}>
                 {visits.map(card =>
-                    <CardVisit url={card.url} name={card.name}>{card.description}</CardVisit>)}
+                    <CardVisit url={"https://prorisuem.ru/foto/8812/narisovat_kafe_30.webp"} name={card.title} remove={remove} id={card.id}>{ }</CardVisit>)}
             </div>
         </div>
     );

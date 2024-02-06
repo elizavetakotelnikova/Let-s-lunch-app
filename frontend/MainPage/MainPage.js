@@ -6,12 +6,14 @@ import axios from "axios";
 import NavBar from "../NavBar/NavBar";
 import tokenContext from "../tokenContext";
 import visitContext from "../visitContext";
+import personContext from "../personContext";
 
 function MainPage() {
     const {token, setToken} = useContext(tokenContext)
     const [searchBarActive, setSearchBarActive] = useState(false);
     const {meeting, setMeeting} = useContext(visitContext)
     const [cards, setCards] = useState([]);
+    const {person, setPerson} = useContext(personContext)
     const config = {
         headers: { Authorization: `Bearer ${token}` }
     };
@@ -23,7 +25,7 @@ function MainPage() {
 
     async function fetchCard() {
         try {
-            console.log(token)
+            console.log(person)
             const response = await axios.get('http://localhost:3333/api/gatheringPlace/find', config);
             setCards(response.data)
             console.log(response.data)
@@ -44,7 +46,7 @@ function MainPage() {
                 <div>
                     <h2>Моя встреча</h2>
                     <div  style={{display: 'flex', justifyContent: 'center'}}>
-                    <MyCard url={meeting.description} name={meeting.title}>{meeting.description}</MyCard>
+                    <MyCard url={meeting.url} name={meeting.title}>{meeting.description}</MyCard>
                     </div>
                     <h2>Куда отправляемся?</h2>
                 </div>

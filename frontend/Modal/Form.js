@@ -5,6 +5,7 @@ import axios from "axios";
 import cl from "./Modal.module.css";
 import visitContext from "../visitContext";
 import tokenContext from "../tokenContext";
+import personContext from "../personContext";
 
 const Form =  ({setVisible, url, names, id}) => {
     const {token, setToken} = useContext(tokenContext)
@@ -13,6 +14,7 @@ const Form =  ({setVisible, url, names, id}) => {
     const [modal, setModal] = useState(false);
     const [place, setPlace] = useState('')
     const {meeting, setMeeting} = useContext(visitContext)
+    const {person, setPerson} = useContext(personContext)
     const config = {headers: { Authorization: `Bearer ${token}` }}
 
 
@@ -21,9 +23,11 @@ const Form =  ({setVisible, url, names, id}) => {
         setMeeting({ url: url,
             name: names,
             description:"Вы создали встречу"})
+
+        console.log(person.id)
         const response = await axios.post('http://localhost:3333/api/meeting/create', {
             gatheringPlaceId: id,
-            initiatorsId: "1671f0f0-5c27-4aa9-96c8-87ed8f0e272d",
+            initiatorsId: "c4cf0b44-cb33-4698-82a8-a346a7f8a6c5",
             startTime: "2024-01-30T18:38:25.125Z",
             endTime: "2024-01-30T18:38:25.125Z",
             usersQuantity: 2,
